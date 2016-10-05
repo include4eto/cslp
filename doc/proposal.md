@@ -127,8 +127,17 @@ will not know about the Depot class.
 | **function** getOutputSummary() |
 
 ## Route algorithm
+This task can be simplified to the travelling salesman algorithm. As such, the best
+(in time) possible algorithm we can use will utilize some heuristic. Different options
+can be explored, including brute-forcing the paths.
+
+The first heuristic to be used is going to be the MST one (Rose, 1977).
+
+In addition, a local-search heuristic can be used. All of these will be evaluated on the current
+domain and the best performing one will be picked as the default heuristic.
 
 ## Testing
-
-## Statistical metrics
-Efficiency is measured in terms of weight collected per unit time.
+All the different modules will be tested independently by using `unittest`, the standard
+python testing module. If time permits, functional tests can also be made. In testing
+classes that have dependencies on other modules, those will be shimmed (stub classes will be
+created for the purposes of the test).
