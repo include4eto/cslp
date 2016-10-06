@@ -56,8 +56,7 @@ needed.
 
 ### Depot
 The depot will be a state machine. It will know whether a dispatch is needed,
-how many bins need servicing and which ones they are. It will also know which
-lorries are available and will issue dispatch events on the lorries.
+how many bins need servicing and which ones they are.
 
 As such, it is a management class with knowledge of the entire system.
 
@@ -70,7 +69,6 @@ Note lorries themselves will also be implicitly attached to the event listener.
 | --- |
 | dispatchNeeded |
 | overflowedBins |
-| availableLorries |
 
 ### Bin
 | Bin |
@@ -127,14 +125,16 @@ will not know about the Depot class.
 | **function** getOutputSummary() |
 
 ## Route algorithm
-This task can be simplified to the travelling salesman algorithm. As such, the best
-(in time) possible algorithm we can use will utilize some heuristic. Different options
-can be explored, including brute-forcing the paths.
+### Greedy
+Greedy here would mean selecting the bins according to their occupancy (fuller bins first), or
+by location (closest first). This will definitely be the better algorithm than brute-force in
+the general case and will serve as a baseline for better ones.
 
-The first heuristic to be used is going to be the MST one (Rose, 1977).
+The idea here would be to do an A* with a heuristic. Greedy would use a Dijsktra to find
+the optimal routes, choosing the fuller bins and/or shorter routes first.
 
-In addition, a local-search heuristic can be used. All of these will be evaluated on the current
-domain and the best performing one will be picked as the default heuristic.
+One possible heuristic would be to average the distance/current occupancy of all the bins
+that need servicing each schedule.
 
 ## Testing
 All the different modules will be tested independently by using `unittest`, the standard
