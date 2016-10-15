@@ -1,0 +1,19 @@
+lorryVolume 20.5
+binServiceTime 100s
+binVol 2.5
+disposalDistrRate -2.0
+disposalDistrShape 3.5
+bagVolume 0..05
+bagWeightMin 7
+bagWeightMax 3
+noAreas 2
+areaIdx 1 serviceFreq 0.08 threshold 0.7 noBins 6
+roadsLayout
+ 0  3 -1 -1 -1 -2 
+ 3  0  5 -1 -1 -1
+-1 -1  0  2 -1 -1
+-1 -1 -1  0  2  2
+-1  0 -1 -1  0 -1
+ 4 -1 -1 .9  4  0
+stopTime 12
+warmUpTime 15.0
