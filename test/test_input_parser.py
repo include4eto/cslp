@@ -31,8 +31,4 @@ class InputParserTest(unittest.TestCase):
 		parser = InputParser('test/inputs/valid_many_areas.txt')
 		result = parser.parse()
 
-		print()
-		InputParserTest.pp.pprint(parser.parse_errors)
-		InputParserTest.pp.pprint(parser.parse_warnings)
-
-		# self.assertTrue(result)
+		self.assertTrue(result)
