@@ -32,3 +32,10 @@ class InputParserTest(unittest.TestCase):
 		result = parser.parse()
 
 		self.assertTrue(result)
+
+	def test_invalid_rads(self):
+		parser = InputParser('test/inputs/invalid_roads_layout.txt')
+		result = parser.parse()
+
+		# print(parser.parse_errors, parser.parse_warnings)
+		self.assertFalse(result)

@@ -119,7 +119,7 @@ class InputParser:
 		return True
 		
 	def _parse_roads_layout(self, lineNo, lines, areaConfig):
-		adj_list = [[]] * areaConfig['noBins']
+		adj_list = [[]] * (areaConfig['noBins'] + 1)
 
 		for (current_bin, line) in enumerate(lines):
 			line = line.split()
@@ -242,16 +242,12 @@ class InputParser:
 				if not status:
 					return False
 
-				# then expect the next noBins to be a roadsLayout
-				if idx + 2 >= len(lines) or lines[idx + 1] != 'roadsLayout\n':
-					self.parse_errors.append(InputParser.ROADS_LAYOUT_EXPECTED.format(idx + 1))
-					return False
-
 				# get the last area
 				lastArea = self.config['areas'][-1]
-				# we expect a noBins x noBins array
-				if lastArea['noBins'] + idx + 2 >= len(lines):
-					self.parse_errors.append(InputParser.ROADS_LAYOUT_ERROR.format(idx + 2, lastArea['areaIdx']))
+
+				# then expect the next noBins to be a roadsLayout
+				if idx + 2 + lastArea['noBins'] >= len(lines) or lines[idx + 1] != 'roadsLayout\n':
+					self.parse_errors.append(InputParser.ROADS_LAYOUT_EXPECTED.format(idx + 1))
 					return False
 				
 				# skip these here
@@ -259,7 +255,7 @@ class InputParser:
 				skipUntil = idx + 2 + lastArea['noBins'] + 1
 
 				# parse the layout
-				status = self._parse_roads_layout(idx, lines[idx + 2 : idx + 2 + lastArea['noBins']], lastArea)
+				status = self._parse_roads_layout(idx, lines[idx + 2 : idx + 3 + lastArea['noBins']], lastArea)
 				if not status:
 					return False
 
