@@ -9,8 +9,6 @@ class InputParserTest(unittest.TestCase):
 
 	def test_valid_input(self):
 		parser = InputParser('test/inputs/basic_input.txt')
-		
-		# print()
 		result = parser.parse()
 
 		self.assertTrue(result)
@@ -39,3 +37,5 @@ class InputParserTest(unittest.TestCase):
 
 		# print(parser.parse_errors, parser.parse_warnings)
 		self.assertFalse(result)
+
+	# def test_valid_simple(self):

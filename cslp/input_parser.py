@@ -20,6 +20,7 @@ class InputParser:
 	AREAS_DEFINITION_INCOMPLETE = "Parse Error({0}): Expected area definition, got ({1})."
 	MISSING_PARAM_ERROR = "Parse Error: Missing parameter {0}."
 	FILE_NOT_FOUND = "Parse Error: No such file: {0}."
+	DUPLICATE_PARAMETER_ERROR = "Parse Error({0}): Duplicate parameter {1}"
 
 	# Map from name to type, so we know how to parse.
 	# 	<name>: <expected_type>
@@ -223,15 +224,28 @@ class InputParser:
 				self.parse_warnings.append(
 					InputParser.UNRECOGNIZED_PARAMETER_WARNING.format(idx, param_name)
 				)
-				continue
+				if self.treat_warnings_as_errors:
+					return False	
+				else:
+					continue
 
 			# this cannot happen, we need an area_idx before the roadsLayout
 			if param_name == 'roadsLayout':
 				self.parse_errors.append(InputParser.ROADS_LAYOUT_UNEXPECTED.format(idx))
 				return False
 
+			if self.config['noAreas'] != len(self.config['areas']) and param_name != 'areaIdx':
+				self.parse_errors.append(InputParser.LESS_AREAS_SPECIFIED.format(self.config['noAreas']))
+				return False
+
 			# areaIdx and roadsLayout are special cases
 			if param_name == 'areaIdx':
+				if self.config['noAreas'] == False:
+					self.parse_errors.append(
+						InputParser.MISSING_PARAM_ERROR.format('noAreas')
+					)
+					return False
+
 				# check to see if more areas than defined
 				if len(self.config['areas']) == self.config['noAreas']:
 					self.parse_errors.append(
@@ -278,6 +292,9 @@ class InputParser:
 				return False
 
 			# add the parameter value
+			if param_name in self.config and self.config[param_name] != False:
+				self.parse_errors.append(InputParser.DUPLICATE_PARAMETER_ERROR.format(idx, param_name))
+				return False
 			self.config[param_name] = param_value
 			
 		return self._check_missing_parameters()
