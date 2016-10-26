@@ -234,9 +234,10 @@ class InputParser:
 				self.parse_errors.append(InputParser.ROADS_LAYOUT_UNEXPECTED.format(idx))
 				return False
 
-			if self.config['noAreas'] != len(self.config['areas']) and param_name != 'areaIdx':
-				self.parse_errors.append(InputParser.LESS_AREAS_SPECIFIED.format(self.config['noAreas']))
-				return False
+			# This here isn't an error.
+			# if self.config['noAreas'] != len(self.config['areas']) and param_name != 'areaIdx':
+			# 	self.parse_errors.append(InputParser.LESS_AREAS_SPECIFIED.format(self.config['noAreas']))
+			# 	return False
 
 			# areaIdx and roadsLayout are special cases
 			if param_name == 'areaIdx':
