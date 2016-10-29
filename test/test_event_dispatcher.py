@@ -1,7 +1,6 @@
 import unittest
 import pprint
-from cslp.simulation.event_dispatcher import EventDispatcher
-from cslp.simulation.event import Event
+from cslp.simulation.event_dispatcher import Event, EventDispatcher
 from numpy.random import uniform 
 
 class EventDispatcherTest(unittest.TestCase):
