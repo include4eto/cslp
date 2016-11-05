@@ -5,12 +5,13 @@ from input_parser import *
 from simulation.event_dispatcher import EventDispatcher
 from simulation.simulation import Simulation
 from output_formatter import OutputFormatter
+from config import config as app_config
 
 # TODO: remove this
 import pprint
 
 def print_usage():
-	print('Usage: TODO')
+	print(app_config['usage'])
 
 def start_simulation_run(config):
 	# convert stop time to seconds

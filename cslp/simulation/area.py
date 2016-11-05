@@ -62,10 +62,10 @@ class Area:
 		bin_idx = event.data['bin_idx']
 		bin = self.bins[bin_idx]
 		
-		# if bin['current_volume'] >= self.config['binVolume']:
+		if bin['current_volume'] >= self.config['binVolume']:
 		# 	# nothing should happen if the bin overflowed
-		# 	self._schedule_next_disposal(bin)
-		# 	return
+			self._schedule_next_disposal(bin)
+			return
 
 		bin['current_volume'] = bin['current_volume'] + event.data['bag_vol']
 		bin['current_weight'] = bin['current_weight'] + event.data['bag_weight']
