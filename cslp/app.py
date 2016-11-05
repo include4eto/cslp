@@ -30,6 +30,14 @@ def start_simulation_run(config):
 	dispatcher = EventDispatcher(stop_time, config['noAreas'])
 
 	sim = Simulation(config, dispatcher)
+	# the simulation checks for valid configuration, see if there were any errors
+	for i in (sim.validate_errors + sim.validate_warnings):
+		print(i)
+	if sim.simulation_aborted:
+		print('Configuration validation errors occurred. Exiting...\n')
+		sys.exit(1)
+		return
+	
 
 	# create the output formatter
 	output_formatter = OutputFormatter(dispatcher)
@@ -57,10 +65,10 @@ if __name__ == '__main__':
 	result = parser.parse()
 
 	if not result:
-		print('Parse errors occurred. Exiting...')
 		for i in (parser.parse_errors + parser.parse_warnings):
 			print(i)
 
+		print('Parse errors occurred. Exiting...\n')
 		sys.exit(1)
 	
 	# start the simulation here
