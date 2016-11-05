@@ -28,6 +28,7 @@ class InputParserTest(unittest.TestCase):
 	def test_valid_many(self):
 		parser = InputParser('test/inputs/valid_many_areas.txt')
 		result = parser.parse()
+		pprint.pprint(parser.parse_errors)
 
 		self.assertTrue(result)
 
@@ -37,5 +38,11 @@ class InputParserTest(unittest.TestCase):
 
 		# print(parser.parse_errors, parser.parse_warnings)
 		self.assertFalse(result)
+
+	def test_experimentation(self):
+		parser = InputParser('test/inputs/experiment_input.txt')
+		result = parser.parse()
+		
+		self.assertTrue(result)
 
 	# def test_valid_simple(self):

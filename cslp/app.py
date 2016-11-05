@@ -14,6 +14,10 @@ def print_usage():
 	print(app_config['usage'])
 
 def start_simulation_run(config):
+	if len(config['experiments']):
+		print('Warning: Experiment detected. Experiments are yet not supported. Exiting')
+		exit(0)
+
 	# convert stop time to seconds
 	stop_time = config['stopTime'] * 60 * 60
 	stop_time = int(stop_time)

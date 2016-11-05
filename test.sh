@@ -1,1 +1,1 @@
-python -m unittest -v
+nosetests --exe

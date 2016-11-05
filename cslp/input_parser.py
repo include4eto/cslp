@@ -21,6 +21,10 @@ class InputParser:
 	MISSING_PARAM_ERROR = "Parse Error: Missing parameter {0}."
 	FILE_NOT_FOUND = "Parse Error: No such file: {0}."
 	DUPLICATE_PARAMETER_ERROR = "Parse Error({0}): Duplicate parameter {1}"
+	DUPLICATE_EXPERIMENT_ERROR = "Parse Error({0}): Duplicate experiment found: {1}"
+	NON_EXPERIMENT_PARAMETER = "Parse Warning({0}): Parameter {1} can only be used in this context as an experiment. Experiment keyword missing."
+
+	EXPERIMENT_KEYWORD = "experiment"
 
 	# Map from name to type, so we know how to parse.
 	# 	<name>: <expected_type>
@@ -45,7 +49,23 @@ class InputParser:
 		},
 		'roadsLayout': 'roads_layout',
 		'stopTime': 'float',
-		'warmUpTime': 'float'
+		'warmUpTime': 'float',
+
+		'serviceFreq': 'float',
+		'thresholdVal': 'float'
+	}
+
+	# parameters excluded from the required check
+	_non_required_params = {
+		'serviceFreq': 'float',
+		'thresholdVal': 'float',
+		'roadsLayout': 'roads_layout',
+		'areaIdx': 'area_idx'
+	}
+
+	_extra_experiment_params = {
+		'serviceFreq': 'float',
+		'thresholdVal': 'float',
 	}
 
 	def __init__(self, file_name, treat_warnings_as_errors = True):
@@ -53,7 +73,8 @@ class InputParser:
 
 		self.config = {
 			'areas': [],
-			'noAreas': False
+			'noAreas': False,
+			'experiments': {}
 		}
 		"""The parsed configuration object"""
 
@@ -120,7 +141,7 @@ class InputParser:
 		return True
 		
 	def _parse_roads_layout(self, lineNo, lines, areaConfig):
-		adj_list = [[]] * (areaConfig['noBins'] + 1)
+		adj_list = []
 
 		for (current_bin, line) in enumerate(lines):
 			line = line.split()
@@ -128,42 +149,38 @@ class InputParser:
 		
 			# check for adjacency length
 			if len(paths) != areaConfig['noBins'] + 1:
-				self.parse_errors.append(
-					InputParser.ROADS_LAYOUT_ERROR.format(lineNo + current_bin, areaConfig['areaIdx'])
-				)
+				self.parse_errors.append(InputParser.ROADS_LAYOUT_ERROR.format(lineNo + current_bin, areaConfig['areaIdx']))
 				return False
 
 			# check for invalid values
 			if any([path is False or path < -1 for path in paths]):
-				self.parse_errors.append(
-					InputParser.CONVERSION_ERROR.format(lineNo + current_bin, 'roadsLayout')
-				)
+				self.parse_errors.append(InputParser.CONVERSION_ERROR.format(lineNo + current_bin, 'roadsLayout'))
 				return False
 
+			adj_list_bin = []
 			for (idx, path_length) in enumerate(paths):
 				# check that the distance from bin idx to itself is 0
 				if idx == current_bin and path_length != 0:
-					self.parse_errors.append(
-						InputParser.CONVERSION_ERROR.format(lineNo + current_bin, 'roadsLayout')
-					)
+					self.parse_errors.append(InputParser.CONVERSION_ERROR.format(lineNo + current_bin, 'roadsLayout'))
 					return False
 
 				if path_length != -1:
-					adj_list[current_bin].append({
-						'bin_index': idx,
+					adj_list_bin.append({
+						'index': idx,
 						'path_length': path_length
 					})
 
+			adj_list.append(adj_list_bin)
 		areaConfig['roadsLayout'] = adj_list
 		return True
 
 	def _check_missing_parameters(self):
 		# check we have all keys
 		for (key, type) in InputParser._parameters_map.items():
-			if key == 'areaIdx' or key == 'roadsLayout':
+			if key in InputParser._non_required_params:
 				continue
 
-			if key not in self.config:
+			if key not in self.config and key not in self.config['experiments']:
 				self.parse_errors.append(
 					InputParser.MISSING_PARAM_ERROR.format(key)
 				)
@@ -186,6 +203,100 @@ class InputParser:
 
 		return True
 
+	def _parse_experiment(self, idx, param_name, params):
+		type = InputParser._parameters_map[param_name]
+		# cast all the values for the experiment
+		values = [InputParser._cast_value(type, x) for x in params[2:]]
+		
+		# check for invalid values
+		if any([v is False for v in values]):
+			self.parse_errors.append(InputParser.CONVERSION_ERROR.format(idx, param_name))
+			return False
+		
+		if (param_name in self.config['experiments']) or \
+			(param_name in self.config and self.config[param_name] != False):
+			self.parse_errors.append(InputParser.DUPLICATE_EXPERIMENT_ERROR.format(idx, param_name))
+			return False
+
+		self.config['experiments'][param_name] = values
+
+		return True
+
+	def _parse_param(self, idx, line):
+		param_name = line[0]
+		if line[1] == InputParser.EXPERIMENT_KEYWORD:
+			return self._parse_experiment(idx, param_name, line[2::])
+
+		if param_name in InputParser._extra_experiment_params:
+			self.parse_warnings.append(InputParser.NON_EXPERIMENT_PARAMETER.format(idx, param_name))
+			if self.treat_warnings_as_errors:
+				return False
+
+		# handle all 'simple' parameters
+		if len(line) > 2:
+			self.parse_errors.append(InputParser.MALFORMED_PARAMETER_ERROR.format(idx, param_name))
+			return False
+
+		param_value = InputParser._cast_value(InputParser._parameters_map[param_name], line[1])
+		if param_value is False:
+			self.parse_errors.append(InputParser.BAD_PARAMETER_VALUE.format(idx, param_name))
+			return False
+
+		# add the parameter value
+		if (param_name in self.config and self.config[param_name] != False) or \
+			(param_name in self.config['experiments']):
+			self.parse_errors.append(InputParser.DUPLICATE_PARAMETER_ERROR.format(idx, param_name))
+			return False
+		self.config[param_name] = param_value
+
+		return True
+
+	def _parse_area_definition(self, idx, area_idx, lines):
+		# to keep track where we are in the file
+		line_count = len(lines)
+
+		if self.config['noAreas'] == False:
+			self.parse_errors.append(InputParser.MISSING_PARAM_ERROR.format('noAreas'))
+			return (False, lines, 0)
+
+		# check to see if more areas than defined
+		if len(self.config['areas']) == self.config['noAreas']:
+			self.parse_errors.append(InputParser.MORE_AREAS_SPECIFIED.format(idx, self.config['noAreas']))
+			return (False, lines, 0)
+
+		status = self._parse_area_idx(idx, area_idx)
+		if not status:
+			return (False, lines, 0)
+
+		# get the last area
+		lastArea = self.config['areas'][-1]
+
+		# pop the 'roadsLayout' term
+		rl = lines.pop(0)
+		# +1 for the depot
+		rl_shape = lastArea['noBins'] + 1
+
+		# then expect the next noBins + 1 lines (for the depot) to be a roadsLayout
+		if rl_shape > len(lines) or rl != 'roadsLayout':
+			self.parse_errors.append(InputParser.ROADS_LAYOUT_EXPECTED.format(idx + 1))
+			return (False, lines, 0)
+
+		# parse the layout
+		status = self._parse_roads_layout(idx, lines[0:rl_shape], lastArea)
+		if not status:
+			return (False, lines, 0)
+
+		lines = lines[rl_shape:]
+		return (True, lines, line_count - len(lines))
+	
+	@staticmethod
+	def _sanitize(line):
+		# strip multiple whitespaces/tabs/newline
+		line_clean = re.sub(r'\n', '', line)
+		line_clean = re.sub(r'\s+', ' ', line_clean)
+		return line_clean
+
+
 	# TODO: function larger than one screen, refactor
 	def parse(self):
 		# open the file in read only mode
@@ -193,37 +304,29 @@ class InputParser:
 			with open(self.file_name) as f:
 				lines = f.readlines()
 		except FileNotFoundError:
-			self.parse_errors.append(
-				InputParser.FILE_NOT_FOUND.format(self.file_name)
-			)
+			self.parse_errors.append(InputParser.FILE_NOT_FOUND.format(self.file_name))
 			return False
-
-		skipUntil = -1
+		
 		# comments, this deals with both
 		# `#comment`
 		# `# comment`
-		lines = [line for line in lines if line[0] != '#']
+		lines = [InputParser._sanitize(line) for line in lines if (line[0] != '#' and len(line) > 1)]
 
-		for idx, line in enumerate(lines):
-			if skipUntil != -1 and idx < skipUntil:
-				continue
-
-			# strip multiple whitespaces/tabs/newline
-			line_clean = re.sub(r'\n', '', line)
-			line_clean = re.sub(r'\s+', ' ', line_clean)
+		idx = 0
+		while len(lines) > 0:
+			line = lines.pop(0)
+			idx += 1
 			
 			# split by space. The default method
 			#	will remove any extra whitespaces
-			params = line_clean.split(None)
+			params = line.split(None)
 			if len(params) == 0:
 				continue
 
 			param_name = params[0]
 			# non-existing parameters are ignored with a warning
 			if param_name not in InputParser._parameters_map:
-				self.parse_warnings.append(
-					InputParser.UNRECOGNIZED_PARAMETER_WARNING.format(idx, param_name)
-				)
+				self.parse_warnings.append(InputParser.UNRECOGNIZED_PARAMETER_WARNING.format(idx, param_name))
 				if self.treat_warnings_as_errors:
 					return False	
 				else:
@@ -234,68 +337,23 @@ class InputParser:
 				self.parse_errors.append(InputParser.ROADS_LAYOUT_UNEXPECTED.format(idx))
 				return False
 
-			# This here isn't an error.
-			# if self.config['noAreas'] != len(self.config['areas']) and param_name != 'areaIdx':
-			# 	self.parse_errors.append(InputParser.LESS_AREAS_SPECIFIED.format(self.config['noAreas']))
-			# 	return False
-
 			# areaIdx and roadsLayout are special cases
 			if param_name == 'areaIdx':
-				if self.config['noAreas'] == False:
-					self.parse_errors.append(
-						InputParser.MISSING_PARAM_ERROR.format('noAreas')
-					)
-					return False
+				status, lines, l = self._parse_area_definition(idx, params, lines)
 
-				# check to see if more areas than defined
-				if len(self.config['areas']) == self.config['noAreas']:
-					self.parse_errors.append(
-						InputParser.MORE_AREAS_SPECIFIED.format(idx, self.config['noAreas'])
-					)
-
-				status = self._parse_area_idx(idx, params)
-				if not status:
-					return False
-
-				# get the last area
-				lastArea = self.config['areas'][-1]
-
-				# then expect the next noBins to be a roadsLayout
-				if idx + 2 + lastArea['noBins'] >= len(lines) or lines[idx + 1] != 'roadsLayout\n':
-					self.parse_errors.append(InputParser.ROADS_LAYOUT_EXPECTED.format(idx + 1))
+				# do this so we can keep track where we are in the file (to report errors)
+				idx += l
+				if status == False:
 					return False
 				
-				# skip these here
-				# TODO: this seems a little ugly, refactor
-				skipUntil = idx + 2 + lastArea['noBins'] + 1
-
-				# parse the layout
-				status = self._parse_roads_layout(idx, lines[idx + 2 : idx + 3 + lastArea['noBins']], lastArea)
-				if not status:
-					return False
-
 				continue
-			
-			# handle all 'simple' parameters
-			if len(params) > 2:
-				self.parse_errors.append(InputParser.MALFORMED_PARAMETER_ERROR.format(idx, param_name))
-				return False
 				
 			if self.config['noAreas'] != False and len(self.config['areas']) != self.config['noAreas']:
-				self.parse_errors.append(
-					InputParser.AREAS_DEFINITION_INCOMPLETE.format(idx, param_name)
-				)
-
-
-			param_value = InputParser._cast_value(InputParser._parameters_map[param_name], params[1])
-			if param_value is False:
-				self.parse_errors.append(InputParser.BAD_PARAMETER_VALUE.format(idx, param_name))
+				self.parse_errors.append(InputParser.AREAS_DEFINITION_INCOMPLETE.format(idx, param_name))
 				return False
-
-			# add the parameter value
-			if param_name in self.config and self.config[param_name] != False:
-				self.parse_errors.append(InputParser.DUPLICATE_PARAMETER_ERROR.format(idx, param_name))
+			
+			res = self._parse_param(idx, params)
+			if not res:
 				return False
-			self.config[param_name] = param_value
 			
 		return self._check_missing_parameters()
