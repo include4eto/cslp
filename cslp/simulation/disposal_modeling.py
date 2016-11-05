@@ -22,7 +22,6 @@ class DisposalModeling:
 				r = np.random.uniform(low=0, high=1)
 			
 			rand.append(r)
-		print(rand)
 
 		# the product of all the randomly generated numbers
 		prod = reduce(lambda x, y: x * y, rand)
