@@ -206,13 +206,15 @@ class InputParser:
 	def _parse_experiment(self, idx, param_name, params):
 		type = InputParser._parameters_map[param_name]
 		# cast all the values for the experiment
-		values = [InputParser._cast_value(type, x) for x in params[2:]]
+		values = [InputParser._cast_value(type, x) for x in params]
 		
 		# check for invalid values
 		if any([v is False for v in values]):
 			self.parse_errors.append(InputParser.CONVERSION_ERROR.format(idx, param_name))
 			return False
 		
+		# the parameter can be duplicated both in the general
+		#	and experimentation config
 		if (param_name in self.config['experiments']) or \
 			(param_name in self.config and self.config[param_name] != False):
 			self.parse_errors.append(InputParser.DUPLICATE_EXPERIMENT_ERROR.format(idx, param_name))

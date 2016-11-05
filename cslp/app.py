@@ -15,8 +15,12 @@ def print_usage():
 
 def start_simulation_run(config):
 	if len(config['experiments']):
-		print('Warning: Experiment detected. Experiments are yet not supported. Exiting')
-		exit(0)
+		# print('Warning: Experiment detected. Experiments are not yet fully supported. Only the first value of the experiment will be used.')
+		# polyfill/monkey patch to make experiments work for now
+		# 	NOTE: this will disappear in the future, it makes the application work as is now
+		for k, v in config['experiments'].items():
+			config[k] = v[0]
+
 
 	# convert stop time to seconds
 	stop_time = config['stopTime'] * 60 * 60
