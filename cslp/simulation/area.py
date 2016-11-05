@@ -38,8 +38,8 @@ class Area:
 
 	def _schedule_next_disposal(self, bin):
 		# get the time to the next disposal event, in seconds
-		time = DisposalModeling.inv_erlang_k(self.config['disposalDistrRate'],
-			self.config['disposalDistrShape'])
+		time = DisposalModeling.inv_erlang_k(self.config['disposalDistrShape'],
+			self.config['disposalDistrRate'])
 		
 		# round to three digits and convert from hours to seconds
 		# TODO: maybe export there magic numbers somewhere?

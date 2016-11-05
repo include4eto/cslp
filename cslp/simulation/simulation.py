@@ -34,6 +34,13 @@ class Simulation:
 			# select only the roads layout that the are needs
 			self.areas.append(Area(area_config, event_dispatcher))
 
+	def _sanity_check(self, config):
+		"""
+			Does sanity checking on the configuration
+		"""
+		pass
+
+
 	def _init_initial_events(self):
 		"""
 			This initializes bin disposal events, which will start
