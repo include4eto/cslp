@@ -105,3 +105,11 @@ class InputParserTest(unittest.TestCase):
 		result = parser.parse()
 		
 		self.assertTrue(result)
+
+	def test_magnitude_violation(self):
+		# tests a validly formatted input, but
+		# 	with wrong ranges
+		parser = InputParser('test/inputs/invalid_magnitude.txt')
+		result = parser.parse()
+
+		self.assertFalse(result)

@@ -31,21 +31,21 @@ class InputParser:
 	# NOTE: We don't distinguish between integer types,
 	#	uint8 or uint16
 	_parameters_map = {
-		'lorryVolume': 'int',
-		'lorryMaxLoad': 'int',
+		'lorryVolume': 'uint8',
+		'lorryMaxLoad': 'uint16',
 		'binServiceTime': 'float',
 		'binVolume': 'float',
 		'disposalDistrRate': 'float',
-		'disposalDistrShape': 'int',
+		'disposalDistrShape': 'uint8',
 		'bagVolume': 'float',
 		'bagWeightMin': 'float',
 		'bagWeightMax': 'float',
-		'noAreas': 'int',
+		'noAreas': 'uint8',
 		'areaIdx': {
-			'areaIdx': 'int',
+			'areaIdx': 'uint8',
 			'serviceFreq': 'float',
 			'thresholdVal': 'float',
-			'noBins': 'int'
+			'noBins': 'uint16'
 		},
 		'roadsLayout': 'roads_layout',
 		'stopTime': 'float',
@@ -90,8 +90,24 @@ class InputParser:
 	def _cast_value(type, value):
 		try:
 			# NOTE to self: there might be a better way to do this
-			if type == 'int':
-				return int(value)
+			if type == 'uint8':
+				v = int(value)
+				if v < 0 or v >= 2 ** 8:
+					raise ValueError()
+				return v
+			
+			if type == 'uint16':
+				v = int(value)
+				if v < 0 or v >= 2 ** 16:
+					raise ValueError()
+				return v
+
+			if type == 'int8':
+				v = int(value)
+				if v < -2 ** 7 or v >= 2 ** 7:
+					raise ValueError()
+				return v
+			
 			if type == 'float':
 				return float(value)
 		except ValueError:
@@ -145,7 +161,7 @@ class InputParser:
 
 		for (current_bin, line) in enumerate(lines):
 			line = line.split()
-			paths = [InputParser._cast_value('int', x) for x in line]
+			paths = [InputParser._cast_value('int8', x) for x in line]
 		
 			# check for adjacency length
 			if len(paths) != areaConfig['noBins'] + 1:

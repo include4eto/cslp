@@ -1,0 +1,26 @@
+# max here is 2^8
+lorryVolume 256
+
+# these are uint16
+lorryMaxLoad 65536
+binServiceTime 65536
+
+binVolume 2.34
+disposalDistrRate 2.0
+disposalDistrShape 257
+
+bagVolume 0.05
+bagWeightMin 2
+bagWeightMax 8
+
+noAreas 1
+areaIdx 0 serviceFreq 0.0625 thresholdVal 0.75 noBins 5
+roadsLayout
+ 0  3 -1 -1 -1  4 
+ 3  0  5 -1 -1 -1
+-1 -1  0  2 -1 -1
+-1 -1 -1  0  2  2
+-1  1 -1 -1  0 -1
+ 4 -1 -1  2  4  0
+stopTime 16.0
+warmUpTime 12.0
