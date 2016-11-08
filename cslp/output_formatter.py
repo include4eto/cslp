@@ -1,6 +1,6 @@
 class OutputFormatter:
 	TIME_FORMAT = "{0}:{1}:{2}:{3}"
-	BIN_LOAD_CHANGES = "{0} -> load of bin {1}.{2} became {3:.3f} kg and contents volume {4:.3f} mˆ3"
+	BIN_LOAD_CHANGES = "{0} -> load of bin {1}.{2} became {3:.3f} kg and contents volume {4:.3f} m^3"
 	BIN_DISPOSAL = "{0} -> bag weighing {1:.3f} kg disposed of at bin {2}.{3}"
 	BIN_OCCUPANCY_EXCEEDED = "{0} -> occupancy threshold of bin {1}.{2} exceeded"
 	BIN_OVERFLOW = "{0} -> bin {1}.{2} overflowed"
