@@ -7,9 +7,6 @@ from simulation.simulation import Simulation
 from output_formatter import OutputFormatter
 from config import config as app_config
 
-# TODO: remove this
-import pprint
-
 def print_usage():
 	print(app_config['usage'])
 
