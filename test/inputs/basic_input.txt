@@ -30,6 +30,6 @@ roadsLayout
 -1  1 -1 -1  0 -1
  4 -1 -1  2  4  0
 # Simulation duration (hours)
-stopTime 16.0
+stopTime 36.0
 # Warm-up time (hours) allowed before collecting statistics
 warmUpTime 12.0
