@@ -15,7 +15,7 @@ class DisposalModeling:
 		"""
 
 		rand = []
-		for i in range(0, k):
+		for i in xrange(0, k):
 			r = np.random.uniform(low=0, high=1)
 			# do this to exclude 0 from the random pool
 			while r == 0:

@@ -20,7 +20,7 @@ class EventDispatcher:
 		self.no_areas = no_areas
 		self.observers = dict()
 		self.stop_time = stop_time
-		for i in range(0, self.no_areas):
+		for i in xrange(0, self.no_areas):
 			self.observers[i] = []
 
 		# current time
@@ -39,7 +39,7 @@ class EventDispatcher:
 
 		if area_idx is None or area_idx == -1:
 			# attach to all areas 
-			for i in range(0, self.no_areas):
+			for i in xrange(0, self.no_areas):
 				self.observers[i].append(observer)
 			
 			return True

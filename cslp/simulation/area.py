@@ -17,8 +17,10 @@ class Area:
 		# create all bins - they are simly a dictionary with
 		# 	a capacity - that simple
 		# NOTE: the index of the bin is the index in this array
-		self.bins = []
-		for i in range(0, self.config['noBins']):
+		# NOTE: index 0 is not a bin, but an empty object (the depot)
+		#	this will change once the bins are part of the area map
+		self.bins = [None]
+		for i in xrange(1, self.config['noBins'] + 1):
 			self.bins.append({
 				'idx': i,
 				'current_volume': 0,
@@ -31,7 +33,8 @@ class Area:
 		
 	def init_disposal_events(self):
 		for bin in self.bins:
-			self._schedule_next_disposal(bin)
+			if bin is not None:
+				self._schedule_next_disposal(bin)
 
 		# finally, attach an observer to repeat disposal events
 		self.event_dispatcher.attach_observer(self._event_handler, self.area_idx)

@@ -39,7 +39,7 @@ class Simulation:
 		# TODO: Add configuration error checking
 		self.areas = []
 
-		for i in range(0, self.config['noAreas']):
+		for i in xrange(0, self.config['noAreas']):
 			# instantiate all areas with their respective configurations
 			area_config = deepcopy(self.config)
 

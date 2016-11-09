@@ -14,5 +14,5 @@ if __name__ == '__main__':
 	num = sys.argv[1] if len(sys.argv) > 1 else 1
 	num = int(num)
 
-	for i in range(0, num):
+	for i in xrange(0, num):
 		print(inv_erlang_k(10, 4))

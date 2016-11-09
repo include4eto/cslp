@@ -12,7 +12,7 @@ class EventDispatcherTest(unittest.TestCase):
 
 		# add some events
 		iter, max = 10000, 999999
-		for i in range(iter):
+		for i in xrange(iter):
 			time = int(uniform(0, max))
 			dispatcher.add_event(Event(time))
 
