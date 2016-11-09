@@ -1,4 +1,4 @@
-#!/usr/bin/env python3
+#!/usr/bin/env python2.7
 import numpy as np
 from functools import reduce
 from math import log

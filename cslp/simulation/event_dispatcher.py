@@ -32,7 +32,7 @@ class EventDispatcher:
 
 		pass
 
-	def attach_observer(self, observer, area_idx: int):
+	def attach_observer(self, observer, area_idx):
 		if area_idx is not None and area_idx >= self.no_areas:
 			# TODO: raise Exception
 			return False
@@ -47,7 +47,7 @@ class EventDispatcher:
 		self.observers[area_idx].append(observer)
 		return True
 
-	def remove_observer(self, observer, area_idx: int):
+	def remove_observer(self, observer, area_idx):
 		pass
 
 
@@ -71,7 +71,7 @@ class EventDispatcher:
 			self.events.insert(idx, event)
 			return start
 
-		mid = floor((start + end) / 2)
+		mid = int(floor((start + end) / 2))
 		
 		if self.events[mid].time > event.time:
 			return self._add_event_binary(event, start, mid - 1)
@@ -79,7 +79,7 @@ class EventDispatcher:
 		return self._add_event_binary(event, mid + 1, end)
 
 
-	def add_event(self, event: Event):
+	def add_event(self, event):
 		return self._add_event_binary(event, 0, len(self.events) - 1)
 		
 		pass

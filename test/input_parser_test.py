@@ -23,7 +23,7 @@ class InputParserTest(unittest.TestCase):
 			'bagVolume': 0.05,
 			'bagWeightMin': 2,
 			'bagWeightMax': 8,
-			'stopTime': 16.0,
+			'stopTime': 36.0,
 			'warmUpTime': 12.0,
 			'noAreas': 1,
 			'areas': [
