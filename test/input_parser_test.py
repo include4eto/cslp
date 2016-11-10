@@ -93,7 +93,7 @@ class InputParserTest(unittest.TestCase):
 
 		self.assertTrue(result)
 
-	def test_invalid_rads(self):
+	def test_invalid_roads(self):
 		# a test input with valid parameters, but invalid roads layout
 		parser = InputParser('test/inputs/invalid_roads_layout.txt')
 		result = parser.parse()

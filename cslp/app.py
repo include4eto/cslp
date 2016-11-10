@@ -11,8 +11,14 @@ def print_usage():
 	print(app_config['usage'])
 
 def start_simulation_run(config):
+	"""
+		Start the pipeline for the simulation. To be moved
+		into a more specialized Experiment class when those are supported.
+	"""
 	if len(config['experiments']):
+		# NOTE: Disable warning - not needed by specification
 		# print('Warning: Experiment detected. Experiments are not yet fully supported. Only the first value of the experiment will be used.')
+		
 		# polyfill/monkey patch to make experiments work for now
 		# 	NOTE: this will disappear in the future, it makes the application work as is now
 		for k, v in config['experiments'].items():

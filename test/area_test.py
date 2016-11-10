@@ -98,7 +98,7 @@ class AreaTest(unittest.TestCase):
 			self.assertGreater(e.data['bag_weight'], 0)
 			self.assertGreater(e.time, 0)
 
-	def test_disposal_regeneration(self):
+	def test_disposal_generation(self):
 		"""
 			Test that new bin events are generated.
 		"""

@@ -13,7 +13,7 @@ class Event:
 
 class EventDispatcher:
 	"""
-		TODO
+		A basic event dispatcher.
 	"""
 
 	def __init__(self, stop_time, no_areas):
@@ -32,7 +32,11 @@ class EventDispatcher:
 
 		pass
 
-	def attach_observer(self, observer, area_idx):
+	def attach_observer(self, observer, area_idx = None):
+		"""
+			Attaches an observer to the given area, or
+			to all areas, if no area given.
+		"""
 		if area_idx is not None and area_idx >= self.no_areas:
 			# TODO: raise Exception
 			return False
@@ -59,6 +63,8 @@ class EventDispatcher:
 			self.events.insert(0, event)
 			return 0
 
+		# Simple binary search to find where to put the current
+		#	event in the list
 		if start >= end:
 			idx = end
 			if self.events[start].time < event.time:
@@ -80,11 +86,20 @@ class EventDispatcher:
 
 
 	def add_event(self, event):
+		"""
+			Adds a new event to the event dispatcher.
+		"""
 		return self._add_event_binary(event, 0, len(self.events) - 1)
-		
-		pass
 
 	def next_event(self):
+		"""
+			Call to execute the next event, notifying
+			observers. Returns the current time after the
+			event executes or False if the simulation has ended.
+		"""
+		if len(self.events) == 0:
+			return False
+
 		event = self.events.pop(0)
 		self.now = event.time
 
