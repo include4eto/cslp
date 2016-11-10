@@ -12,6 +12,7 @@ class Simulation:
 	DUPLICATE_AREA_INDEX = "Validation Error: Duplicate area index {0}"
 	INVALID_AREA_INDEX = "Validation Error: Invalid area index {0}"
 	MISSING_AREAS = "Validation Errors: Some areas are missing."
+	BAD_THRESHOLD_VAL = "Validation Errors: Bad threshold value for area {0}"
 
 	"""
 		Simulation class. Combines many area classes
@@ -80,7 +81,7 @@ class Simulation:
 			# again, we might not be able to collect an overflowed bin
 			self.validate_warnings.append(Simulation.BIN_WEIGHT_WARNING)
 		
-		if (config['lorryVolume'] / (2 * config['bagVolume'])) * config['bagWeightMin'] > \
+		if ((2 * config['lorryVolume']) / config['bagVolume']) * config['bagWeightMin'] > \
 			config['lorryMaxLoad']:
 			# this is a case when the max bags in the truck have greater weight than
 			# the truck can handle
@@ -108,6 +109,10 @@ class Simulation:
 				self.validate_warnings.append(Simulation.DISPOSAL_FREQUENCY_WARNING.format(
 					area_config['areaIdx']
 				))
+
+			if area_config['thresholdVal'] > 1:
+				self.validate_errors.append(Simulation.BAD_THRESHOLD_VAL.format(area_config['areaIdx']))
+				return False
 				
 		if len(area_indices) < config['noAreas']:
 			self.validate_errors.append(Simulation.MISSING_AREAS)
