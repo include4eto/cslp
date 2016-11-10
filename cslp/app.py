@@ -7,6 +7,9 @@ from simulation.simulation import Simulation
 from output_formatter import OutputFormatter
 from config import config as app_config
 
+import numpy as np
+np.random.seed(0)
+
 def print_usage():
 	print(app_config['usage'])
 
@@ -61,16 +64,12 @@ if __name__ == '__main__':
 	parser = InputParser(file_path)
 	result = parser.parse()
 
-	if not result:
-		for i in (parser.parse_errors + parser.parse_warnings):
-			print(i)
+	for i in (parser.parse_errors + parser.parse_warnings):
+		print(i)
 
+	if not result:
 		print('Parse errors occurred. Exiting...\n')
 		sys.exit(1)
 	
 	# start the simulation here
 	start_simulation_run(parser.config)
-	
-	# print('Configuration read from {0}.'.format(file_path))
-	# print('Exiting.')
-	

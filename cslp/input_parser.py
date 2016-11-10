@@ -20,8 +20,8 @@ class InputParser:
 	AREAS_DEFINITION_INCOMPLETE = "Parse Error({0}): Expected area definition, got ({1})."
 	MISSING_PARAM_ERROR = "Parse Error: Missing parameter {0}."
 	FILE_NOT_FOUND = "Parse Error: No such file: {0}."
-	DUPLICATE_PARAMETER_ERROR = "Parse Error({0}): Duplicate parameter {1}"
-	DUPLICATE_EXPERIMENT_ERROR = "Parse Error({0}): Duplicate experiment found: {1}"
+	DUPLICATE_PARAMETER_WARNING = "Parse Warning({0}): Duplicate parameter {1}"
+	DUPLICATE_EXPERIMENT_WARNING = "Parse Warning({0}): Duplicate experiment found: {1}"
 	NON_EXPERIMENT_PARAMETER = "Parse Warning({0}): Parameter {1} can only be used in this context as an experiment. Experiment keyword missing."
 	NON_EXPERIMENT_KEYWORD = "Parse Error({0}): Parameter {1} does not support experimentation"
 
@@ -72,7 +72,7 @@ class InputParser:
 		'serviceFreq': 'float'
 	}
 
-	def __init__(self, file_name, treat_warnings_as_errors = True):
+	def __init__(self, file_name, treat_warnings_as_errors = False):
 		self.file_name = file_name
 
 		self.config = {
@@ -240,8 +240,10 @@ class InputParser:
 		#	and experimentation config
 		if (param_name in self.config['experiments']) or \
 			(param_name in self.config and self.config[param_name] != False):
-			self.parse_errors.append(InputParser.DUPLICATE_EXPERIMENT_ERROR.format(idx, param_name))
-			return False
+			self.parse_warnings.append(InputParser.DUPLICATE_EXPERIMENT_WARNING.format(idx, param_name))
+			
+			if self.treat_warnings_as_errors:
+				return False
 
 		self.config['experiments'][param_name] = values
 
@@ -274,8 +276,10 @@ class InputParser:
 		# add the parameter value
 		if (param_name in self.config and self.config[param_name] != False) or \
 			(param_name in self.config['experiments']):
-			self.parse_errors.append(InputParser.DUPLICATE_PARAMETER_ERROR.format(idx, param_name))
-			return False
+			self.parse_warnings.append(InputParser.DUPLICATE_PARAMETER_WARNING.format(idx, param_name))
+			
+			if self.treat_warnings_as_errors:
+				return False
 		self.config[param_name] = param_value
 
 		return True
