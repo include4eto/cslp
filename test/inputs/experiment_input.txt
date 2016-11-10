@@ -1,7 +1,7 @@
 lorryVolume 20
 lorryMaxLoad 7000
 binServiceTime 130
-binVolume 1 2 2
+binVolume 2
 disposalDistrRate experiment 2.0 1
 disposalDistrShape experiment 2 3
 bagVolume 0.05
