@@ -23,6 +23,7 @@ class InputParser:
 	DUPLICATE_PARAMETER_ERROR = "Parse Error({0}): Duplicate parameter {1}"
 	DUPLICATE_EXPERIMENT_ERROR = "Parse Error({0}): Duplicate experiment found: {1}"
 	NON_EXPERIMENT_PARAMETER = "Parse Warning({0}): Parameter {1} can only be used in this context as an experiment. Experiment keyword missing."
+	NON_EXPERIMENT_KEYWORD = "Parse Error({0}): Parameter {1} does not support experimentation"
 
 	EXPERIMENT_KEYWORD = "experiment"
 
@@ -33,7 +34,7 @@ class InputParser:
 	_parameters_map = {
 		'lorryVolume': 'uint8',
 		'lorryMaxLoad': 'uint16',
-		'binServiceTime': 'float',
+		'binServiceTime': 'uint16',
 		'binVolume': 'float',
 		'disposalDistrRate': 'float',
 		'disposalDistrShape': 'uint8',
@@ -52,20 +53,23 @@ class InputParser:
 		'warmUpTime': 'float',
 
 		'serviceFreq': 'float',
-		'thresholdVal': 'float'
 	}
 
 	# parameters excluded from the required check
 	_non_required_params = {
 		'serviceFreq': 'float',
-		'thresholdVal': 'float',
 		'roadsLayout': 'roads_layout',
 		'areaIdx': 'area_idx'
 	}
 
+	_allowed_experiments = [
+		'serviceFreq',
+		'disposalDistrRate',
+		'disposalDistrShape'	
+	]
+
 	_extra_experiment_params = {
-		'serviceFreq': 'float',
-		'thresholdVal': 'float',
+		'serviceFreq': 'float'
 	}
 
 	def __init__(self, file_name, treat_warnings_as_errors = True):
@@ -109,7 +113,10 @@ class InputParser:
 				return v
 			
 			if type == 'float':
-				return float(value)
+				v = float(value)
+				if v < 0:
+					raise ValueError()
+				return v
 		except ValueError:
 			return False
 		
@@ -243,6 +250,10 @@ class InputParser:
 	def _parse_param(self, idx, line):
 		param_name = line[0]
 		if line[1] == InputParser.EXPERIMENT_KEYWORD:
+			if param_name not in InputParser._allowed_experiments:
+				self.parse_errors.append(InputParser.NON_EXPERIMENT_KEYWORD.format(idx, param_name))
+				return False
+
 			return self._parse_experiment(idx, param_name, line[2::])
 
 		if param_name in InputParser._extra_experiment_params:
@@ -321,7 +332,7 @@ class InputParser:
 		try:
 			with open(self.file_name) as f:
 				lines = f.readlines()
-		except FileNotFoundError:
+		except IOError:
 			self.parse_errors.append(InputParser.FILE_NOT_FOUND.format(self.file_name))
 			return False
 		

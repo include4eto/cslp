@@ -1,13 +1,13 @@
 lorryVolume 20
 lorryMaxLoad 65532
-binServiceTime 1.9512
+binServiceTime 2
 binVolume 12.123
 disposalDistrRate 123.123
 disposalDistrShape 99
 bagVolume 20
 bagWeightMin 1.2
 bagWeightMax 1.333
-stopTime 10.23
+stopTime 3
 warmUpTime 0.12
 noAreas 10
 areaIdx 0 serviceFreq 2.3 thresholdVal 5.3 noBins 5
@@ -18,7 +18,7 @@ roadsLayout
 0 0 0 0 0 0
 0 0 0 0 0 0
 0 0 0 0 0 0
-areaIdx 0 serviceFreq 2.3 thresholdVal 5.3 noBins 5
+areaIdx 1 serviceFreq 2.3 thresholdVal 5.3 noBins 5
 roadsLayout
 0 -1 -1 4 0 0
 0 0 0 0 0 0
@@ -26,7 +26,7 @@ roadsLayout
 0 0 0 0 0 0
 0 0 0 0 0 0
 0 0 0 0 0 0
-areaIdx 0 serviceFreq 2.3 thresholdVal 5.3 noBins 5
+areaIdx 2 serviceFreq 2.3 thresholdVal 5.3 noBins 5
 roadsLayout
 0 -1 -1 4 0 0
 0 0 0 0 0 0
@@ -34,7 +34,7 @@ roadsLayout
 0 0 0 0 0 0
 0 0 0 0 0 0
 0 0 0 0 0 0
-areaIdx 0 serviceFreq 2.3 thresholdVal 5.3 noBins 5
+areaIdx 3 serviceFreq 2.3 thresholdVal 5.3 noBins 5
 roadsLayout
 0 -1 -1 4 0 0
 0 0 0 0 0 0
@@ -42,7 +42,7 @@ roadsLayout
 0 0 0 0 0 0
 0 0 0 0 0 0
 0 0 0 0 0 0
-areaIdx 0 serviceFreq 2.3 thresholdVal 5.3 noBins 5
+areaIdx 4 serviceFreq 2.3 thresholdVal 5.3 noBins 5
 roadsLayout
 0 -1 -1 4 0 0
 0 0 0 0 0 0
@@ -50,7 +50,7 @@ roadsLayout
 0 0 0 0 0 0
 0 0 0 0 0 0
 0 0 0 0 0 0
-areaIdx 0 serviceFreq 2.3 thresholdVal 5.3 noBins 5
+areaIdx 5 serviceFreq 2.3 thresholdVal 5.3 noBins 5
 roadsLayout
 0 -1 -1 4 0 0
 0 0 0 0 0 0
@@ -58,7 +58,7 @@ roadsLayout
 0 0 0 0 0 0
 0 0 0 0 0 0
 0 0 0 0 0 0
-areaIdx 0 serviceFreq 2.3 thresholdVal 5.3 noBins 5
+areaIdx 6 serviceFreq 2.3 thresholdVal 5.3 noBins 5
 roadsLayout
 0 -1 -1 4 0 0
 0 0 0 0 0 0
@@ -66,7 +66,7 @@ roadsLayout
 0 0 0 0 0 0
 0 0 0 0 0 0
 0 0 0 0 0 0
-areaIdx 0 serviceFreq 2.3 thresholdVal 5.3 noBins 5
+areaIdx 7 serviceFreq 2.3 thresholdVal 5.3 noBins 5
 roadsLayout
 0 -1 -1 4 0 0
 0 0 0 0 0 0
@@ -74,7 +74,7 @@ roadsLayout
 0 0 0 0 0 0
 0 0 0 0 0 0
 0 0 0 0 0 0
-areaIdx 0 serviceFreq 2.3 thresholdVal 5.3 noBins 5
+areaIdx 8 serviceFreq 2.3 thresholdVal 5.3 noBins 5
 roadsLayout
 0 -1 -1 4 0 0
 0 0 0 0 0 0
@@ -82,7 +82,7 @@ roadsLayout
 0 0 0 0 0 0
 0 0 0 0 0 0
 0 0 0 0 0 0
-areaIdx 0 serviceFreq 2.3 thresholdVal 5.3 noBins 5
+areaIdx 9 serviceFreq 2.3 thresholdVal 5.3 noBins 5
 roadsLayout
 0 -1 -1 4 0 0
 0 0 0 0 0 0

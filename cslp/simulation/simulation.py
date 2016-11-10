@@ -9,6 +9,9 @@ class Simulation:
 	STATISTICS_WARNING = "Validation Warning: Warm up time is greater than stop time. No statistics will be reported."
 	DISPOSAL_FREQUENCY_WARNING = "Validation Warning (Area {0}): Disposal rate is greater than service rate. This might be a mistake."
 	BAG_WEIGHT_MIN_MAX_ERROR = "Validation Error: Mimimum bag weight is greater than maximum bag weight."
+	DUPLICATE_AREA_INDEX = "Validation Error: Duplicate area index {0}"
+	INVALID_AREA_INDEX = "Validation Error: Invalid area index {0}"
+	MISSING_AREAS = "Validation Errors: Some areas are missing."
 
 	"""
 		Simulation class. Combines many area classes
@@ -86,13 +89,30 @@ class Simulation:
 		if config['warmUpTime'] >= config['stopTime']:
 			self.validate_warnings.append(Simulation.STATISTICS_WARNING)
 		
+		# are indices should not have duplicates
+		area_indices = []
+
 		for area_config in config['areas']:
+			if area_config['areaIdx'] in area_indices:
+				self.validate_errors.append(Simulation.DUPLICATE_AREA_INDEX.format(area_config['areaIdx']))
+				return False
+
+			if area_config['areaIdx'] >= config['noAreas']:
+				self.validate_errors.append(Simulation.INVALID_AREA_INDEX.format(area_config['areaIdx']))
+				return False
+
+			area_indices.append(area_config['areaIdx'])
+
 			if area_config['serviceFreq'] > config['disposalDistrRate']:
 				# This means we dispose of bags more frequently than we service them
 				self.validate_warnings.append(Simulation.DISPOSAL_FREQUENCY_WARNING.format(
 					area_config['areaIdx']
 				))
 				
+		if len(area_indices) < config['noAreas']:
+			self.validate_errors.append(Simulation.MISSING_AREAS)
+			return False
+
 		return True
 
 	def _init_initial_events(self):

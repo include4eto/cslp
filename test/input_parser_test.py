@@ -1,3 +1,4 @@
+#!/usr/bin/env python2.7
 import unittest
 import pprint
 from cslp.input_parser import InputParser 

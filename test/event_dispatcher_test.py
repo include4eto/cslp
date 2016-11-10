@@ -1,3 +1,4 @@
+#!/usr/bin/env python2.7
 import unittest
 import pprint
 from cslp.simulation.event_dispatcher import Event, EventDispatcher
