@@ -139,3 +139,11 @@ class InputParserTest(unittest.TestCase):
 
 		self.assertTrue(result)
 	
+	def test_whitespaces(self):
+		# test that more than one whitespaces are stripped
+		#	this includes tabs, but not new lines 
+		parser = InputParser('test/inputs/whitespaces.txt')
+		result = parser.parse()
+
+		self.assertTrue(result)
+	

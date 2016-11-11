@@ -110,6 +110,7 @@ Within each test suite, each test case is labeled `test_<component>`. Currently,
 - `test_invalid_matrix`: Tests that matrices are checked for 0 entries apart from the
 	diagonal.
 - `test_max_magnitude`: Tests that values with the maximum magnitude are accepted.
+- `test_whitespaces`: Tests that extra whitespaces are stripped.
 
 ### `AreaTest` (`area_test.py`):
 - `test_observer_subscription`: Tests that areas attach an observer to the event

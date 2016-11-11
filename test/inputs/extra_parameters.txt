@@ -16,5 +16,6 @@ roadsLayout
 -1 -1 -1  0  2  2
 -1  1 -1 -1  0 -1
  4 -1 -1  2  4  0
-stopTime 36.0
+stopTime 16.0
 warmUpTime 12.0
+someExtraParameter 5
