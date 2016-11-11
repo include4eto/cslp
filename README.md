@@ -1,4 +1,5 @@
 # Computer Science Large Practical 2016-17
+**NOTE: Miscellaneous notes at the end of this document**
 ## Code Structure
 ### File Structure
 The file structure follows the one outlined here [https://github.com/kennethreitz/samplemod](https://github.com/kennethreitz/samplemod).
@@ -96,6 +97,8 @@ such as *ntfs*.
 
 Within each test suite, each test case is labeled `test_<component>`. Currently, the following tests are performed:
 
+Note all tests are white box, i.e. we assume we know how the code works.
+
 ### `InputParserTest` (`input_parser_test.py`):
 - `test_valid_input`: Test to see a valid input is parsed and the correct configuration
 		is returned.
@@ -126,5 +129,19 @@ Within each test suite, each test case is labeled `test_<component>`. Currently,
 - `test_event_sorting`: Tests that events are always sorted correctly (in ascending order).
 - `test_basic_observer`: Tests that observers are called when events happen.
 
-## `SimulationTest`
+### `OutputFormatterTest` (`output_formatter_test.py`)
+- `test_time_formatting`: Tests that time in seconds is converted correctly to time in DD:HH:MM:SS
+- `test_bin_output_events`: Tests that bin output events (bag disposed, load changed, occupancy exceeded & overflow)
+	are outputted correctly to stdout.
+
+### `SimulationTest`
 **currently unused**
+
+## Misc notes
+- Areas can appear in shuffled order, as long as all are specified. I.e. this is valid:
+	```
+	areaIdx 1 ...
+	...
+	areaIdx 0 ...
+	...
+	```

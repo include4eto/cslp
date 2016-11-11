@@ -1,4 +1,7 @@
 class OutputFormatter:
+	"""
+		Prints simulation output to stdout.
+	"""
 	TIME_FORMAT = "{0}:{1}:{2}:{3}"
 	BIN_LOAD_CHANGES = "{0} -> load of bin {1}.{2} became {3:.3f} kg and contents volume {4:.3f} m^3"
 	BIN_DISPOSAL = "{0} -> bag weighing {1:.3f} kg disposed of at bin {2}.{3}"
