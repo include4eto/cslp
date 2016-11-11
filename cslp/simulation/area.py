@@ -1,5 +1,3 @@
-# TODO: remove this
-import pprint
 from .disposal_modeling import DisposalModeling
 from .event_dispatcher import Event
 import numpy as np
@@ -29,8 +27,6 @@ class Area:
 				'has_exceeded_occupancy': False
 			})
 
-		# pprint.pprint(self.config)
-		
 	def init_disposal_events(self):
 		for bin in self.bins:
 			if bin is not None:

@@ -38,7 +38,6 @@ class EventDispatcher:
 			to all areas, if no area given.
 		"""
 		if area_idx is not None and area_idx >= self.no_areas:
-			# TODO: raise Exception
 			return False
 
 		if area_idx is None or area_idx == -1:

@@ -40,7 +40,6 @@ class Simulation:
 			self.simulation_aborted = True
 			return
 
-		# TODO: Add configuration error checking
 		self.areas = []
 
 		for i in xrange(0, self.config['noAreas']):

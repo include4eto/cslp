@@ -334,8 +334,6 @@ class InputParser:
 		line_clean = re.sub(r'\s+', ' ', line_clean)
 		return line_clean
 
-
-	# TODO: function larger than one screen, refactor
 	def parse(self):
 		# open the file in read only mode
 		try:
