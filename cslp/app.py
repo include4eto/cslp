@@ -38,7 +38,7 @@ def start_simulation_run(config):
 		print(i)
 	if sim.simulation_aborted:
 		print('Configuration validation errors occurred. Exiting...\n')
-		sys.exit(1)
+		sys.exit(0)
 		return
 	
 
@@ -72,7 +72,7 @@ if __name__ == '__main__':
 
 	if not result:
 		print('Parse errors occurred. Exiting...\n')
-		sys.exit(1)
+		sys.exit(0)
 	
 	# start the simulation here
 	start_simulation_run(parser.config)
