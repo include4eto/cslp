@@ -114,3 +114,28 @@ class InputParserTest(unittest.TestCase):
 		result = parser.parse()
 
 		self.assertFalse(result)
+
+	def test_extra_parameters(self):
+		# test that extra paratemeters are not allowed
+
+		parser = InputParser('test/inputs/extra_parameters.txt')
+		result = parser.parse()
+
+		self.assertFalse(result)
+	
+	def test_invalid_matrix(self):
+		# test that all paths should be greater than 0 apart from the diagonal
+
+		parser = InputParser('test/inputs/test_invalid_matrix.txt')
+		result = parser.parse()
+
+		self.assertFalse(result)
+	
+	
+	def test_max_magnitude(self):
+		# test that the maximum magnitudes are allowed
+		parser = InputParser('test/inputs/max_magnitudes.txt')
+		result = parser.parse()
+
+		self.assertTrue(result)
+	

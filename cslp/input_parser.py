@@ -8,7 +8,7 @@ class InputParser:
 			is with the application itself, *not* the parser.
 	"""
 
-	UNRECOGNIZED_PARAMETER_WARNING = "Parse Warning({0}): parameter {1} is not recognized."
+	UNRECOGNIZED_PARAMETER_ERROR = "Parse Error({0}): parameter {1} is not recognized."
 	MALFORMED_PARAMETER_ERROR = "Parse Error({0}): parameter {1} is malformed."
 	CONVERSION_ERROR = "Parse Error({0}): Wrong type given for value(s) of {1}."
 	ROADS_LAYOUT_ERROR = "Parse Error({0}): The roads layout for area {1} is malformed."
@@ -187,6 +187,11 @@ class InputParser:
 					self.parse_errors.append(InputParser.CONVERSION_ERROR.format(lineNo + current_bin, 'roadsLayout'))
 					return False
 
+				# check that all other paths are strictly positive (>0)
+				if idx != current_bin and (path_length <= 0 and path_length != -1):
+					self.parse_errors.append(InputParser.CONVERSION_ERROR.format(lineNo + current_bin, 'roadsLayout'))
+					return False
+
 				if path_length != -1:
 					adj_list_bin.append({
 						'index': idx,
@@ -359,11 +364,8 @@ class InputParser:
 			param_name = params[0]
 			# non-existing parameters are ignored with a warning
 			if param_name not in InputParser._parameters_map:
-				self.parse_warnings.append(InputParser.UNRECOGNIZED_PARAMETER_WARNING.format(idx, param_name))
-				if self.treat_warnings_as_errors:
-					return False	
-				else:
-					continue
+				self.parse_errors.append(InputParser.UNRECOGNIZED_PARAMETER_ERROR.format(idx, param_name))
+				return False
 
 			# this cannot happen, we need an area_idx before the roadsLayout
 			if param_name == 'roadsLayout':

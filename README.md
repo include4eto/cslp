@@ -105,7 +105,11 @@ Within each test suite, each test case is labeled `test_<component>`. Currently,
 - `test_invalid_rads`: Tests that an invalid roads layout is not accepted.
 - `test_experimentation`: Tests that experimentation directives are parsed.
 - `test_magnitude_viloation`: Tests to see attributes with correct formatting,
-		but wrong magnitudes are detected.
+	but wrong magnitudes are detected.
+- `test_extra_parameters`: Tests that extra parameters are treated as errors.
+- `test_invalid_matrix`: Tests that matrices are checked for 0 entries apart from the
+	diagonal.
+- `test_max_magnitude`: Tests that values with the maximum magnitude are accepted.
 
 ### `AreaTest` (`area_test.py`):
 - `test_observer_subscription`: Tests that areas attach an observer to the event

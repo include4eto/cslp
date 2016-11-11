@@ -12,81 +12,81 @@ warmUpTime 0.12
 noAreas 10
 areaIdx 0 serviceFreq 2.3 thresholdVal 5.3 noBins 5
 roadsLayout
-0 -1 -1 4 0 0
-0 0 0 0 0 0
-0 0 0 0 0 0
-0 0 0 0 0 0
-0 0 0 0 0 0
-0 0 0 0 0 0
+0 1 1 1 1 1
+1 0 1 1 1 1
+1 1 0 1 1 1
+1 1 1 0 1 1
+1 1 1 1 0 1
+1 1 1 1 1 0
 areaIdx 1 serviceFreq 2.3 thresholdVal 5.3 noBins 5
 roadsLayout
-0 -1 -1 4 0 0
-0 0 0 0 0 0
-0 0 0 0 0 0
-0 0 0 0 0 0
-0 0 0 0 0 0
-0 0 0 0 0 0
+0 1 1 1 1 1
+1 0 1 1 1 1
+1 1 0 1 1 1
+1 1 1 0 1 1
+1 1 1 1 0 1
+1 1 1 1 1 0
 areaIdx 2 serviceFreq 2.3 thresholdVal 5.3 noBins 5
 roadsLayout
-0 -1 -1 4 0 0
-0 0 0 0 0 0
-0 0 0 0 0 0
-0 0 0 0 0 0
-0 0 0 0 0 0
-0 0 0 0 0 0
+0 1 1 1 1 1
+1 0 1 1 1 1
+1 1 0 1 1 1
+1 1 1 0 1 1
+1 1 1 1 0 1
+1 1 1 1 1 0
 areaIdx 3 serviceFreq 2.3 thresholdVal 5.3 noBins 5
 roadsLayout
-0 -1 -1 4 0 0
-0 0 0 0 0 0
-0 0 0 0 0 0
-0 0 0 0 0 0
-0 0 0 0 0 0
-0 0 0 0 0 0
+0 1 1 1 1 1
+1 0 1 1 1 1
+1 1 0 1 1 1
+1 1 1 0 1 1
+1 1 1 1 0 1
+1 1 1 1 1 0
 areaIdx 4 serviceFreq 2.3 thresholdVal 5.3 noBins 5
 roadsLayout
-0 -1 -1 4 0 0
-0 0 0 0 0 0
-0 0 0 0 0 0
-0 0 0 0 0 0
-0 0 0 0 0 0
-0 0 0 0 0 0
+0 1 1 1 1 1
+1 0 1 1 1 1
+1 1 0 1 1 1
+1 1 1 0 1 1
+1 1 1 1 0 1
+1 1 1 1 1 0
 areaIdx 5 serviceFreq 2.3 thresholdVal 5.3 noBins 5
 roadsLayout
-0 -1 -1 4 0 0
-0 0 0 0 0 0
-0 0 0 0 0 0
-0 0 0 0 0 0
-0 0 0 0 0 0
-0 0 0 0 0 0
+0 1 1 1 1 1
+1 0 1 1 1 1
+1 1 0 1 1 1
+1 1 1 0 1 1
+1 1 1 1 0 1
+1 1 1 1 1 0
 areaIdx 6 serviceFreq 2.3 thresholdVal 5.3 noBins 5
 roadsLayout
-0 -1 -1 4 0 0
-0 0 0 0 0 0
-0 0 0 0 0 0
-0 0 0 0 0 0
-0 0 0 0 0 0
-0 0 0 0 0 0
+0 1 1 1 1 1
+1 0 1 1 1 1
+1 1 0 1 1 1
+1 1 1 0 1 1
+1 1 1 1 0 1
+1 1 1 1 1 0
 areaIdx 7 serviceFreq 2.3 thresholdVal 5.3 noBins 5
 roadsLayout
-0 -1 -1 4 0 0
-0 0 0 0 0 0
-0 0 0 0 0 0
-0 0 0 0 0 0
-0 0 0 0 0 0
-0 0 0 0 0 0
+0 1 1 1 1 1
+1 0 1 1 1 1
+1 1 0 1 1 1
+1 1 1 0 1 1
+1 1 1 1 0 1
+1 1 1 1 1 0
 areaIdx 8 serviceFreq 2.3 thresholdVal 5.3 noBins 5
 roadsLayout
-0 -1 -1 4 0 0
-0 0 0 0 0 0
-0 0 0 0 0 0
-0 0 0 0 0 0
-0 0 0 0 0 0
-0 0 0 0 0 0
+0 1 1 1 1 1
+1 0 1 1 1 1
+1 1 0 1 1 1
+1 1 1 0 1 1
+1 1 1 1 0 1
+1 1 1 1 1 0
 areaIdx 9 serviceFreq 2.3 thresholdVal 5.3 noBins 5
 roadsLayout
-0 -1 -1 4 0 0
-0 0 0 0 0 0
-0 0 0 0 0 0
-0 0 0 0 0 0
-0 0 0 0 0 0
-0 0 0 0 0 0
+0 1 1 1 1 1
+1 0 1 1 1 1
+1 1 0 1 1 1
+1 1 1 0 1 1
+1 1 1 1 0 1
+1 1 1 1 1 0
