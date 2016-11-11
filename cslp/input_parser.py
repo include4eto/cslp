@@ -114,7 +114,7 @@ class InputParser:
 			
 			if type == 'float':
 				v = float(value)
-				if v < 0:
+				if v <= 0:
 					raise ValueError()
 				return v
 		except ValueError:
