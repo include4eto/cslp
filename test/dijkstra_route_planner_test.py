@@ -55,18 +55,25 @@ class DijkstraRoutePlannerTest(unittest.TestCase):
 		]
 
 		planner = DijkstraRoutePlanner(roadsLayout, 4, 30, 0.75)
-		route = planner.get_route(bins)
-
-		pprint(route)
+		route = planner.get_route(bins, flatten_route=False)
 
 		expected_route = [
-			{ 'target': 0, 'service': False },
 			{ 'target': 1, 'service': False },
-			{ 'target': 2, 'service': True },
+			{ 'target': 2, 'service': True, 'distance': 3 },
 			{ 'target': 3, 'service': False },
-			{ 'target': 1, 'service': True },
+			{ 'target': 1, 'service': True, 'distance': 3 },
 			{ 'target': 2, 'service': False },
-			{ 'target': 0, 'service': False }
+			{ 'target': 0, 'service': False, 'distance': 4 }
+		]
+
+		self.assertEquals(route, expected_route)
+
+		# now test with the flattened route
+		route = planner.get_route(bins, flatten_route=True)
+		expected_route = [
+			{ 'target': 2, 'service': True, 'distance': 3 },
+			{ 'target': 1, 'service': True, 'distance': 3 },
+			{ 'target': 0, 'service': False, 'distance': 4 }
 		]
 
 		self.assertEquals(route, expected_route)

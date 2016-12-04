@@ -7,6 +7,9 @@ class OutputFormatter:
 	BIN_DISPOSAL = "{0} -> bag weighing {1:.3f} kg disposed of at bin {2}.{3}"
 	BIN_OCCUPANCY_EXCEEDED = "{0} -> occupancy threshold of bin {1}.{2} exceeded"
 	BIN_OVERFLOW = "{0} -> bin {1}.{2} overflowed"
+	LORRY_DEPARTURE = "{0} -> lorry {1} left location {2}.{3}"
+	LORRY_ARRIVAL = "{0} -> lorry {1} arrived at location {2}.{3}"
+	LORRY_LOAD_CHANGES = "{0} -> load of lorry {1} became {2:.3f} kg and contents volume {3:.3f} m^3"
 
 	def __init__(self, event_dispatcher):
 		# define the main handler
@@ -61,6 +64,27 @@ class OutputFormatter:
 				time,
 				event.area_index,
 				event.data['bin_idx']
+			)
+		elif event.type == 'lorry_departure':
+			event_text = OutputFormatter.LORRY_DEPARTURE.format(
+				time,
+				event.data['lorry_idx'],
+				event.area_index,
+				event.data['location']
+			)
+		elif event.type == 'lorry_arrival':
+			event_text = OutputFormatter.LORRY_ARRIVAL.format(
+				time,
+				event.data['lorry_idx'],
+				event.area_index,
+				event.data['location']
+			)
+		elif event.type == 'lorry_load_changed':
+			event_text = OutputFormatter.LORRY_LOAD_CHANGES.format(
+				time,
+				event.data['lorry_idx'],
+				event.data['lorry_weight'],
+				event.data['lorry_volume']
 			)
 		
 		if event_text is not None:

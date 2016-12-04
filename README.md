@@ -184,3 +184,18 @@ have a class).
 	...
 ]
 ```
+
+#### Lorry
+```python
+{
+	'current_weight': 0,
+	'current_volume': 0,
+	# Whether the lorry is en route
+	'busy': False,
+	'current_route': None,
+	'route_index': 0,
+	# if a service event fires when the lorry is busy
+	#	this tells us we need to immediately reschedule
+	'need_of_reschedule': False
+}
+```

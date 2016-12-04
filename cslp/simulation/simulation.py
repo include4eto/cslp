@@ -1,5 +1,6 @@
 from .area import Area
 from copy import deepcopy
+from route_planning.dijkstra_route_planner import DijkstraRoutePlanner
 
 class Simulation:
 	LORRY_CAPACITY_WARNING = "Validation Warning: Lorry capacity is too small. Lorry might not be able to fit in a full bin."
@@ -54,7 +55,7 @@ class Simulation:
 			del area_config['areas']
 
 			# select only the roads layout that the are needs
-			self.areas.append(Area(area_config, event_dispatcher))
+			self.areas.append(Area(area_config, event_dispatcher, DijkstraRoutePlanner))
 
 	def _sanity_check(self, config):
 		"""
@@ -126,7 +127,7 @@ class Simulation:
 		"""
 
 		for area in self.areas:
-			area.init_disposal_events()
+			area.init()
 
 	
 	def run(self):

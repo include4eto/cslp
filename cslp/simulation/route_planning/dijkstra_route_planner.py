@@ -15,9 +15,9 @@ class DijkstraRoutePlanner:
 	# TODO: use
 	CACHE_ENABLED = True
 
-	def __init__(self, area_map, total_bins, lorry_capacity, threshold_val):
+	def __init__(self, area_map, total_nodes, lorry_capacity = None, threshold_val = None):
 		self.area_map = area_map
-		self.total_bins = total_bins
+		self.total_nodes = total_nodes
 		self.lorry_capacity = lorry_capacity
 		self.threshold_val = threshold_val
 		
@@ -28,7 +28,9 @@ class DijkstraRoutePlanner:
 		pass
 
 	@staticmethod
-	def _dijkstra(source, target, N, adj_list, service_target = True):
+	def _dijkstra(source, target, N, adj_list, service_target = True, flatten_route = False):
+		# TODO: service bins that need servicing that you pass through
+		
 		q = PriorityQueue()
 		# we don't visit nodes twice
 		visited = [False] * N
@@ -72,23 +74,31 @@ class DijkstraRoutePlanner:
 		i = target
 		target_path.append({
 			'target': target,
-			'service': service_target
+			'service': service_target,
+			'distance': dist[target]
 		})
-		while True:
-			i = path[i]
 
-			if i == source or i is None:
-				break
-			target_path.append({
-				'target': i,
-				'service': False
-			})
+		# we need not return the entire path
+		if not flatten_route:
+			while True:
+				i = path[i]
+
+				if i == source or i is None:
+					break
+				target_path.append({
+					'target': i,
+					'service': False
+				})
 		# NOTE: we do not append the source to the path,
 		#	since these are then concatenated
 
 		return target_path[::-1]
 
-	def get_route(self, bins):
+	# NOTE: from here: https://piazza.com/class/ishzpr235bh5ox?cid=30
+	# To save memory, you do not need to store all intermediary steps and
+	#	 output events at intermediary locations. However, this may be 
+	#	useful to you for checking that your implementation works as expected.
+	def get_route(self, bins, flatten_route=False):
 		# get only the bins that need servicing
 		bins = filter(lambda x: x['has_exceeded_occupancy'], bins)
 		
@@ -100,25 +110,22 @@ class DijkstraRoutePlanner:
 		
 		# start at the depot
 		current_location = 0
-		final_path = [{
-			'target': 0,
-			'service': False
-		}]
+		final_path = []
 		for b in bins:
 			
-			path = DijkstraRoutePlanner._dijkstra(current_location, b['idx'], self.total_bins, self.area_map)
+			path = DijkstraRoutePlanner._dijkstra(current_location, b['idx'], self.total_nodes, self.area_map, flatten_route = flatten_route)
 			current_location = b['idx']
 			
 			final_path += path
 
 		# the last part is getting to the depot
-		final_path += self.get_route_to_depot(current_location)
+		final_path += self.get_route_to_depot(current_location, flatten_route = flatten_route)
 
 		return final_path
 
-	def get_route_to_depot(self, source, include_source = False):
+	def get_route_to_depot(self, source, include_source = False, flatten_route = False):
 		# don't service the depot'
-		path = DijkstraRoutePlanner._dijkstra(source, 0, self.total_bins, self.area_map, service_target = False)
+		path = DijkstraRoutePlanner._dijkstra(source, 0, self.total_nodes, self.area_map, service_target = False, flatten_route = flatten_route)
 
 		if include_source:
 			path.insert(0, {
