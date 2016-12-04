@@ -175,3 +175,12 @@ have a class).
 	'has_exceeded_occupancy': False
 }
 ```
+
+#### Lorry paths
+```python
+[
+	{ 'target': 5, 'delay': 2, 'service': True },
+	{ 'target': 2, 'delay': 3, 'service': False },
+	...
+]
+```

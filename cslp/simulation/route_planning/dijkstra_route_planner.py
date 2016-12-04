@@ -27,7 +27,8 @@ class DijkstraRoutePlanner:
 		self.path_cache = []
 		pass
 
-	def _dijkstra(source, target, N, adj_list):
+	@staticmethod
+	def _dijkstra(source, target, N, adj_list, service_target = True):
 		q = PriorityQueue()
 		# we don't visit nodes twice
 		visited = [False] * N
@@ -39,22 +40,22 @@ class DijkstraRoutePlanner:
 
 		# the best found distance yet
 		dist = [1 << 30] * N
-		dist[0] = 0
+		dist[source] = 0
 
 		# start at the source
 		q.put((0, source))
 
 		while not q.empty():
-			current = q.get()
-			c_i = current['index']
-			c_d = current['path_length']
+			_, current = q.get()
+			c_i = current
+			c_d = dist[c_i]
 
 			if c_i == target:
 				break
 			
 			visited[c_i] = True
 
-			for neighbor in adj_list[c]:
+			for neighbor in adj_list[c_i]:
 				n_i = neighbor['index']
 				n_d = neighbor['path_length']
 				
@@ -62,47 +63,50 @@ class DijkstraRoutePlanner:
 				#	in the queue with the distance as a priority
 				if (not visited[n_i]) and (dist[c_i] + n_d < dist[n_i]):
 					dist[n_i] = dist[c_i] + n_d
-					path[n_i] = c
+					path[n_i] = c_i
 
-					q.put((dist[n_i], neighbor))
+					q.put((dist[n_i], n_i))
 
 		# backtrack to find the actual path
-		path = []
+		target_path = []
 		i = target
-		path.append({
+		target_path.append({
 			'target': target,
-			'service': True
+			'service': service_target
 		})
-		while i != source:
+		while True:
 			i = path[i]
-			path.append({
+
+			if i == source or i is None:
+				break
+			target_path.append({
 				'target': i,
 				'service': False
 			})
 		# NOTE: we do not append the source to the path,
 		#	since these are then concatenated
 
-		return dist[target]
+		return target_path[::-1]
 
-	def get_route(bins):
+	def get_route(self, bins):
 		# get only the bins that need servicing
-		bins = map(lambda x: x['has_exceeded_occupancy'], bins)
+		bins = filter(lambda x: x['has_exceeded_occupancy'], bins)
 		
 		if len(bins) == 0:
 			return False
 
 		# sort the above by occupancy
-		bins = sorted(bins, lambda x: x['current_volume'], reverse=True)
+		bins = sorted(bins, key = lambda x: x['current_volume'], reverse=True)
 		
 		# start at the depot
 		current_location = 0
 		final_path = [{
 			'target': 0,
-			'service', False
+			'service': False
 		}]
 		for b in bins:
 			
-			path = self._dijkstra(current_location, b['idx'], self.total_bins, self.area_map)
+			path = DijkstraRoutePlanner._dijkstra(current_location, b['idx'], self.total_bins, self.area_map)
 			current_location = b['idx']
 			
 			final_path += path
@@ -112,8 +116,10 @@ class DijkstraRoutePlanner:
 
 		return final_path
 
-	def get_route_to_depot(source, include_source = False):
-		path = self._dijkstra(source, 0, self.total_bins, self.area_map)
+	def get_route_to_depot(self, source, include_source = False):
+		# don't service the depot'
+		path = DijkstraRoutePlanner._dijkstra(source, 0, self.total_bins, self.area_map, service_target = False)
+
 		if include_source:
 			path.insert(0, {
 				'target': source,
