@@ -145,3 +145,33 @@ Note all tests are white box, i.e. we assume we know how the code works.
 	areaIdx 0 ...
 	...
 	```
+
+### Used objects structure
+This is useful for visualizing what objects used in the simulation look like (that don't already
+have a class).
+
+#### Road adjacency list
+```python
+'roadsLayout': [
+	[
+		{ 'index': 0, 'path_length': 0 },
+		{ 'index': 1, 'path_length': 3 },
+		{ 'index': 5, 'path_length': 4 }
+	],
+	[
+		...
+	],
+	...
+]
+```
+
+#### Single bin
+```python
+{
+	'idx': i,
+	'current_volume': 0,
+	'current_weight': 0,
+	'has_overflowed': False,
+	'has_exceeded_occupancy': False
+}
+```

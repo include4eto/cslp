@@ -62,7 +62,7 @@ class Area:
 		bin = self.bins[bin_idx]
 		
 		if bin['has_overflowed']:
-		# 	# nothing should happen if the bin overflowed
+		# nothing should happen if the bin overflowed
 			self._schedule_next_disposal(bin)
 			return
 
