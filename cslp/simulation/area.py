@@ -164,13 +164,28 @@ class Area:
 		self.event_dispatcher.add_event(
 			Event(self.event_dispatcher.now + route[0]['distance'] * 60, self.area_idx, 'lorry_arrival', {
 				'lorry_idx': 0,
-				'location': route[0]['target']
+				'location': route[0]['target'],
+				# used for statistics aggregation
+				'distance_travelled': route[0]['distance']
+			})
+		)
+
+		# emit number of overflowed bins, for statistics
+		self.event_dispatcher.add_event(
+			Event(self.event_dispatcher.now, self.area_idx, 'bins_overflowed_at_service_time', {
+				'no_bins': len(filter(lambda bin: bin['has_overflowed'], self.bins))
 			})
 		)
 
 	def _on_lorry_arrival(self, event):
 		data = event.data
 		if data['location'] == 0:
+			self.event_dispatcher.add_event(
+				Event(self.event_dispatcher.now, self.area_idx, 'trip_completed', {
+					'lorry_idx': 0
+				})
+			)
+
 			# back to depot
 			self.lorry['current_route'] = None
 			self.lorry['route_index'] = 0
@@ -215,7 +230,9 @@ class Area:
 			self.event_dispatcher.add_event(
 				Event(self.event_dispatcher.now + route[0]['distance'] * 60, self.area_idx, 'lorry_arrival', {
 					'lorry_idx': 0,
-					'location': route[0]['target']
+					'location': route[0]['target'],
+					# used for statistics aggregation
+					'distance_travelled': route[0]['distance']
 				})
 			)
 
@@ -257,7 +274,9 @@ class Area:
 		self.event_dispatcher.add_event(
 			Event(self.event_dispatcher.now + next_target['distance'] * 60, self.area_idx, 'lorry_arrival', {
 				'lorry_idx': 0,
-				'location': next_target['target']
+				'location': next_target['target'],
+				# used for statistics aggregation
+				'distance_travelled': next_target['distance']
 			})
 		)
 

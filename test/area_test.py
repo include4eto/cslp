@@ -5,6 +5,14 @@ from cslp.simulation.area import Area
 from cslp.simulation.event_dispatcher import Event, EventDispatcher
 from copy import deepcopy
 
+class DummyRoutePlanner:
+	def __init__(self, area_map, total_nodes, lorry_capacity = None, threshold_val = None):
+		pass
+	def get_route(self, bins, flatten_route=False):
+		return False
+	def get_route_to_depot(self, source, include_source = False, flatten_route = False):
+		return False
+
 class AreaTest(unittest.TestCase):
 	"""
 		Area class test. Creates a valid event dispatcher
@@ -74,8 +82,8 @@ class AreaTest(unittest.TestCase):
 		# dispatcher & test area
 		dispatcher = EventDispatcher(AreaTest.test_area_config['stopTime'],
 			AreaTest.test_area_config['noAreas'])
-		area = Area(AreaTest.test_area_config, dispatcher)
-		area.init_disposal_events()
+		area = Area(AreaTest.test_area_config, dispatcher, DummyRoutePlanner)
+		area.init()
 
 		# check the area has attached an observer
 		self.assertNotEqual(len(dispatcher.observers), 0)
@@ -88,15 +96,18 @@ class AreaTest(unittest.TestCase):
 		# dispatcher & test area
 		dispatcher = EventDispatcher(AreaTest.test_area_config['stopTime'],
 			AreaTest.test_area_config['noAreas'])
-		area = Area(AreaTest.test_area_config, dispatcher)
-		area.init_disposal_events()
+		area = Area(AreaTest.test_area_config, dispatcher, DummyRoutePlanner)
+		area.init()
+
+		new_events = [e for e in dispatcher.events if e.type == 'bin_disposal']
+		self.assertGreater(len(new_events), 0)
 
 		for e in dispatcher.events:
 			# they should all be bin disposals and the time & weight,
 			#	greater than 0
-			self.assertEqual(e.type, 'bin_disposal')
-			self.assertGreater(e.data['bag_weight'], 0)
-			self.assertGreater(e.time, 0)
+			if e.type == 'bin_disposal':
+				self.assertGreater(e.data['bag_weight'], 0)
+				self.assertGreater(e.time, 0)
 
 	def test_disposal_generation(self):
 		"""
@@ -106,8 +117,8 @@ class AreaTest(unittest.TestCase):
 		# dispatcher & test area
 		dispatcher = EventDispatcher(AreaTest.test_area_config['stopTime'],
 			AreaTest.test_area_config['noAreas'])
-		area = Area(AreaTest.test_area_config, dispatcher)
-		area.init_disposal_events()
+		area = Area(AreaTest.test_area_config, dispatcher, DummyRoutePlanner)
+		area.init()
 
 		# now execute an event
 		event = dispatcher.events[0]
@@ -116,7 +127,8 @@ class AreaTest(unittest.TestCase):
 		disposed_location = event.data['bin_idx']
 		# filter events by bin
 		new_events = [e for e in dispatcher.events if
-			e.data['bin_idx'] == disposed_location and e.type == 'bin_disposal']
+			e.type == 'bin_disposal' and e.data['bin_idx'] == disposed_location]
+		
 		self.assertEqual(len(new_events), 1)
 
 	def test_overflow(self):
@@ -131,8 +143,8 @@ class AreaTest(unittest.TestCase):
 		# dispatcher & test area
 		dispatcher = EventDispatcher(overflow_config['stopTime'],
 			overflow_config['noAreas'])
-		area = Area(overflow_config, dispatcher)
-		area.init_disposal_events()
+		area = Area(overflow_config, dispatcher, DummyRoutePlanner)
+		area.init()
 
 		# now execute an event
 		event = dispatcher.events[0]
@@ -141,7 +153,7 @@ class AreaTest(unittest.TestCase):
 		disposed_location = event.data['bin_idx']
 		# filter events by bin
 		new_events = [e for e in dispatcher.events if
-			e.data['bin_idx'] == disposed_location and e.type == 'bin_overflow']
+			e.type == 'bin_overflow' and e.data['bin_idx'] == disposed_location]
 		self.assertEqual(len(new_events), 1)
 
 	def test_occupancy_exceeded(self):
@@ -158,8 +170,8 @@ class AreaTest(unittest.TestCase):
 		# dispatcher & test area
 		dispatcher = EventDispatcher(overflow_config['stopTime'],
 			overflow_config['noAreas'])
-		area = Area(overflow_config, dispatcher)
-		area.init_disposal_events()
+		area = Area(overflow_config, dispatcher, DummyRoutePlanner)
+		area.init()
 
 		# now execute an event
 		event = dispatcher.events[0]
@@ -169,10 +181,10 @@ class AreaTest(unittest.TestCase):
 		# filter events by bin
 		# we should NOT get any overflows
 		new_events = [e for e in dispatcher.events if
-			e.data['bin_idx'] == disposed_location and e.type == 'bin_overflow']
+			e.type == 'bin_overflow' and e.data['bin_idx'] == disposed_location]
 		self.assertEqual(len(new_events), 0)
 
 		# but we should get occupancy exceeded events
 		new_events = [e for e in dispatcher.events if
-			e.data['bin_idx'] == disposed_location and e.type == 'bin_occupancy_exceeded']
+			e.type == 'bin_occupancy_exceeded' and e.data['bin_idx'] == disposed_location]
 		self.assertEqual(len(new_events), 1)
