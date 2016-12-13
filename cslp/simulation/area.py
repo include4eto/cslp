@@ -173,7 +173,7 @@ class Area:
 		# emit number of overflowed bins, for statistics
 		self.event_dispatcher.add_event(
 			Event(self.event_dispatcher.now, self.area_idx, 'bins_overflowed_at_service_time', {
-				'no_bins': len(filter(lambda bin: bin['has_overflowed'], self.bins))
+				'no_bins': len(filter(lambda bin: bin is not None and bin['has_overflowed'], self.bins))
 			})
 		)
 
