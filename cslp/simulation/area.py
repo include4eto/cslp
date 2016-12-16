@@ -190,6 +190,8 @@ class Area:
 			self.lorry['current_route'] = None
 			self.lorry['route_index'] = 0
 			self.lorry['busy'] = False
+			self.lorry['current_volume'] = 0
+			self.lorry['current_weight'] = 0
 
 			# cascaded rescheduling
 			if self.lorry['need_of_reschedule']:

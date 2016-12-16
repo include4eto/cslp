@@ -6,6 +6,7 @@ from simulation.event_dispatcher import EventDispatcher
 from simulation.simulation import Simulation
 from output_formatter import OutputFormatter
 from config import config as app_config
+from statistics.statistics_aggregator import StatisticsAggregator
 
 def print_usage():
 	print(app_config['usage'])
@@ -44,6 +45,7 @@ def start_simulation_run(config):
 
 	# create the output formatter
 	output_formatter = OutputFormatter(dispatcher)
+	statistics_aggregator = StatisticsAggregator(config, dispatcher)
 	sim.run()
 
 	while True:
@@ -52,6 +54,8 @@ def start_simulation_run(config):
 		if current_time == False:
 			# simulation end
 			break
+
+	statistics_aggregator.print_output()
 
 def run_experiments(config):
 	pass
