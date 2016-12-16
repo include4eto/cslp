@@ -40,6 +40,12 @@ class StatisticsAggregator:
 			return
 
 		if event.type == 'lorry_departure' and event.data['location'] == 0:
+			# this happens when a lorry departs, but not for the start of the
+			#	schedule, but rather for a schedule that started before,
+			#	which it didn't manage to fulfill. This is a very odd edge-case
+			if len(self.trips_per_schedule[event.area_index]) == 0:
+				return
+
 			# start of trip for the area
 			trip = {
 				'distance_travelled': 0,

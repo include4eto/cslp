@@ -133,11 +133,21 @@ class Area:
 		# finally, generate the next disposal event
 		self._schedule_next_disposal(bin)
 
-	def _on_service_time(self, event):
+	def _on_service_time(self, event, skip_service_event = False):
 		service_time = int(round(60 * 60 / self.config['serviceFreq'], 3))
-		self.event_dispatcher.add_event(
-			Event(self.event_dispatcher.now + service_time, self.area_idx, 'service_time')
-		)
+
+		if not skip_service_event:
+			self.event_dispatcher.add_event(
+				Event(self.event_dispatcher.now + service_time, self.area_idx, 'service_time')
+			)
+
+			# emit number of overflowed bins, for statistics
+			self.event_dispatcher.add_event(
+				Event(self.event_dispatcher.now, self.area_idx, 'bins_overflowed_at_service_time', {
+					'no_bins': len(filter(lambda bin: bin is not None and bin['has_overflowed'], self.bins))
+				})
+			)
+
 		if self.lorry['busy']:
 			# need to cascade this
 			self.lorry['need_of_reschedule'] = True
@@ -170,13 +180,6 @@ class Area:
 			})
 		)
 
-		# emit number of overflowed bins, for statistics
-		self.event_dispatcher.add_event(
-			Event(self.event_dispatcher.now, self.area_idx, 'bins_overflowed_at_service_time', {
-				'no_bins': len(filter(lambda bin: bin is not None and bin['has_overflowed'], self.bins))
-			})
-		)
-
 	def _on_lorry_arrival(self, event):
 		data = event.data
 		if data['location'] == 0:
@@ -196,7 +199,7 @@ class Area:
 			# cascaded rescheduling
 			if self.lorry['need_of_reschedule']:
 				self.lorry['need_of_reschedule'] = False
-				self._on_service_time(None)
+				self._on_service_time(None, skip_service_event = True)
 				
 			return
 		
