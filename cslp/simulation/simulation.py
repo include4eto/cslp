@@ -2,6 +2,7 @@ from .area import Area
 from copy import deepcopy
 from route_planning.dijkstra_route_planner import DijkstraRoutePlanner
 
+import pprint
 class Simulation:
 	LORRY_CAPACITY_WARNING = "Validation Warning: Lorry capacity is too small. Lorry might not be able to fit in a full bin."
 	LORRY_WEIGHT_ERROR = "Validation Error: Minimum bag weight is greater than lorry volume."
@@ -49,7 +50,8 @@ class Simulation:
 
 			# copy area-specific properties to its config
 			for key, val in area_config['areas'][i].items():
-				area_config[key] = val
+				if key not in area_config:
+					area_config[key] = val
 
 			# remove the overall configuration
 			del area_config['areas']

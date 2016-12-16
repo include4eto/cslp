@@ -2,11 +2,8 @@
 
 import sys
 from input_parser import *
-from simulation.event_dispatcher import EventDispatcher
-from simulation.simulation import Simulation
-from output_formatter import OutputFormatter
 from config import config as app_config
-from statistics.statistics_aggregator import StatisticsAggregator
+from experiment import Experiment
 
 def print_usage():
 	print(app_config['usage'])
@@ -16,46 +13,10 @@ def start_simulation_run(config):
 		Start the pipeline for the simulation. To be moved
 		into a more specialized Experiment class when those are supported.
 	"""
-	if len(config['experiments']):
-		# NOTE: Disable warning - not needed by specification
-		# print('Warning: Experiment detected. Experiments are not yet fully supported. Only the first value of the experiment will be used.')
-		
-		# polyfill/monkey patch to make experiments work for now
-		# 	NOTE: this will disappear in the future, it makes the application work as is now
-		for k, v in config['experiments'].items():
-			config[k] = v[0]
 
-
-	# convert stop time to seconds
-	stop_time = config['stopTime'] * 60 * 60
-	stop_time = int(stop_time)
-
-	# first create an event dispatcher
-	dispatcher = EventDispatcher(stop_time, config['noAreas'])
-
-	sim = Simulation(config, dispatcher)
-	# the simulation checks for valid configuration, see if there were any errors
-	for i in (sim.validate_errors + sim.validate_warnings):
-		print(i)
-	if sim.simulation_aborted:
-		print('Configuration validation errors occurred. Exiting...\n')
-		sys.exit(0)
-		return
+	experiment = Experiment(config)
+	experiment.run_all()
 	
-
-	# create the output formatter
-	output_formatter = OutputFormatter(dispatcher)
-	statistics_aggregator = StatisticsAggregator(config, dispatcher)
-	sim.run()
-
-	while True:
-		current_time = dispatcher.next_event()
-
-		if current_time == False:
-			# simulation end
-			break
-
-	statistics_aggregator.print_output()
 
 def run_experiments(config):
 	pass
