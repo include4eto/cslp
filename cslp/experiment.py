@@ -4,6 +4,7 @@ from output_formatter import OutputFormatter
 from config import config as app_config
 from statistics.statistics_aggregator import StatisticsAggregator
 import itertools
+import sys
 
 import pprint
 

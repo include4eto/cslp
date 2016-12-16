@@ -4,6 +4,7 @@ import sys
 from input_parser import *
 from config import config as app_config
 from experiment import Experiment
+from timeit import default_timer as timer
 
 def print_usage():
 	print(app_config['usage'])
@@ -13,10 +14,9 @@ def start_simulation_run(config):
 		Start the pipeline for the simulation. To be moved
 		into a more specialized Experiment class when those are supported.
 	"""
-
+	
 	experiment = Experiment(config)
 	experiment.run_all()
-	
 
 def run_experiments(config):
 	pass
