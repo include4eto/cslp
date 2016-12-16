@@ -84,6 +84,9 @@ class StatisticsAggregator:
 	def print_output(self):
 		print(StatisticsAggregator.DELIMITER)
 
+		# total trips per all areas
+		total_trips = 0
+
 		# trip duration
 		trip_duration_aggregate = 0
 		for i in xrange(self.no_areas):
@@ -91,8 +94,12 @@ class StatisticsAggregator:
 			avg_min, avg_sec = '00', '00'
 			if len(self.trips[i]) != 0:
 				completed_trips = filter(lambda trip: trip['end_time'] is not None, self.trips[i])
-				avg = np.mean(map(lambda trip: trip['end_time'] - trip['start_time'], completed_trips))
-				trip_duration_aggregate += avg
+
+				total_trips += len(completed_trips)
+
+				trips = map(lambda trip: trip['end_time'] - trip['start_time'], completed_trips)
+				avg = np.mean(trips)
+				trip_duration_aggregate += np.sum(trips)
 
 				avg_min, avg_sec = int(avg / 60), int(avg % 60)
 				avg_min, avg_sec = str(avg_min).zfill(2), str(avg_sec).zfill(2)
@@ -101,7 +108,9 @@ class StatisticsAggregator:
 				StatisticsAggregator.AREA_TRIP_DURATION.format(i, avg_min, avg_sec)
 			)
 
-		trip_duration_aggregate /= self.no_areas
+		if total_trips > 0:
+			trip_duration_aggregate /= float(total_trips)
+
 		avg_min, avg_sec = int(trip_duration_aggregate / 60), int(trip_duration_aggregate % 60)
 		avg_min, avg_sec = str(avg_min).zfill(2), str(avg_sec).zfill(2)
 		print(
@@ -110,33 +119,41 @@ class StatisticsAggregator:
 
 		# trips per schedule
 		total_trips_per_schedule = 0
+		total_schedules = 0
 		for i in xrange(self.no_areas):
 			avg_trips = 0
 			if len(self.trips_per_schedule[i]) != 0:
 				avg_trips = np.mean(self.trips_per_schedule[i])
+				total_trips_per_schedule += np.sum(self.trips_per_schedule[i])
 
-			total_trips_per_schedule += avg_trips
+				total_schedules += len(self.trips_per_schedule[i])
+
 			print(StatisticsAggregator.AREA_NO_TRIPS.format(i, avg_trips))
 
-		total_trips_per_schedule /= self.no_areas
+		if total_schedules > 0:
+			total_trips_per_schedule /= float(total_schedules)
 		print(StatisticsAggregator.OVERALL_NO_TRIPS.format(total_trips_per_schedule))
 
 		# efficiency
-		total_efficiency = 0
+		total_weight = 0
+		total_time = 0
 		for i in xrange(self.no_areas):
 			efficiency = 0
 
 			if len(self.trips[i]) != 0:
 				completed_trips = filter(lambda trip: trip['end_time'] is not None, self.trips[i])
-				total_weight = np.sum(map(lambda trip: trip['weight_collected'], completed_trips))
-				total_time = np.sum(map(lambda trip: trip['end_time'] - trip['start_time'], completed_trips))
+				weight = np.sum(map(lambda trip: trip['weight_collected'], completed_trips))
+				time = np.sum(map(lambda trip: trip['end_time'] - trip['start_time'], completed_trips))
 				
-				efficiency = total_weight / total_time
+				efficiency = float(weight) / float(time)
+				total_weight += weight
+				total_time += time
 
-			total_efficiency += efficiency
 			print(StatisticsAggregator.AREA_TRIP_EFFICIENCY.format(i, efficiency))
 
-		total_efficiency /= self.no_areas
+		total_efficiency = 0
+		if total_time > 0:
+			total_efficiency = float(total_weight) / float(total_time)
 		print(StatisticsAggregator.OVERALL_TRIP_EFFICIENCY.format(total_efficiency))
 
 		# volume collected
@@ -146,12 +163,15 @@ class StatisticsAggregator:
 
 			if len(self.trips[i]) != 0:
 				completed_trips = filter(lambda trip: trip['end_time'] is not None, self.trips[i])
-				vol = np.mean(map(lambda trip: trip['volume_collected'], completed_trips))
+				trips = map(lambda trip: trip['volume_collected'], completed_trips)
+				vol = np.mean(trips)
 				
-			total_vol += vol
+				total_vol += np.sum(trips)
+			
 			print(StatisticsAggregator.AREA_VOL_COLLECTED.format(i, vol))
 
-		total_vol /= self.no_areas
+		if total_trips > 0:
+			total_vol /= float(total_trips)
 		print(StatisticsAggregator.OVERALL_VOL_COLLECTED.format(total_vol))
 		
 
@@ -162,12 +182,14 @@ class StatisticsAggregator:
 
 			if len(self.overflowed_bins[i]) != 0:
 				overflowed = np.mean(self.overflowed_bins[i])
-				overflowed /= self.config['areas'][i]['noBins']
+				overflowed /= float(self.config['areas'][i]['noBins'])
 
-				print(StatisticsAggregator.AREA_PERCENTAGE_BINS_OVERFLOWED.format(i, int(overflowed * 100)))
+				total_overflowed += np.sum(self.overflowed_bins[i]) / float(self.config['areas'][i]['noBins'])
 			
-			total_overflowed += overflowed
-		total_overflowed /= self.no_areas
+			print(StatisticsAggregator.AREA_PERCENTAGE_BINS_OVERFLOWED.format(i, int(overflowed * 100)))
+			
+		if total_schedules > 0:
+			total_overflowed /= float(total_schedules)
 		print(StatisticsAggregator.OVERALL_PERCENTAGE_BINS_OVERFLOWED.format(int(total_overflowed * 100)))
 
 

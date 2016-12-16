@@ -259,7 +259,6 @@ class Area:
 		self.event_dispatcher.add_event(
 			Event(self.event_dispatcher.now, self.area_idx, 'lorry_load_changed', {
 				'lorry_idx': 0,
-				'bin_idx': bin_idx,
 				'lorry_volume': self.lorry['current_volume'],
 				'lorry_weight': self.lorry['current_weight']
 			})

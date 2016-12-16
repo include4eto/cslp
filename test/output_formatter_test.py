@@ -1,7 +1,7 @@
 #!/usr/bin/env python2.7
 import unittest
 import pprint
-from cslp.output_formatter import OutputFormatter 
+from cslp.output_formatter import OutputFormatter
 from cslp.simulation.event_dispatcher import Event, EventDispatcher
 from StringIO import StringIO
 import sys
