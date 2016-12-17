@@ -10,7 +10,9 @@ class DijkstraRoutePlanner:
 	CACHE_ENABLED = True
 	CACHE_MAX_SIZE = 30000000
 	CACHE_KEY = '{0}:{1}'
+
 	ALGORITHM = 'greedy'
+	DYNAMIC_BINS_THRESHOLD = 100
 
 	def __init__(self, area_map, total_nodes, lorry_capacity = None, threshold_val = None):
 		self.area_map = area_map
@@ -107,9 +109,6 @@ class DijkstraRoutePlanner:
 	#	 output events at intermediary locations. However, this may be 
 	#	useful to you for checking that your implementation works as expected.
 	def _get_route_greedy(self, bins, flatten_route=False):
-		# get only the bins that need servicing
-		bins = filter(lambda x: x['has_exceeded_occupancy'], bins)
-		
 		if len(bins) == 0:
 			return False
 
@@ -132,9 +131,6 @@ class DijkstraRoutePlanner:
 		return final_path
 
 	def _get_route_priority(self, bins, flatten_route=False):
-		# get only the bins that need servicing
-		bins = filter(lambda x: x['has_exceeded_occupancy'], bins)
-		
 		if len(bins) == 0:
 			return False
 
@@ -169,10 +165,22 @@ class DijkstraRoutePlanner:
 		return final_path
 
 	def get_route(self, bins, flatten_route=False):
+		# get only the bins that need servicing
+		bins = filter(lambda x: x['has_exceeded_occupancy'], bins)
+
 		if DijkstraRoutePlanner.ALGORITHM == 'greedy':
 			return self._get_route_greedy(bins, flatten_route)
-		else:
+		elif DijkstraRoutePlanner.ALGORITHM == 'priority':
 			return self._get_route_priority(bins, flatten_route)
+		elif DijkstraRoutePlanner.ALGORITHM == 'dynamic':
+			l = len(bins)
+			if l > DijkstraRoutePlanner.DYNAMIC_BINS_THRESHOLD:
+				return self._get_route_greedy(bins, flatten_route)
+			else:
+				return self._get_route_priority(bins, flatten_route)
+		else:
+			return self._get_route_greedy(bins, flatten_route)
+			
 
 	def get_route_to_depot(self, source, include_source = False, flatten_route = False):
 		# don't service the depot'

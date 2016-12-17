@@ -5,6 +5,7 @@ from input_parser import *
 from config import config as app_config
 from experiment import Experiment
 from timeit import default_timer as timer
+from simulation.route_planning.dijkstra_route_planner import DijkstraRoutePlanner
 
 def print_usage():
 	print(app_config['usage'])
