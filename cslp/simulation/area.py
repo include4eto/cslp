@@ -44,6 +44,9 @@ class Area:
 		# instantiate the injected route planner
 		self.route_planner = RoutePlanner(area_map = self.config['roadsLayout'], \
 			total_nodes = self.config['noBins'] + 1)
+		
+		# finally, attach an observer to repeat disposal events
+		self.event_dispatcher.attach_observer(self._event_handler, self.area_idx)
 
 	def reset(self, config):
 		# TODO: document
@@ -64,7 +67,7 @@ class Area:
 
 	def init(self):
 		self._init_disposal_events()
-
+		
 		# add first service interval
 		service_time = int(round(60 * 60 / self.config['serviceFreq'], 3))
 		self.event_dispatcher.add_event(
@@ -75,9 +78,6 @@ class Area:
 		for bin in self.bins:
 			if bin is not None:
 				self._schedule_next_disposal(bin)
-
-		# finally, attach an observer to repeat disposal events
-		self.event_dispatcher.attach_observer(self._event_handler, self.area_idx)
 
 	def _schedule_next_disposal(self, bin):
 		# get the time to the next disposal event, in seconds

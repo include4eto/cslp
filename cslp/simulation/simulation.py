@@ -132,8 +132,19 @@ class Simulation:
 			area.init()
 
 	def reset(self, config):
-		for area in self.areas:
-			area.reset(config)
+		for i in xrange(0, self.config['noAreas']):
+			# instantiate all areas with their respective configurations
+			area_config = deepcopy(config)
+
+			# copy area-specific properties to its config
+			for key, val in area_config['areas'][i].items():
+				if key not in area_config:
+					area_config[key] = val
+
+			# remove the overall configuration
+			del area_config['areas']
+			self.areas[i].reset(area_config)
+
 
 	def run(self):
 		# finally, start the simulation

@@ -20,6 +20,10 @@ class Experiment:
 			experiments = []
 			for k, values in config['experiments'].items():
 				experiment = []
+
+				# append to config for initialization purposes
+				self.config[k] = values[0]
+
 				for v in values:
 					experiment.append({ 'key': k, 'value': v})
 				experiments.append(experiment)
@@ -29,17 +33,21 @@ class Experiment:
 		else:
 			self.grid = None
 
+		# convert stop time to seconds
+		self.stop_time = self.config['stopTime'] * 60 * 60
+		self.stop_time = int(self.stop_time)		
+
 		# create simulation and dispatcher objects
 		# first create an event dispatcher
-		self.dispatcher = EventDispatcher(stop_time, config['noAreas'])
-		self.simulation = Simulation(self.config, dispatcher)
-		self.output_formatter = OutputFormatter(dispatcher)
-		self.statistics_aggregator = StatisticsAggregator(config, dispatcher)
+		self.dispatcher = EventDispatcher(self.stop_time, config['noAreas'])
+		self.simulation = Simulation(self.config, self.dispatcher)
+		self.output_formatter = OutputFormatter(self.dispatcher)
+		self.statistics_aggregator = StatisticsAggregator(self.config, self.dispatcher)
 
 		# the simulation checks for valid configuration, see if there were any errors
-		for i in (sim.validate_errors + sim.validate_warnings):
+		for i in (self.simulation.validate_errors + self.simulation.validate_warnings):
 			print(i)
-		if sim.simulation_aborted:
+		if self.simulation.simulation_aborted:
 			print('Configuration validation errors occurred. Exiting...\n')
 			return False
 
@@ -66,13 +74,8 @@ class Experiment:
 
 
 	def _run_experiment(self, config, enable_verbose = False):
-		# convert stop time to seconds
-		stop_time = config['stopTime'] * 60 * 60
-		stop_time = int(stop_time)		
-
 		# create the output formatter, if we need verbose output
 		self.output_formatter.enabled = enable_verbose
-
 
 		self.dispatcher.reset()
 		self.simulation.reset(config)
@@ -80,7 +83,7 @@ class Experiment:
 		self.simulation.run()
 
 		while True:
-			current_time = dispatcher.next_event()
+			current_time = self.dispatcher.next_event()
 
 			if current_time == False:
 				# simulation end

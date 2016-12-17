@@ -22,7 +22,7 @@ class StatisticsAggregator:
 		# define the main handler
 		# 	attach to *all* areas
 		event_dispatcher.attach_observer(self._on_event, None)
-		self.reset(config, event_dispatcher)
+		self.reset(config)
 
 	def _on_event(self, event):
 		if event.time <= self.warm_up_time:

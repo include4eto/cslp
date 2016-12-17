@@ -34,6 +34,7 @@ class EventDispatcher:
 
 	def reset(self):
 		self.events = []
+		self.now = 0
 
 	def attach_observer(self, observer, area_idx = None):
 		"""

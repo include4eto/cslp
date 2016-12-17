@@ -5,7 +5,9 @@ from input_parser import *
 from config import config as app_config
 from experiment import Experiment
 from timeit import default_timer as timer
+import numpy as np
 
+np.random.seed(0)
 def print_usage():
 	print(app_config['usage'])
 
