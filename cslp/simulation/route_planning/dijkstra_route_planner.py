@@ -7,15 +7,10 @@ from Queue import PriorityQueue
 # 	- caching?
 
 class DijkstraRoutePlanner:
-	# Factor governining greediness. Pick up bins that haven't overflowed
-	# 	or exceeded threshold capacity, but are above this much of the
-	# 	original threshold
-	# TODO: use
-	THRESHOLD_NON_OVERFLOWING = 0.5
-	# TODO: use
 	CACHE_ENABLED = True
 	CACHE_MAX_SIZE = 30000000
 	CACHE_KEY = '{0}:{1}'
+	ALGORITHM = 'greedy'
 
 	def __init__(self, area_map, total_nodes, lorry_capacity = None, threshold_val = None):
 		self.area_map = area_map
@@ -111,7 +106,7 @@ class DijkstraRoutePlanner:
 	# To save memory, you do not need to store all intermediary steps and
 	#	 output events at intermediary locations. However, this may be 
 	#	useful to you for checking that your implementation works as expected.
-	def get_route(self, bins, flatten_route=False):
+	def _get_route_greedy(self, bins, flatten_route=False):
 		# get only the bins that need servicing
 		bins = filter(lambda x: x['has_exceeded_occupancy'], bins)
 		
@@ -135,6 +130,49 @@ class DijkstraRoutePlanner:
 		final_path += self.get_route_to_depot(current_location, flatten_route = flatten_route)
 
 		return final_path
+
+	def _get_route_priority(self, bins, flatten_route=False):
+		# get only the bins that need servicing
+		bins = filter(lambda x: x['has_exceeded_occupancy'], bins)
+		
+		if len(bins) == 0:
+			return False
+
+		# start at the depot
+		current_location = 0
+		final_path = []
+
+		# while there are bins to service
+		while len(bins) != 0:
+			# find the closest bin that needs servicing
+			bin_paths = []
+			for b_2 in bins:
+				path = self._dijkstra(current_location, b_2['idx'], self.total_nodes, self.area_map, flatten_route = flatten_route)
+				bin_paths.append((path[-1]['distance'], b_2['idx'], path))
+
+			# sort the paths
+			bin_paths = sorted(bin_paths, key = lambda x: x[0])
+
+			# take the smallest
+			target_path = bin_paths[0]
+			bins = filter(lambda bin: bin['idx'] != target_path[1], bins)
+
+			# and service it
+			path = target_path[2]
+			current_location = target_path[1]
+			
+			final_path += path
+
+		# the last part is getting to the depot
+		final_path += self.get_route_to_depot(current_location, flatten_route = flatten_route)
+
+		return final_path
+
+	def get_route(self, bins, flatten_route=False):
+		if DijkstraRoutePlanner.ALGORITHM == 'greedy':
+			return self._get_route_greedy(bins, flatten_route)
+		else:
+			return self._get_route_priority(bins, flatten_route)
 
 	def get_route_to_depot(self, source, include_source = False, flatten_route = False):
 		# don't service the depot'
