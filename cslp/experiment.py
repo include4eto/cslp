@@ -89,4 +89,4 @@ class Experiment:
 				# simulation end
 				break
 		
-		self.statistics_aggregator.print_output()
+		# self.statistics_aggregator.print_output()

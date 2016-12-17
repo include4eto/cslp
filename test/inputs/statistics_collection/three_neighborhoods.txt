@@ -14,7 +14,7 @@ bagWeightMax 8
 binServiceTime 130
 
 # 3 bags disposed each hour
-disposalDistrRate experiment 3.0 4 5 6
+disposalDistrRate experiment 3.0
 disposalDistrShape 2
 
 noAreas 1
