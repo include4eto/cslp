@@ -15,6 +15,7 @@ class OutputFormatter:
 		# define the main handler
 		# 	attach to *all* areas
 		event_dispatcher.attach_observer(self._on_event, None)
+		self.enabled = True
 
 	def _format_time(self, time):
 		days = int(time / 86400)
@@ -34,6 +35,9 @@ class OutputFormatter:
 		)
 
 	def _on_event(self, event):
+		if not self.enabled:
+			return
+		
 		event_text = None
 		time = self._format_time(event.time)
 
@@ -89,3 +93,4 @@ class OutputFormatter:
 		
 		if event_text is not None:
 			print(event_text)
+		

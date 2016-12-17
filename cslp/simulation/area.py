@@ -45,6 +45,23 @@ class Area:
 		self.route_planner = RoutePlanner(area_map = self.config['roadsLayout'], \
 			total_nodes = self.config['noBins'] + 1)
 
+	def reset(self, config):
+		# TODO: document
+		self.config = config
+
+		for bin in self.bins[1:]:
+			bin['current_volume'] = 0
+			bin['current_weight'] = 0
+			bin['has_overflowed'] = False
+			bin['has_exceeded_occupancy'] = False
+
+		self.lorry['current_weight'] = 0
+		self.lorry['current_volume'] = 0
+		self.lorry['route_index'] = 0
+		self.lorry['busy'] = False
+		self.lorry['current_route'] = None
+		self.lorry['need_of_reschedule'] = False
+
 	def init(self):
 		self._init_disposal_events()
 

@@ -29,6 +29,20 @@ class Experiment:
 		else:
 			self.grid = None
 
+		# create simulation and dispatcher objects
+		# first create an event dispatcher
+		self.dispatcher = EventDispatcher(stop_time, config['noAreas'])
+		self.simulation = Simulation(self.config, dispatcher)
+		self.output_formatter = OutputFormatter(dispatcher)
+		self.statistics_aggregator = StatisticsAggregator(config, dispatcher)
+
+		# the simulation checks for valid configuration, see if there were any errors
+		for i in (sim.validate_errors + sim.validate_warnings):
+			print(i)
+		if sim.simulation_aborted:
+			print('Configuration validation errors occurred. Exiting...\n')
+			return False
+
 	def run_all(self):
 		if self.grid is None:
 			# this means no experiments, enable verbose output and run the one simulation
@@ -52,30 +66,17 @@ class Experiment:
 
 
 	def _run_experiment(self, config, enable_verbose = False):
-
 		# convert stop time to seconds
 		stop_time = config['stopTime'] * 60 * 60
-		stop_time = int(stop_time)
-
-		# first create an event dispatcher
-		dispatcher = EventDispatcher(stop_time, config['noAreas'])
-
-		sim = Simulation(config, dispatcher)
-		# the simulation checks for valid configuration, see if there were any errors
-		for i in (sim.validate_errors + sim.validate_warnings):
-			print(i)
-		if sim.simulation_aborted:
-			print('Configuration validation errors occurred. Exiting...\n')
-			sys.exit(0)
-			return
-		
+		stop_time = int(stop_time)		
 
 		# create the output formatter, if we need verbose output
-		if enable_verbose:
-			output_formatter = OutputFormatter(dispatcher)
-		
-		statistics_aggregator = StatisticsAggregator(config, dispatcher)
-		sim.run()
+		self.output_formatter.enabled = enable_verbose
+
+		self.dispatcher.reset()
+		self.simulation.reset(config)
+		self.statistics_aggregator.reset(config)
+		self.simulation.run()
 
 		while True:
 			current_time = dispatcher.next_event()
@@ -83,4 +84,5 @@ class Experiment:
 			if current_time == False:
 				# simulation end
 				break
-		statistics_aggregator.print_output()
+		
+		self.statistics_aggregator.print_output()

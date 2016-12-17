@@ -131,7 +131,10 @@ class Simulation:
 		for area in self.areas:
 			area.init()
 
-	
+	def reset(self, config):
+		for area in self.areas:
+			area.reset(config)
+
 	def run(self):
 		# finally, start the simulation
 		self._init_initial_events()

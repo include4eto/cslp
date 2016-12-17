@@ -22,18 +22,7 @@ class StatisticsAggregator:
 		# define the main handler
 		# 	attach to *all* areas
 		event_dispatcher.attach_observer(self._on_event, None)
-		self.config = config
-		self.no_areas = config['noAreas']
-		self.warm_up_time = config['warmUpTime'] * 60 * 60
-
-		self.trips = [[] for x in range(self.no_areas)]
-		self.trips_per_schedule = [[] for x in range(self.no_areas)]
-		self.overflowed_bins = [[] for x in range(self.no_areas)]
-
-		# need this if warm up time hasn't passed. in that case
-		#	we could still get a trip event, but the trip will have
-		# 	started before the warm up time and should not be accounted for here
-		self.current_trip = [None] * self.no_areas
+		self.reset(config, event_dispatcher)
 
 	def _on_event(self, event):
 		if event.time <= self.warm_up_time:
@@ -86,6 +75,20 @@ class StatisticsAggregator:
 
 		elif event.type == 'bins_overflowed_at_service_time':
 			self.overflowed_bins[event.area_index].append(event.data['no_bins'])
+	
+	def reset(self, config):
+		self.config = config
+		self.no_areas = config['noAreas']
+		self.warm_up_time = config['warmUpTime'] * 60 * 60
+
+		self.trips = [[] for x in range(self.no_areas)]
+		self.trips_per_schedule = [[] for x in range(self.no_areas)]
+		self.overflowed_bins = [[] for x in range(self.no_areas)]
+
+		# need this if warm up time hasn't passed. in that case
+		#	we could still get a trip event, but the trip will have
+		# 	started before the warm up time and should not be accounted for here
+		self.current_trip = [None] * self.no_areas
 
 	def print_output(self):
 		print(StatisticsAggregator.DELIMITER)

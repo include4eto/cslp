@@ -32,6 +32,9 @@ class EventDispatcher:
 
 		pass
 
+	def reset(self):
+		self.events = []
+
 	def attach_observer(self, observer, area_idx = None):
 		"""
 			Attaches an observer to the given area, or
