@@ -1,0 +1,39 @@
+# Sample file with one big cluster of bins
+#	connected to each other.
+
+# vol / cubic meters
+lorryVolume 20
+lorryMaxLoad 7000
+
+binVolume 2
+bagVolume 0.05
+bagWeightMin 2
+bagWeightMax 8
+
+# Time required to empty a bin (in seconds)
+binServiceTime 130
+
+# 3 bags disposed each hour
+disposalDistrRate experiment 3.0 4 5 6
+disposalDistrShape 2
+
+noAreas 1
+# service daily (1/24 per hour)
+areaIdx 0 serviceFreq 0.0416666667 thresholdVal 0.8 noBins 9
+roadsLayout
+#  0  1  2  3  4  5  6  7  8  9
+   0  3 -1 -1 -1 -1 -1 -1 -1  5
+   3  0  5 -1 -1 -1 -1 -1 -1 -1
+  -1 -1  0  7 -1 -1 -1 -1 -1 -1
+  13  8  7  0  3 -1  6 -1 -1 15
+  -1 -1 -1 -1  0  3 -1 -1 -1 -1
+  -1 -1 -1 10 -1  0  1  5 -1 -1
+  -1 -1 -1 -1 -1 -1  0  8 -1 -1
+  -1 -1 -1 -1 -1 -1  6  0 12 -1
+   9 -1 -1 -1 -1 -1 -1 -1  0 10
+   5  1 -1 -1 -1 -1 -1 -1 -1  0
+# simulate for a wekk
+stopTime 168.0
+
+# less than a day of warmup
+warmUpTime 20

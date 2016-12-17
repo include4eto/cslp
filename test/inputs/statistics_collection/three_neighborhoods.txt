@@ -1,0 +1,48 @@
+# Sample file with three distinct neighborhoods,
+#	connected to each other.
+
+# vol / cubic meters
+lorryVolume 20
+lorryMaxLoad 7000
+
+binVolume 2
+bagVolume 0.05
+bagWeightMin 2
+bagWeightMax 8
+
+# Time required to empty a bin (in seconds)
+binServiceTime 130
+
+# 3 bags disposed each hour
+disposalDistrRate experiment 3.0 4 5 6
+disposalDistrShape 2
+
+noAreas 1
+
+# service daily (1/24 per hour)
+areaIdx 0 serviceFreq 0.0416666667 thresholdVal 0.8 noBins 14
+roadsLayout
+# 0    1   2   3   4   5   6   7   8   9  10  11  12  13  14
+# first neighborhood 
+  0   10   5  -1  -1  30  -1  -1  -1  -1  -1  -1  -1  -1  -1
+  10   0  -1   3  -1  -1  -1  -1  -1  -1  -1  -1  -1  -1  -1
+  -1   4   0  -1  -1  -1  -1  -1  -1  -1  -1  -1  -1  -1  -1
+  -1   3  -1   0   2  -1  -1  -1  -1  -1  -1  -1  -1  -1  -1
+  -1   4  -1  -1   0  -1  -1  -1  -1  -1  -1  -1  -1  -1  -1
+# second neighbordhood (link via 0 and 5)
+  30  -1  -1  -1  -1   0   5  -1  -1  -1  45  -1  -1  -1  -1
+  -1  -1  -1  -1  -1   7   0   2  -1  -1  -1  -1  -1  -1  -1
+  -1  -1  -1  -1  -1  -1   2   0  -1   3  -1  -1  -1  -1  -1
+  -1  -1  -1  -1  -1  -1   3  -1   0  -1  -1  -1  -1  -1  -1
+  -1  -1  -1  -1  -1  -1  -1  -1   3   0  -1  -1  -1  -1  -1
+# third neighborhood (link via 5 and 10)
+  -1  -1  -1  -1  -1  45  -1  -1  -1  -1   0   2  -1  -1   5
+  -1  -1  -1  -1  -1  -1  -1  -1  -1  -1   2   0   3  -1  -1
+  -1  -1  -1  -1  -1  -1  -1  -1  -1  -1   7  -1   0   8  -1
+  -1  -1  -1  -1  -1  -1  -1  -1  -1  -1  10  -1  -1   0  -1
+  -1  -1  -1  -1  -1  -1  -1  -1  -1  -1   5  -1  -1  -1   0
+# simulate for a wekk
+stopTime 168.0
+
+# less than a day of warmup
+warmUpTime 20

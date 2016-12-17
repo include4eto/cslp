@@ -100,15 +100,16 @@ class StatisticsAggregator:
 			avg_min, avg_sec = '00', '00'
 			if len(self.trips[i]) != 0:
 				completed_trips = filter(lambda trip: trip['end_time'] is not None, self.trips[i])
+				
+				if len(completed_trips) != 0:
+					total_trips += len(completed_trips)
 
-				total_trips += len(completed_trips)
+					trips = map(lambda trip: trip['end_time'] - trip['start_time'], completed_trips)
+					avg = np.mean(trips)
+					trip_duration_aggregate += np.sum(trips)
 
-				trips = map(lambda trip: trip['end_time'] - trip['start_time'], completed_trips)
-				avg = np.mean(trips)
-				trip_duration_aggregate += np.sum(trips)
-
-				avg_min, avg_sec = int(avg / 60), int(avg % 60)
-				avg_min, avg_sec = str(avg_min).zfill(2), str(avg_sec).zfill(2)
+					avg_min, avg_sec = int(avg / 60), int(avg % 60)
+					avg_min, avg_sec = str(avg_min).zfill(2), str(avg_sec).zfill(2)
 
 			print(
 				StatisticsAggregator.AREA_TRIP_DURATION.format(i, avg_min, avg_sec)
@@ -148,12 +149,14 @@ class StatisticsAggregator:
 
 			if len(self.trips[i]) != 0:
 				completed_trips = filter(lambda trip: trip['end_time'] is not None, self.trips[i])
-				weight = np.sum(map(lambda trip: trip['weight_collected'], completed_trips))
-				time = np.sum(map(lambda trip: trip['end_time'] - trip['start_time'], completed_trips))
-				
-				efficiency = float(weight) / float(time)
-				total_weight += weight
-				total_time += time
+
+				if len(completed_trips) != 0:
+					weight = np.sum(map(lambda trip: trip['weight_collected'], completed_trips))
+					time = np.sum(map(lambda trip: trip['end_time'] - trip['start_time'], completed_trips))
+					
+					efficiency = float(weight) / float(time)
+					total_weight += weight
+					total_time += time
 
 			print(StatisticsAggregator.AREA_TRIP_EFFICIENCY.format(i, efficiency))
 
@@ -169,10 +172,12 @@ class StatisticsAggregator:
 
 			if len(self.trips[i]) != 0:
 				completed_trips = filter(lambda trip: trip['end_time'] is not None, self.trips[i])
-				trips = map(lambda trip: trip['volume_collected'], completed_trips)
-				vol = np.mean(trips)
 				
-				total_vol += np.sum(trips)
+				if len(completed_trips) != 0:
+					trips = map(lambda trip: trip['volume_collected'], completed_trips)
+					vol = np.mean(trips)
+					
+					total_vol += np.sum(trips)
 			
 			print(StatisticsAggregator.AREA_VOL_COLLECTED.format(i, vol))
 
