@@ -37,7 +37,6 @@ class StatisticsAggregator:
 
 			# start of trip for the area
 			trip = {
-				'distance_travelled': 0,
 				'weight_collected': 0,
 				'volume_collected': 0,
 				'start_time': event.time,
@@ -53,8 +52,6 @@ class StatisticsAggregator:
 			trip = self.current_trip[event.area_index]
 			if trip is None:
 				return
-			
-			trip['distance_travelled'] += event.data['distance_travelled']
 
 			if event.data['location'] == 0:
 				# end of trip

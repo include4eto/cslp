@@ -35,7 +35,7 @@ class StatisticsAggregatorTest(unittest.TestCase):
 			Event(time = 1, area_index = 0, type = 'lorry_departure', data = { 'lorry_idx': 0, 'location': 0 }),
 			
 			# arrival at bin 1
-			Event(time = 2, area_index = 0, type = 'lorry_arrival', data = { 'lorry_idx': 0, 'location': 1, 'distance_travelled': 5 }),
+			Event(time = 2, area_index = 0, type = 'lorry_arrival', data = { 'lorry_idx': 0, 'location': 1 }),
 			
 			# empty the bin after 1 second
 			Event(time = 3, area_index = 0, type = 'lorry_load_changed', data = {
@@ -49,7 +49,7 @@ class StatisticsAggregatorTest(unittest.TestCase):
 			Event(time = 3, area_index = 0, type = 'lorry_departure', data = { 'lorry_idx': 0, 'location': 1 }),
 
 			# arrive at 0
-			Event(time = 4, area_index = 0, type = 'lorry_arrival', data = { 'lorry_idx': 0, 'location': 0, 'distance_travelled': 5 }),
+			Event(time = 4, area_index = 0, type = 'lorry_arrival', data = { 'lorry_idx': 0, 'location': 0 }),
 			Event(time = 4, area_index = 0, type = 'lorry_load_changed', data = {
 				'lorry_id': 0,
 				'bin_idx': 0,

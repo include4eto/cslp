@@ -3,6 +3,8 @@ from .event_dispatcher import Event
 import numpy as np
 
 class Area:
+	LORRY_SERVICE_TIME_MODIFIER = 5
+
 	def __init__(self, config, event_dispatcher, RoutePlanner):
 		# di is the dependency injector, we use it to
 		#	use the event dispatcher and the like
@@ -191,11 +193,31 @@ class Area:
 		self.event_dispatcher.add_event(
 			Event(self.event_dispatcher.now + route[0]['distance'] * 60, self.area_idx, 'lorry_arrival', {
 				'lorry_idx': 0,
-				'location': route[0]['target'],
-				# used for statistics aggregation
-				'distance_travelled': route[0]['distance']
+				'location': route[0]['target']
 			})
 		)
+
+	def _on_lorry_available(self, event):
+		# the lorry has now been emptied and is free
+		self.lorry['current_route'] = None
+		self.lorry['route_index'] = 0
+		self.lorry['busy'] = False
+		self.lorry['current_volume'] = 0
+		self.lorry['current_weight'] = 0
+
+		self.event_dispatcher.add_event(
+			Event(self.event_dispatcher.now, self.area_idx, 'lorry_load_changed', {
+				'lorry_idx': 0,
+				'lorry_volume': 0,
+				'lorry_weight': 0
+			})
+		)
+
+		# cascaded rescheduling
+		if self.lorry['need_of_reschedule']:
+			self.lorry['need_of_reschedule'] = False
+			self._on_service_time(None, skip_service_event = True)
+			
 
 	def _on_lorry_arrival(self, event):
 		data = event.data
@@ -206,20 +228,27 @@ class Area:
 				})
 			)
 
-			# back to depot
-			self.lorry['current_route'] = None
-			self.lorry['route_index'] = 0
-			self.lorry['busy'] = False
-			self.lorry['current_volume'] = 0
-			self.lorry['current_weight'] = 0
-
-			# cascaded rescheduling
-			if self.lorry['need_of_reschedule']:
-				self.lorry['need_of_reschedule'] = False
-				self._on_service_time(None, skip_service_event = True)
-				
+			# When at depot we will consider the time required to empty a lorry is also fixed
+			#	and this is five times as long as the bin service time.
+			self.event_dispatcher.add_event(
+				Event(self.event_dispatcher.now + Area.LORRY_SERVICE_TIME_MODIFIER * self.config['binServiceTime'],
+					self.area_idx, 'lorry_available', {
+					'lorry_idx': 0
+				})
+			)
 			return
 		
+		bin_idx = data['location']
+		bin = self.bins[bin_idx]
+
+		# if we can't empty the current bin, we go to the depot
+		if (self.config['lorryVolume'] < self.lorry['current_volume'] + bin['current_volume'] / 2.0) or \
+			self.config['lorryMaxLoad'] < self.lorry['current_weight'] + bin['current_weight']:
+			self._reschedule_trip_to_depot(bin_idx)
+
+			return
+		
+
 		# NOTE: We empty the bin after the `binServiceTime`, if any bags are thrown in in the meantime,
 		#	they are also collected
 		self.event_dispatcher.add_event(
@@ -229,40 +258,43 @@ class Area:
 			})
 		)
 
+	def _reschedule_trip_to_depot(self, bin_idx):
+		# schedule a trip to the depot immediately and flag for reschedule
+		self.lorry['need_of_reschedule'] = True
+		route = self.route_planner.get_route_to_depot(bin_idx, flatten_route = True)
+		self.lorry['current_route'] = route
+		self.lorry['route_index'] = 0
+		self.event_dispatcher.add_event(
+			Event(self.event_dispatcher.now, self.area_idx, 'lorry_departure', {
+				'lorry_idx': 0,
+				'location': bin_idx
+			})
+		)
+		self.event_dispatcher.add_event(
+			Event(self.event_dispatcher.now + route[0]['distance'] * 60, self.area_idx, 'lorry_arrival', {
+				'lorry_idx': 0,
+				'location': route[0]['target']
+			})
+		)
+
 	def _on_bin_emptied(self, event):
 		data = event.data
 
 		bin_idx = data['location']
 		bin = self.bins[bin_idx]
 		
+		# NOTE: This solves an edge case where a bag is disposed of while
+		#	the lorry is emptying the bin and that causes the lorry not to be
+		#	able to service the bin.
 		# NOTE (from specs): upon service a lorry compresses the contents of a bin to half its original volume
-		if (self.config['lorryVolume'] < self.lorry['current_volume'] + bin['current_volume'] / 2) or \
+		if (self.config['lorryVolume'] < self.lorry['current_volume'] + bin['current_volume'] / 2.0) or \
 			self.config['lorryMaxLoad'] < self.lorry['current_weight'] + bin['current_weight']:
-			# schedule a trip to the depot immediately and flag for reschedule
-			self.lorry['need_of_reschedule'] = True
-			route = self.route_planner.get_route_to_depot(bin_idx, flatten_route = True)
-			self.lorry['current_route'] = route
-			self.lorry['route_index'] = 0
-			self.event_dispatcher.add_event(
-				Event(self.event_dispatcher.now, self.area_idx, 'lorry_departure', {
-					'lorry_idx': 0,
-					'location': bin_idx
-				})
-			)
-			self.event_dispatcher.add_event(
-				Event(self.event_dispatcher.now + route[0]['distance'] * 60, self.area_idx, 'lorry_arrival', {
-					'lorry_idx': 0,
-					'location': route[0]['target'],
-					# used for statistics aggregation
-					'distance_travelled': route[0]['distance']
-				})
-			)
-
+			self._reschedule_trip_to_depot(bin_idx)
 
 			return
 			
 		# otherwise proceed with emptying the bin
-		self.lorry['current_volume'] += bin['current_volume'] / 2
+		self.lorry['current_volume'] += bin['current_volume'] / 2.0
 		self.lorry['current_weight'] += bin['current_weight']
 		bin['current_volume'] = 0
 		bin['current_weight'] = 0
@@ -295,9 +327,7 @@ class Area:
 		self.event_dispatcher.add_event(
 			Event(self.event_dispatcher.now + next_target['distance'] * 60, self.area_idx, 'lorry_arrival', {
 				'lorry_idx': 0,
-				'location': next_target['target'],
-				# used for statistics aggregation
-				'distance_travelled': next_target['distance']
+				'location': next_target['target']
 			})
 		)
 
@@ -310,3 +340,5 @@ class Area:
 			self._on_lorry_arrival(event)
 		elif event.type == 'bin_emptied':
 			self._on_bin_emptied(event)
+		elif event.type == 'lorry_available':
+			self._on_lorry_available(event)
