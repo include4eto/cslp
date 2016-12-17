@@ -73,6 +73,7 @@ class Experiment:
 		# create the output formatter, if we need verbose output
 		self.output_formatter.enabled = enable_verbose
 
+
 		self.dispatcher.reset()
 		self.simulation.reset(config)
 		self.statistics_aggregator.reset(config)
