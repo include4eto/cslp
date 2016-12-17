@@ -43,33 +43,27 @@ class AreaTest(unittest.TestCase):
 		'areaIdx': 0,
 		'roadsLayout': [
 			[
-				{ 'index': 0, 'path_length': 0 },
 				{ 'index': 1, 'path_length': 3 },
 				{ 'index': 5, 'path_length': 4 }
 			],
 			[
 				{ 'index': 0, 'path_length': 3 },
-				{ 'index': 1, 'path_length': 0 },
 				{ 'index': 2, 'path_length': 5 }
 			],
 			[
-				{ 'index': 2, 'path_length': 0 },
 				{ 'index': 3, 'path_length': 2 },	
 			],
 			[
-				{ 'index': 3, 'path_length': 0 },
 				{ 'index': 4, 'path_length': 2 },
 				{ 'index': 5, 'path_length': 2 },	
 			],
 			[
 				{ 'index': 1, 'path_length': 1 },
-				{ 'index': 4, 'path_length': 0 }
 			],
 			[
 				{ 'index': 0, 'path_length': 4 },
 				{ 'index': 3, 'path_length': 2 },
 				{ 'index': 4, 'path_length': 4 },
-				{ 'index': 5, 'path_length': 0 },
 			]
 		]
 	}

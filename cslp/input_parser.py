@@ -192,7 +192,7 @@ class InputParser:
 					self.parse_errors.append(InputParser.CONVERSION_ERROR.format(lineNo + current_bin, 'roadsLayout'))
 					return False
 
-				if path_length != -1:
+				if path_length != -1 and current_bin != idx:
 					adj_list_bin.append({
 						'index': idx,
 						'path_length': path_length

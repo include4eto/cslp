@@ -14,9 +14,13 @@ def start_simulation_run(config):
 		Start the pipeline for the simulation. To be moved
 		into a more specialized Experiment class when those are supported.
 	"""
+	start_time = timer()
 	
 	experiment = Experiment(config)
 	experiment.run_all()
+
+	end_time = timer()
+	print(end_time - start_time)
 
 def run_experiments(config):
 	pass
