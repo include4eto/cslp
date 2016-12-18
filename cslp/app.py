@@ -69,8 +69,6 @@ if __name__ == '__main__':
 	DijkstraRoutePlanner.CACHE_MAX_SIZE = args.cache_size
 	DijkstraRoutePlanner.DYNAMIC_BINS_THRESHOLD = args.dynamic_threshold
 
-	print(args)
-
 	# create the parser
 	parser = InputParser(file_path)
 	result = parser.parse()

@@ -154,6 +154,7 @@ class StatisticsAggregator:
 					weight = np.sum(map(lambda trip: trip['weight_collected'], completed_trips))
 					time = np.sum(map(lambda trip: trip['end_time'] - trip['start_time'], completed_trips))
 					
+					time = float(time) / 60
 					efficiency = float(weight) / float(time)
 					total_weight += weight
 					total_time += time
