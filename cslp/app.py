@@ -11,14 +11,14 @@ from timeit import default_timer as timer
 from simulation.route_planning.dijkstra_route_planner import DijkstraRoutePlanner
 
 
-def start_simulation_run(config, disable_output):
+def start_simulation_run(config, disable_output, disable_statistics = False):
 	"""
 		Start the pipeline for the simulation.
 	"""
 	
 	# create the experiment with the specified configuration.
 	#	It handles the rest.
-	experiment_manager = ExperimentManager(config, disable_output=disable_output)
+	experiment_manager = ExperimentManager(config, disable_output=disable_output, disable_statistics=disable_statistics)
 	if experiment_manager.validation_errors:
 		return
 	experiment_manager.run_all()
@@ -57,6 +57,11 @@ if __name__ == '__main__':
 	# time benchmark (useful for external statistics)
 	parser.add_argument('-b', '--benchmark',
 		help='Benchmark the algorithm\s run time',
+		action='store_true'
+	)
+
+	parser.add_argument('-o', '--benchmark-only',
+		help='Only output the runtime of the application',
 		action='store_true'
 	)
 
@@ -101,9 +106,10 @@ if __name__ == '__main__':
 
 	# start the simulation here
 	try:
-		if args.disable_output:
+		if args.disable_output and not args.benchmark_only:
 			print('Detailed output disabled by user')
-		start_simulation_run(parser.config, args.disable_output)
+		start_simulation_run(parser.config, args.disable_output or args.benchmark_only,
+			args.benchmark_only)
 	except KeyboardInterrupt:
 		print('\nApplication terminated by user.')
 
@@ -112,4 +118,7 @@ if __name__ == '__main__':
 		end_time = timer()
 		runtime = end_time - start_time
 
-		print('Total application runtime: {0} seconds'.format(runtime))
+		if args.benchmark_only:	
+			print(runtime)
+		else:
+			print('Total application runtime: {0} seconds'.format(runtime))

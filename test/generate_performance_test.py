@@ -4,8 +4,7 @@
 import random
 import sys
 
-no_bins = 65535
-no_bins = 300
+no_bins = 50
 
 for y in range(no_bins):
 	r = []

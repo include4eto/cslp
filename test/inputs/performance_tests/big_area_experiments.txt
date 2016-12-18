@@ -9,7 +9,7 @@ binServiceTime 130
 # Bin volume (cubic metres)
 binVolume 2
 # Rate of the Erlang distribution of the disposal events (avg. no. per hour)
-disposalDistrRate experiment 2 3 4
+disposalDistrRate experiment 2.0 3 5 10
 # Shape of the Erlang distribution
 disposalDistrShape 2
 # Bag volume (cubic metres)
