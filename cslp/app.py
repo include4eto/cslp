@@ -54,6 +54,12 @@ if __name__ == '__main__':
 		action='store_true'
 	)
 
+	parser.add_argument('-dt', '--dynamic-threshold',
+		help='Dynamic algorithm threshold',
+		type=int,
+		default=app_defaults['DYNAMIC_THRESHOLD']
+	)
+
 	args = parser.parse_args()
 
 	file_path = args.file_name
@@ -61,6 +67,9 @@ if __name__ == '__main__':
 	DijkstraRoutePlanner.ALGORITHM = args.algorithm
 	DijkstraRoutePlanner.CACHE_ENABLED = not args.disable_cache
 	DijkstraRoutePlanner.CACHE_MAX_SIZE = args.cache_size
+	DijkstraRoutePlanner.DYNAMIC_BINS_THRESHOLD = args.dynamic_threshold
+
+	print(args)
 
 	# create the parser
 	parser = InputParser(file_path)

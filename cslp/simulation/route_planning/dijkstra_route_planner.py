@@ -8,7 +8,7 @@ from Queue import PriorityQueue
 
 class DijkstraRoutePlanner:
 	CACHE_ENABLED = True
-	CACHE_MAX_SIZE = 30000000
+	CACHE_MAX_SIZE = 100000
 	CACHE_KEY = '{0}:{1}'
 
 	DYNAMIC_BINS_THRESHOLD = 100

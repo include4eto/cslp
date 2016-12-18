@@ -32,7 +32,8 @@ Allowed configuration parameters are:
 }
 
 defaults = {
-	'CACHE_SIZE': 30000000,
+	'CACHE_SIZE': 100000,
 	'ALGORITHM': 'dynamic',
-	'CACHE_STATE': True
+	'CACHE_STATE': True,
+	'DYNAMIC_THRESHOLD': 100
 }
