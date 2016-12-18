@@ -1,8 +1,12 @@
 config = {
-	'usage': """Usage: cslp <input_file_name> [OPTIONS]
-
+	'usage': """
 Run a stochastic simulation of bin disposals in one or multiple areas given
 simulation parameters. See the enclosed README.MD file for more details.
+
+Algorithms:
+	greedy - Select the bins with more garbage first
+	priority - Select the closest bins first (userful for clusters or neighborhoods)
+	dynamic - Select one of greedy | priority based on the number of bins.
 
 Allowed configuration parameters are:
 	lorryVolume - Total waste volume a lorry can accommodate (cubic metres) 
@@ -25,4 +29,10 @@ Allowed configuration parameters are:
 	stopTime - Simulation duration (hours)
 	warmUpTime - Warm-up time (hours) allowed before collecting statistics
 	"""
+}
+
+defaults = {
+	'CACHE_SIZE': 30000000,
+	'ALGORITHM': 'dynamic',
+	'CACHE_STATE': True
 }

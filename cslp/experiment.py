@@ -11,8 +11,9 @@ import pprint
 class Experiment:
 	EXPERIMENT_HEADER = "Experiment #{0}: {1}"
 
-	def __init__(self, config):
+	def __init__(self, config, disable_output=False):
 		self.config = config
+		self.disable_output = disable_output
 
 		# make a grid of all experimentation configurations
 		if len(config['experiments']):
@@ -54,7 +55,7 @@ class Experiment:
 	def run_all(self):
 		if self.grid is None:
 			# this means no experiments, enable verbose output and run the one simulation
-			self._run_experiment(self.config, enable_verbose = True)
+			self._run_experiment(self.config, enable_verbose = not self.disable_output)
 		else:
 			count = 1
 			# run all experimentations
