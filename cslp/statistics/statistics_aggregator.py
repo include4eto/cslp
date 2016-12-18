@@ -15,8 +15,8 @@ class StatisticsAggregator:
 	AREA_VOL_COLLECTED = "area {0}: average volume collected {1:.3f}"
 	OVERALL_VOL_COLLECTED = "overall average volume collected {0:.3f}"
 
-	AREA_PERCENTAGE_BINS_OVERFLOWED = "area {0}: percentage of bins overflowed {1}"
-	OVERALL_PERCENTAGE_BINS_OVERFLOWED = "overall percentage of bins overflowed {0}"
+	AREA_PERCENTAGE_BINS_OVERFLOWED = "area {0}: percentage of bins overflowed {1:.3f}"
+	OVERALL_PERCENTAGE_BINS_OVERFLOWED = "overall percentage of bins overflowed {0:.3f}"
 
 	def __init__(self, config, event_dispatcher):
 		# define the main handler

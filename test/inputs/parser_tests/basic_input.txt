@@ -17,9 +17,9 @@ bagWeightMin 2
 # Maximum expected weight
 bagWeightMax 8
 # Number of service areas
+noAreas 1
 # For area 0, service performed once every 16 hours (i.e. 0.0625 trips per hour)
 # Bins serviced if occupancy is more or equal 75% and there are 5 bins in this area
-noAreas 1
 areaIdx 0 serviceFreq 0.0625 thresholdVal 0.75 noBins 5
 # Road layout and distances between bin locations (in minutes)
 roadsLayout
