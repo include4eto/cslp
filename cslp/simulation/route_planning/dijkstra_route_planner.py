@@ -11,8 +11,13 @@ class DijkstraRoutePlanner:
 	CACHE_MAX_SIZE = 30000000
 	CACHE_KEY = '{0}:{1}'
 
-	ALGORITHM = 'greedy'
 	DYNAMIC_BINS_THRESHOLD = 100
+
+	ALGORITHM_GREEDY = 'greedy'
+	ALGORITHM_PRIORITY = 'priority'
+	ALGORITHM_DYNAMIC = 'dynamic'
+
+	ALGORITHM = 'dynamic'
 
 	def __init__(self, area_map, total_nodes, lorry_capacity = None, threshold_val = None):
 		self.area_map = area_map
@@ -168,11 +173,11 @@ class DijkstraRoutePlanner:
 		# get only the bins that need servicing
 		bins = filter(lambda x: x['has_exceeded_occupancy'], bins)
 
-		if DijkstraRoutePlanner.ALGORITHM == 'greedy':
+		if DijkstraRoutePlanner.ALGORITHM == DijkstraRoutePlanner.ALGORITHM_GREEDY:
 			return self._get_route_greedy(bins, flatten_route)
-		elif DijkstraRoutePlanner.ALGORITHM == 'priority':
+		elif DijkstraRoutePlanner.ALGORITHM == DijkstraRoutePlanner.ALGORITHM_PRIORITY:
 			return self._get_route_priority(bins, flatten_route)
-		elif DijkstraRoutePlanner.ALGORITHM == 'dynamic':
+		elif DijkstraRoutePlanner.ALGORITHM == DijkstraRoutePlanner.ALGORITHM_DYNAMIC:
 			l = len(bins)
 			if l > DijkstraRoutePlanner.DYNAMIC_BINS_THRESHOLD:
 				return self._get_route_greedy(bins, flatten_route)
