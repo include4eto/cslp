@@ -50,11 +50,11 @@ class StatisticsAggregatorTest(unittest.TestCase):
 
 			# arrive at 0
 			Event(time = 4, area_index = 0, type = 'lorry_arrival', data = { 'lorry_idx': 0, 'location': 0 }),
-			Event(time = 4, area_index = 0, type = 'lorry_load_changed', data = {
+			Event(time = 20, area_index = 0, type = 'lorry_load_changed', data = {
 				'lorry_id': 0,
 				'bin_idx': 0,
-				'lorry_volume': 5,
-				'lorry_weight': 6
+				'lorry_volume': 0,
+				'lorry_weight': 0
 			}),
 		]
 
@@ -78,17 +78,17 @@ class StatisticsAggregatorTest(unittest.TestCase):
 			"area 1: average no. trips 0.000\n" +
 			"overall average no. trips 0.500\n" +
 			
-			"area 0: trip efficiency 2.000\n" +
+			"area 0: trip efficiency 120.000\n" +
 			"area 1: trip efficiency 0.000\n" +
-			"overall trip efficiency 2.000\n" +
+			"overall trip efficiency 120.000\n" +
 			
 			"area 0: average volume collected 5.000\n" +
 			"area 1: average volume collected 0.000\n" +
 			"overall average volume collected 5.000\n" +
 			
-			"area 0: percentage of bins overflowed 33\n" +
-			"area 1: percentage of bins overflowed 0\n" +
-			"overall percentage of bins overflowed 16\n" +
+			"area 0: percentage of bins overflowed 33.000\n" +
+			"area 1: percentage of bins overflowed 0.000\n" +
+			"overall percentage of bins overflowed 16.000\n" +
 			
 			"---\n"
 		)

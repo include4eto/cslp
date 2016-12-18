@@ -10,7 +10,7 @@ class DijkstraRoutePlannerTest(unittest.TestCase):
 		DijkstraRoutePlanner.ALGORITHM = DijkstraRoutePlanner.ALGORITHM_GREEDY
 		# Graph:
 		roadsLayout = [
-			# bin 0
+			# depot
 			[
 				{ 'index': 1, 'path_length': 1 },
 				{ 'index': 2, 'path_length': 5 },
@@ -55,7 +55,7 @@ class DijkstraRoutePlannerTest(unittest.TestCase):
 			},
 		]
 
-		planner = DijkstraRoutePlanner(roadsLayout, 4, 30, 0.75)
+		planner = DijkstraRoutePlanner(roadsLayout, 4)
 		route = planner.get_route(bins, flatten_route=False)
 
 		expected_route = [
@@ -128,7 +128,7 @@ class DijkstraRoutePlannerTest(unittest.TestCase):
 			},
 		]
 
-		planner = DijkstraRoutePlanner(roadsLayout, 4, 30, 0.75)
+		planner = DijkstraRoutePlanner(roadsLayout, 4)
 		route = planner.get_route(bins, flatten_route=False)
 
 		# the priority algorithm should choose the closest path first

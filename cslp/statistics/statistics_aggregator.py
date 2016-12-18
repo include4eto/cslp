@@ -19,6 +19,8 @@ class StatisticsAggregator:
 	OVERALL_PERCENTAGE_BINS_OVERFLOWED = "overall percentage of bins overflowed {0:.3f}"
 
 	def __init__(self, config, event_dispatcher):
+		"""Collects and outputs various statistics"""
+
 		# define the main handler
 		# 	attach to *all* areas
 		event_dispatcher.attach_observer(self._on_event, None)
@@ -29,8 +31,8 @@ class StatisticsAggregator:
 			return
 
 		if event.type == 'lorry_departure' and event.data['location'] == 0:
-			# this happens when a lorry departs, but not for the start of the
-			#	schedule, but rather for a schedule that started before,
+			# this happens when a lorry departs, but not for the current
+			#	schedule, but rather for a schedule that started before warmUpTime,
 			#	which it didn't manage to fulfill. This is a very odd edge-case
 			if len(self.trips_per_schedule[event.area_index]) == 0:
 				return
@@ -50,6 +52,7 @@ class StatisticsAggregator:
 
 		elif event.type == 'lorry_arrival':
 			trip = self.current_trip[event.area_index]
+			# this can happen is the trip started before the warm up time
 			if trip is None:
 				return
 
@@ -60,6 +63,8 @@ class StatisticsAggregator:
 
 		elif event.type == 'lorry_load_changed':
 			trip = self.current_trip[event.area_index]
+			# again, dont' record anything about trips that started before
+			#	warmuptime
 			if trip is None:
 				return
 
@@ -104,10 +109,15 @@ class StatisticsAggregator:
 				if len(completed_trips) != 0:
 					total_trips += len(completed_trips)
 
+					# get the total duration
 					trips = map(lambda trip: trip['end_time'] - trip['start_time'], completed_trips)
+					# take the mean duration
 					avg = np.mean(trips)
+
+					# add the sum to the total duration
 					trip_duration_aggregate += np.sum(trips)
 
+					# split into minutes: seconds
 					avg_min, avg_sec = int(avg / 60), int(avg % 60)
 					avg_min, avg_sec = str(avg_min).zfill(2), str(avg_sec).zfill(2)
 
@@ -115,9 +125,11 @@ class StatisticsAggregator:
 				StatisticsAggregator.AREA_TRIP_DURATION.format(i, avg_min, avg_sec)
 			)
 
+		# sometimes there are no trips, so don't divide by 0
 		if total_trips > 0:
 			trip_duration_aggregate /= float(total_trips)
 
+		# convert the total into minutes/seconds
 		avg_min, avg_sec = int(trip_duration_aggregate / 60), int(trip_duration_aggregate % 60)
 		avg_min, avg_sec = str(avg_min).zfill(2), str(avg_sec).zfill(2)
 		print(
@@ -130,9 +142,12 @@ class StatisticsAggregator:
 		for i in xrange(self.no_areas):
 			avg_trips = 0
 			if len(self.trips_per_schedule[i]) != 0:
+				# get the mean trips per schedule
 				avg_trips = np.mean(self.trips_per_schedule[i])
-				total_trips_per_schedule += np.sum(self.trips_per_schedule[i])
 
+				# add the total number for the are to the grand total
+				total_trips_per_schedule += np.sum(self.trips_per_schedule[i])
+				# but also update the grand total number of schedules
 				total_schedules += len(self.trips_per_schedule[i])
 
 			print(StatisticsAggregator.AREA_NO_TRIPS.format(i, avg_trips))
@@ -142,20 +157,28 @@ class StatisticsAggregator:
 		print(StatisticsAggregator.OVERALL_NO_TRIPS.format(total_trips_per_schedule))
 
 		# efficiency
+		# 	defined as weight/min
 		total_weight = 0
 		total_time = 0
 		for i in xrange(self.no_areas):
 			efficiency = 0
 
 			if len(self.trips[i]) != 0:
+				# only use the completed trips
 				completed_trips = filter(lambda trip: trip['end_time'] is not None, self.trips[i])
 
 				if len(completed_trips) != 0:
+					# get the total weight
 					weight = np.sum(map(lambda trip: trip['weight_collected'], completed_trips))
-					time = np.sum(map(lambda trip: trip['end_time'] - trip['start_time'], completed_trips))
 					
+					# and the total time
+					time = np.sum(map(lambda trip: trip['end_time'] - trip['start_time'], completed_trips))
+					# in minutes
 					time = float(time) / 60
+
 					efficiency = float(weight) / float(time)
+
+					# add to the grand total
 					total_weight += weight
 					total_time += time
 
@@ -167,6 +190,7 @@ class StatisticsAggregator:
 		print(StatisticsAggregator.OVERALL_TRIP_EFFICIENCY.format(total_efficiency))
 
 		# volume collected
+		# 	defined as vol/<number of trips>
 		total_vol = 0
 		for i in xrange(self.no_areas):
 			vol = 0
@@ -175,6 +199,7 @@ class StatisticsAggregator:
 				completed_trips = filter(lambda trip: trip['end_time'] is not None, self.trips[i])
 				
 				if len(completed_trips) != 0:
+					# calculate total volume
 					trips = map(lambda trip: trip['volume_collected'], completed_trips)
 					vol = np.mean(trips)
 					
@@ -183,6 +208,7 @@ class StatisticsAggregator:
 			print(StatisticsAggregator.AREA_VOL_COLLECTED.format(i, vol))
 
 		if total_trips > 0:
+			# we already know 
 			total_vol /= float(total_trips)
 		print(StatisticsAggregator.OVERALL_VOL_COLLECTED.format(total_vol))
 		
@@ -193,6 +219,7 @@ class StatisticsAggregator:
 			overflowed = 0
 
 			if len(self.overflowed_bins[i]) != 0:
+				# this is just the mean divided by the number of schedules
 				overflowed = np.mean(self.overflowed_bins[i])
 				overflowed /= float(self.config['areas'][i]['noBins'])
 
@@ -201,6 +228,7 @@ class StatisticsAggregator:
 			print(StatisticsAggregator.AREA_PERCENTAGE_BINS_OVERFLOWED.format(i, int(overflowed * 100)))
 			
 		if total_schedules > 0:
+			# grand total
 			total_overflowed /= float(total_schedules)
 		print(StatisticsAggregator.OVERALL_PERCENTAGE_BINS_OVERFLOWED.format(int(total_overflowed * 100)))
 

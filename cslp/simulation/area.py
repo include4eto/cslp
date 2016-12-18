@@ -51,15 +51,17 @@ class Area:
 		self.event_dispatcher.attach_observer(self._event_handler, self.area_idx)
 
 	def reset(self, config):
-		# TODO: document
+		"""Resets the area so to start a new simulation"""
 		self.config = config
 
+		# reset all contents of bins to 0
 		for bin in self.bins[1:]:
 			bin['current_volume'] = 0
 			bin['current_weight'] = 0
 			bin['has_overflowed'] = False
 			bin['has_exceeded_occupancy'] = False
 
+		# reset lorry
 		self.lorry['current_weight'] = 0
 		self.lorry['current_volume'] = 0
 		self.lorry['route_index'] = 0
@@ -153,8 +155,11 @@ class Area:
 		self._schedule_next_disposal(bin)
 
 	def _on_service_time(self, event, skip_service_event = False):
+		# schedule next service time
 		service_time = int(round(60 * 60 / self.config['serviceFreq'], 3))
 
+		# on service time is also called when the bin needs to be
+		#	immediately recheduled. In this case skip the event
 		if not skip_service_event:
 			self.event_dispatcher.add_event(
 				Event(self.event_dispatcher.now + service_time, self.area_idx, 'service_time')
@@ -250,7 +255,7 @@ class Area:
 		
 
 		# NOTE: We empty the bin after the `binServiceTime`, if any bags are thrown in in the meantime,
-		#	they are also collected
+		#	the entire bin is not to be collected (see NOTE in _on_bin_emptied below)
 		self.event_dispatcher.add_event(
 			Event(self.event_dispatcher.now + self.config['binServiceTime'], self.area_idx, 'bin_emptied', {
 				'lorry_idx': 0,
@@ -264,6 +269,8 @@ class Area:
 		route = self.route_planner.get_route_to_depot(bin_idx, flatten_route = True)
 		self.lorry['current_route'] = route
 		self.lorry['route_index'] = 0
+
+		# departure/arrival events
 		self.event_dispatcher.add_event(
 			Event(self.event_dispatcher.now, self.area_idx, 'lorry_departure', {
 				'lorry_idx': 0,
@@ -301,6 +308,7 @@ class Area:
 		bin['has_exceeded_occupancy'] = False
 		bin['has_overflowed'] = False
 
+		# emit all needed events
 		self.event_dispatcher.add_event(
 			Event(self.event_dispatcher.now, self.area_idx, 'bin_load_changed', {
 				'bin_idx': bin_idx,

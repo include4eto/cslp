@@ -33,6 +33,7 @@ class EventDispatcher:
 		pass
 
 	def reset(self):
+		"""Resets the dispatcher for a new simulation run."""
 		self.events = []
 		self.now = 0
 

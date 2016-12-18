@@ -147,5 +147,8 @@ class Simulation:
 
 
 	def run(self):
+		if self.simulation_aborted:
+			return
+		
 		# finally, start the simulation
 		self._init_initial_events()

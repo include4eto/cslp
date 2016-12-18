@@ -1,42 +1,54 @@
 import numpy as np
 from Queue import PriorityQueue
 
-# TODO:
-#  Possible configuration
-# 	- greedy coeficient -> pick up bins that don't need servicing
-# 	- caching?
-
 class DijkstraRoutePlanner:
+	"""
+		Route planner using Dijkstra. Selects the shortest route
+		between two bins until the entire route has been computed.
+	"""
+
+
 	CACHE_ENABLED = True
+	"""Whether to cache previously computed route."""
+
 	CACHE_MAX_SIZE = 100000
+	"""Maxmimum number of cached routes"""
+	
 	CACHE_KEY = '{0}:{1}'
-
+	"""Cache key - source:target"""
+	
 	DYNAMIC_BINS_THRESHOLD = 100
+	"""Changes algorithms from the priority/slow to the greedy/fast when more than this number are to be serviced"""
 
+	# names of algorithms/enum
 	ALGORITHM_GREEDY = 'greedy'
 	ALGORITHM_PRIORITY = 'priority'
 	ALGORITHM_DYNAMIC = 'dynamic'
 
 	ALGORITHM = 'dynamic'
+	"""Algorithm to use, from the above"""
 
-	def __init__(self, area_map, total_nodes, lorry_capacity = None, threshold_val = None):
+	def __init__(self, area_map, total_nodes):
 		self.area_map = area_map
+		"""The map of the are"""
+
 		self.total_nodes = total_nodes
-		self.lorry_capacity = lorry_capacity
-		self.threshold_val = threshold_val
+		"""The total number of nodes including the depot"""
 		
-		# path cache between sources
-		#	path_cache[i] contains all routes from [i] to 
-		#	path_cache[i]['target']
+		# path cache between source:target
+		#	contains every computed path
 		self.path_cache = {}
 		pass
 
 	def _dijkstra(self, source, target, N, adj_list, service_target = True, flatten_route = False):
-		# TODO: service bins that need servicing that you pass through
+		# look in cache to see if the route already has been computed
 		if flatten_route and DijkstraRoutePlanner.CACHE_ENABLED:
 			cache_key = DijkstraRoutePlanner.CACHE_KEY.format(source, target)
 			if cache_key in self.path_cache:
+				# in this case simply return the path
 				return self.path_cache[cache_key]
+
+		# Standard Dijkstra algorithm below
 
 		q = PriorityQueue()
 		# we don't visit nodes twice
@@ -85,7 +97,7 @@ class DijkstraRoutePlanner:
 			'distance': dist[target]
 		})
 
-		# we need not return the entire path
+		# we need not return the entire path if we flatten the route
 		if not flatten_route:
 			while True:
 				i = path[i]
@@ -96,14 +108,15 @@ class DijkstraRoutePlanner:
 					'target': i,
 					'service': False
 				})
-		# NOTE: we do not append the source to the path,
-		#	since these are then concatenated
 
+		# NOTE: we do not append the source to the path
 		target_path = target_path[::-1]
 
+		# If caching is enabled, we need to add the route to the cache
 		if flatten_route and DijkstraRoutePlanner.CACHE_ENABLED:
 			cache_size = len(self.path_cache)
 			
+			# only add when not exceeding the cache limit
 			if cache_size <= DijkstraRoutePlanner.CACHE_MAX_SIZE:
 				self.path_cache[cache_key] = target_path
 
@@ -114,17 +127,19 @@ class DijkstraRoutePlanner:
 	#	 output events at intermediary locations. However, this may be 
 	#	useful to you for checking that your implementation works as expected.
 	def _get_route_greedy(self, bins, flatten_route=False):
+		# This version prioritizes bins that have more occupancy
+
 		if len(bins) == 0:
 			return False
 
-		# sort the above by occupancy
+		# sort the bins by occupancy (volume)
 		bins = sorted(bins, key = lambda x: x['current_volume'], reverse=True)
 		
 		# start at the depot
 		current_location = 0
 		final_path = []
 		for b in bins:
-			
+			# find the route to the bin from the current location
 			path = self._dijkstra(current_location, b['idx'], self.total_nodes, self.area_map, flatten_route = flatten_route)
 			current_location = b['idx']
 			
@@ -138,6 +153,14 @@ class DijkstraRoutePlanner:
 	def _get_route_priority(self, bins, flatten_route=False):
 		if len(bins) == 0:
 			return False
+		
+		# This version prioritizes bins closer to each other
+		# 	and to the depot
+		# NOTE: not the fastest version of this, but with enough cached
+		#	routes, the difference is negligible
+		# Technically it can be done with one Dijkstra, but if we run it once,
+		#	*all* subsequent runs from the same point will be cached, hence
+		#	making it just as fasted (amortised).
 
 		# start at the depot
 		current_location = 0
@@ -145,8 +168,10 @@ class DijkstraRoutePlanner:
 
 		# while there are bins to service
 		while len(bins) != 0:
-			# find the closest bin that needs servicing
+			# find the closest bin that needs servicing, from the current location
 			bin_paths = []
+
+			# for all the bins, compute the path to the current bin
 			for b_2 in bins:
 				path = self._dijkstra(current_location, b_2['idx'], self.total_nodes, self.area_map, flatten_route = flatten_route)
 				bin_paths.append((path[-1]['distance'], b_2['idx'], path))
@@ -173,12 +198,14 @@ class DijkstraRoutePlanner:
 		# get only the bins that need servicing
 		bins = filter(lambda x: x['has_exceeded_occupancy'], bins)
 
+		# choose appropriate algorithm
 		if DijkstraRoutePlanner.ALGORITHM == DijkstraRoutePlanner.ALGORITHM_GREEDY:
 			return self._get_route_greedy(bins, flatten_route)
 		elif DijkstraRoutePlanner.ALGORITHM == DijkstraRoutePlanner.ALGORITHM_PRIORITY:
 			return self._get_route_priority(bins, flatten_route)
 		elif DijkstraRoutePlanner.ALGORITHM == DijkstraRoutePlanner.ALGORITHM_DYNAMIC:
 			l = len(bins)
+			# if the threshold is reached, choose the greedy, but faster (marginally) algorithm
 			if l > DijkstraRoutePlanner.DYNAMIC_BINS_THRESHOLD:
 				return self._get_route_greedy(bins, flatten_route)
 			else:
@@ -188,7 +215,9 @@ class DijkstraRoutePlanner:
 			
 
 	def get_route_to_depot(self, source, include_source = False, flatten_route = False):
-		# don't service the depot'
+		"""Returns a route to the depot from the given location."""
+		
+		# don't service the depot
 		path = self._dijkstra(source, 0, self.total_nodes, self.area_map, service_target = False, flatten_route = flatten_route)
 
 		if include_source:
