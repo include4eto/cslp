@@ -50,6 +50,9 @@ class Area:
 		# finally, attach an observer to repeat disposal events
 		self.event_dispatcher.attach_observer(self._event_handler, self.area_idx)
 
+		self.ylims = ''
+		self.last_disposal = 0
+
 	def reset(self, config):
 		"""Resets the area so to start a new simulation"""
 		self.config = config
@@ -155,6 +158,9 @@ class Area:
 		self._schedule_next_disposal(bin)
 
 	def _on_service_time(self, event, skip_service_event = False):
+		if self.ylims is not None:
+			self.ylims += 'line([{0} {0}], ylim);\n'.format(event.time, event.time)
+
 		# schedule next service time
 		service_time = int(round(60 * 60 / self.config['serviceFreq'], 3))
 
@@ -340,6 +346,21 @@ class Area:
 		)
 
 	def _event_handler(self, event):
+
+		if event.time > 603800:
+			if self.ylims is not None:
+				print(self.ylims)
+				self.ylims = None
+		else:
+			if event.time - self.last_disposal >= 10:
+				self.last_disposal = event.time	
+				weights = map(lambda bin: bin['current_volume'], self.bins[1:])
+				
+				average_occupancy = np.mean(weights)
+				print('[{0} {1}]'.format(event.time, average_occupancy))
+
+
+
 		if event.type == 'bin_disposal':
 			self._on_bin_disposal(event)
 		elif event.type == 'service_time':
