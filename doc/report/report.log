@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.17 (TeX Live 2016/Arch Linux) (preloaded format=pdflatex 2016.11.21)  19 DEC 2016 13:28
+This is pdfTeX, Version 3.14159265-2.6-1.40.17 (TeX Live 2016/Arch Linux) (preloaded format=pdflatex 2016.11.21)  19 DEC 2016 14:53
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -170,6 +170,20 @@ Package: float 2001/11/08 v1.3d Float enhancements (AL)
 \@float@everytoks=\toks21
 \@floatcapt=\box29
 )
+(/usr/share/texmf-dist/tex/latex/footmisc/footmisc.sty
+Package: footmisc 2011/06/06 v5.5b a miscellany of footnote facilities
+\FN@temptoken=\toks22
+\footnotemargin=\dimen121
+\c@pp@next@reset=\count104
+Package footmisc Info: Declaring symbol style bringhurst on input line 855.
+Package footmisc Info: Declaring symbol style chicago on input line 863.
+Package footmisc Info: Declaring symbol style wiley on input line 872.
+Package footmisc Info: Declaring symbol style lamport-robust on input line 883.
+
+Package footmisc Info: Declaring symbol style lamport* on input line 903.
+Package footmisc Info: Declaring symbol style lamport*-robust on input line 924
+.
+)
 (/usr/share/texmf-dist/tex/latex/geometry/geometry.sty
 Package: geometry 2010/09/12 v5.6 Page Geometry
 
@@ -183,59 +197,50 @@ Package ifvtex Info: VTeX not detected.
 (/usr/share/texmf-dist/tex/generic/ifxetex/ifxetex.sty
 Package: ifxetex 2010/09/12 v0.6 Provides ifxetex conditional
 )
-\Gm@cnth=\count104
-\Gm@cntv=\count105
-\c@Gm@tempcnt=\count106
-\Gm@bindingoffset=\dimen121
-\Gm@wd@mp=\dimen122
-\Gm@odd@mp=\dimen123
-\Gm@even@mp=\dimen124
-\Gm@layoutwidth=\dimen125
-\Gm@layoutheight=\dimen126
-\Gm@layouthoffset=\dimen127
-\Gm@layoutvoffset=\dimen128
-\Gm@dimlist=\toks22
-) (./report.aux
-
-LaTeX Warning: Label `fig:fig4' multiply defined.
-
-
-LaTeX Warning: Label `fig:fig4' multiply defined.
-
-
-LaTeX Warning: Label `fig:fig4' multiply defined.
-
-)
+\Gm@cnth=\count105
+\Gm@cntv=\count106
+\c@Gm@tempcnt=\count107
+\Gm@bindingoffset=\dimen122
+\Gm@wd@mp=\dimen123
+\Gm@odd@mp=\dimen124
+\Gm@even@mp=\dimen125
+\Gm@layoutwidth=\dimen126
+\Gm@layoutheight=\dimen127
+\Gm@layouthoffset=\dimen128
+\Gm@layoutvoffset=\dimen129
+\Gm@dimlist=\toks23
+) (./report.aux)
 \openout1 = `report.aux'.
 
-LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 18.
-LaTeX Font Info:    ... okay on input line 18.
-LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 18.
-LaTeX Font Info:    ... okay on input line 18.
-LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 18.
-LaTeX Font Info:    ... okay on input line 18.
-LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 18.
-LaTeX Font Info:    ... okay on input line 18.
-LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 18.
-LaTeX Font Info:    ... okay on input line 18.
-LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 18.
-LaTeX Font Info:    ... okay on input line 18.
+LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 19.
+LaTeX Font Info:    ... okay on input line 19.
+LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 19.
+LaTeX Font Info:    ... okay on input line 19.
+LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 19.
+LaTeX Font Info:    ... okay on input line 19.
+LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 19.
+LaTeX Font Info:    ... okay on input line 19.
+LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 19.
+LaTeX Font Info:    ... okay on input line 19.
+LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 19.
+LaTeX Font Info:    ... okay on input line 19.
 Package caption Info: Begin \AtBeginDocument code.
 Package caption Info: float package is loaded.
 Package caption Info: End \AtBeginDocument code.
- (/usr/share/texmf-dist/tex/context/base/mkii/supp-pdf.mkii
+
+(/usr/share/texmf-dist/tex/context/base/mkii/supp-pdf.mkii
 [Loading MPS to PDF converter (version 2006.09.02).]
-\scratchcounter=\count107
-\scratchdimen=\dimen129
+\scratchcounter=\count108
+\scratchdimen=\dimen130
 \scratchbox=\box30
-\nofMPsegments=\count108
-\nofMParguments=\count109
-\everyMPshowfont=\toks23
-\MPscratchCnt=\count110
-\MPscratchDim=\dimen130
-\MPnumerator=\count111
-\makeMPintoPDFobject=\count112
-\everyMPtoPDFconversion=\toks24
+\nofMPsegments=\count109
+\nofMParguments=\count110
+\everyMPshowfont=\toks24
+\MPscratchCnt=\count111
+\MPscratchDim=\dimen131
+\MPnumerator=\count112
+\makeMPintoPDFobject=\count113
+\everyMPtoPDFconversion=\toks25
 ) (/usr/share/texmf-dist/tex/generic/oberdiek/pdftexcmds.sty
 Package: pdftexcmds 2016/05/21 v0.22 Utility functions of pdfTeX for LuaTeX (HO
 )
@@ -316,14 +321,14 @@ e
 * \@reversemarginfalse
 * (1in=72.27pt=25.4mm, 1cm=28.453pt)
 
-LaTeX Font Info:    Try loading font information for OML+cmr on input line 19.
+LaTeX Font Info:    Try loading font information for OML+cmr on input line 20.
 (/usr/share/texmf-dist/tex/latex/base/omlcmr.fd
 File: omlcmr.fd 2014/09/29 v2.5h Standard LaTeX font definitions
 )
 LaTeX Font Info:    Font shape `OML/cmr/m/n' in size <12> not available
-(Font)              Font shape `OML/cmm/m/it' tried instead on input line 19.
+(Font)              Font shape `OML/cmm/m/it' tried instead on input line 20.
 
-Underfull \hbox (badness 10000) in paragraph at lines 25--32
+Underfull \hbox (badness 10000) in paragraph at lines 26--33
 
  []
 
@@ -331,10 +336,10 @@ Underfull \hbox (badness 10000) in paragraph at lines 25--32
 File: resources/architecture.png Graphic file (type png)
 
 <use resources/architecture.png>
-Package pdftex.def Info: resources/architecture.png used on input line 35.
+Package pdftex.def Info: resources/architecture.png used on input line 36.
 (pdftex.def)             Requested size: 433.62166pt x 316.33298pt.
 
-Underfull \hbox (badness 10000) in paragraph at lines 41--49
+Underfull \hbox (badness 10000) in paragraph at lines 42--50
 
  []
 
@@ -342,7 +347,7 @@ Underfull \hbox (badness 10000) in paragraph at lines 41--49
 
 {/var/lib/texmf/fonts/map/pdftex/updmap/pdftex.map} <./resources/architecture.p
 ng>]
-Underfull \hbox (badness 10000) in paragraph at lines 52--60
+Underfull \hbox (badness 10000) in paragraph at lines 53--61
 
  []
 
@@ -350,7 +355,7 @@ Underfull \hbox (badness 10000) in paragraph at lines 52--60
 File: resources/start_sequence.png Graphic file (type png)
 
 <use resources/start_sequence.png>
-Package pdftex.def Info: resources/start_sequence.png used on input line 63.
+Package pdftex.def Info: resources/start_sequence.png used on input line 64.
 (pdftex.def)             Requested size: 542.02501pt x 297.18192pt.
  [2 <./resources/start_sequence.png>]
 <resources/caching_performance.jpg, id=21, 578.16pt x 433.62pt>
@@ -358,66 +363,94 @@ File: resources/caching_performance.jpg Graphic file (type jpg)
 
 <use resources/caching_performance.jpg>
 Package pdftex.def Info: resources/caching_performance.jpg used on input line 8
-7.
-(pdftex.def)             Requested size: 433.62166pt x 325.2142pt.
+8.
+(pdftex.def)             Requested size: 298.1154pt x 223.58476pt.
 
 <resources/cache_size.jpg, id=22, 578.16pt x 433.62pt>
 File: resources/cache_size.jpg Graphic file (type jpg)
 
 <use resources/cache_size.jpg>
-Package pdftex.def Info: resources/cache_size.jpg used on input line 100.
-(pdftex.def)             Requested size: 433.62166pt x 325.2142pt.
- [3 <./resources/caching_performance.jpg>]
-<resources/occupancy_three_neighborhoods.jpg, id=29, 578.16pt x 433.62pt>
-File: resources/occupancy_three_neighborhoods.jpg Graphic file (type jpg)
+Package pdftex.def Info: resources/cache_size.jpg used on input line 101.
+(pdftex.def)             Requested size: 298.1154pt x 223.58476pt.
 
-<use resources/occupancy_three_neighborhoods.jpg>
-Package pdftex.def Info: resources/occupancy_three_neighborhoods.jpg used on in
-put line 110.
-(pdftex.def)             Requested size: 433.62166pt x 325.2142pt.
- [4 <./resources/cache_size.jpg>] <resources/three_neighborhoods.png, id=33, 48
-1.8pt x 481.8pt>
+Underfull \hbox (badness 10000) in paragraph at lines 110--121
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 110--121
+
+ []
+
+[3 <./resources/caching_performance.jpg> <./resources/cache_size.jpg>]
+<resources/three_neighborhoods.png, id=29, 481.8pt x 481.8pt>
 File: resources/three_neighborhoods.png Graphic file (type png)
 
 <use resources/three_neighborhoods.png>
 Package pdftex.def Info: resources/three_neighborhoods.png used on input line 1
-18.
-(pdftex.def)             Requested size: 433.62166pt x 433.63069pt.
+25.
+(pdftex.def)             Requested size: 271.0125pt x 271.01918pt.
 
-<resources/big_cluster.png, id=34, 481.8pt x 481.8pt>
+<resources/big_cluster.png, id=30, 481.8pt x 481.8pt>
 File: resources/big_cluster.png Graphic file (type png)
 
 <use resources/big_cluster.png>
-Package pdftex.def Info: resources/big_cluster.png used on input line 124.
-(pdftex.def)             Requested size: 433.62166pt x 433.63069pt.
- [5 <./resources/occupancy_three_neighborhoods.jpg>] [6 <./resources/three_neig
-hborhoods.png (PNG copy)>] [7 <./resources/big_cluster.png (PNG copy)>] (./repo
-rt.aux)
+Package pdftex.def Info: resources/big_cluster.png used on input line 130.
+(pdftex.def)             Requested size: 271.0125pt x 271.01918pt.
 
-LaTeX Warning: There were multiply-defined labels.
+Underfull \hbox (badness 10000) in paragraph at lines 139--148
 
- ) 
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 150--156
+
+ []
+
+[4 <./resources/three_neighborhoods.png (PNG copy)> <./resources/big_cluster.pn
+g (PNG copy)>]
+<resources/occupancy_three_neighborhoods.jpg, id=39, 578.16pt x 433.62pt>
+File: resources/occupancy_three_neighborhoods.jpg Graphic file (type jpg)
+
+<use resources/occupancy_three_neighborhoods.jpg>
+Package pdftex.def Info: resources/occupancy_three_neighborhoods.jpg used on in
+put line 161.
+(pdftex.def)             Requested size: 271.0125pt x 203.25887pt.
+
+<resources/occupancy_big_cluster.jpg, id=40, 578.16pt x 433.62pt>
+File: resources/occupancy_big_cluster.jpg Graphic file (type jpg)
+
+<use resources/occupancy_big_cluster.jpg>
+Package pdftex.def Info: resources/occupancy_big_cluster.jpg used on input line
+ 166.
+(pdftex.def)             Requested size: 271.0125pt x 203.25887pt.
+ [5 <./resources/occupancy_three_neighborhoods.jpg> <./resources/occupancy_big_
+cluster.jpg>] (./report.aux) ) 
 Here is how much of TeX's memory you used:
- 4280 strings out of 493013
- 62355 string characters out of 6139316
- 132223 words of memory out of 5000000
- 7768 multiletter control sequences out of 15000+600000
- 9369 words of font info for 34 fonts, out of 8000000 for 9000
+ 4406 strings out of 493013
+ 64406 string characters out of 6139316
+ 136008 words of memory out of 5000000
+ 7887 multiletter control sequences out of 15000+600000
+ 10013 words of font info for 36 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
- 42i,6n,40p,270b,311s stack positions out of 5000i,500n,10000p,200000b,80000s
-</usr/share/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx10.pfb></usr/share/
-texmf-dist/fonts/type1/public/amsfonts/cm/cmbx12.pfb></usr/share/texmf-dist/fon
-ts/type1/public/amsfonts/cm/cmmi10.pfb></usr/share/texmf-dist/fonts/type1/publi
-c/amsfonts/cm/cmmi12.pfb></usr/share/texmf-dist/fonts/type1/public/amsfonts/cm/
-cmmi7.pfb></usr/share/texmf-dist/fonts/type1/public/amsfonts/cm/cmr10.pfb></usr
-/share/texmf-dist/fonts/type1/public/amsfonts/cm/cmr12.pfb></usr/share/texmf-di
-st/fonts/type1/public/amsfonts/cm/cmr17.pfb></usr/share/texmf-dist/fonts/type1/
-public/amsfonts/cm/cmr7.pfb></usr/share/texmf-dist/fonts/type1/public/amsfonts/
-cm/cmti10.pfb>
-Output written on report.pdf (7 pages, 373829 bytes).
+ 42i,8n,40p,270b,500s stack positions out of 5000i,500n,10000p,200000b,80000s
+</usr/share/texmf-dist/fonts/type1/public/amsfont
+s/cm/cmbx10.pfb></usr/share/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx12.pf
+b></usr/share/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi10.pfb></usr/share/
+texmf-dist/fonts/type1/public/amsfonts/cm/cmmi12.pfb></usr/share/texmf-dist/fon
+ts/type1/public/amsfonts/cm/cmmi7.pfb></usr/share/texmf-dist/fonts/type1/public
+/amsfonts/cm/cmr10.pfb></usr/share/texmf-dist/fonts/type1/public/amsfonts/cm/cm
+r12.pfb></usr/share/texmf-dist/fonts/type1/public/amsfonts/cm/cmr17.pfb></usr/s
+hare/texmf-dist/fonts/type1/public/amsfonts/cm/cmr6.pfb></usr/share/texmf-dist/
+fonts/type1/public/amsfonts/cm/cmr7.pfb></usr/share/texmf-dist/fonts/type1/publ
+ic/amsfonts/cm/cmr8.pfb></usr/share/texmf-dist/fonts/type1/public/amsfonts/cm/c
+mr9.pfb></usr/share/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb></usr/
+share/texmf-dist/fonts/type1/public/amsfonts/cm/cmti10.pfb></usr/share/texmf-di
+st/fonts/type1/public/amsfonts/cm/cmti9.pfb>
+Output written on report.pdf (5 pages, 505365 bytes).
 PDF statistics:
- 78 PDF objects out of 1000 (max. 8388607)
- 49 compressed objects within 1 object stream
+ 91 PDF objects out of 1000 (max. 8388607)
+ 58 compressed objects within 1 object stream
  0 named destinations out of 1000 (max. 500000)
- 36 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 41 words of extra memory for PDF output out of 10000 (max. 10000000)
 

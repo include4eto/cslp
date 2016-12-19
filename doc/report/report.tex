@@ -7,12 +7,13 @@
 \usepackage{graphicx}
 \usepackage{caption}
 \usepackage{float}
+\usepackage[bottom]{footmisc}
 \usepackage[margin=.5in, tmargin=.5in]{geometry}
 \setlength\parindent{0pt}
 \captionsetup{justification=centering}
 
-\title{Computer Science Large Practical Report2}
-\date{}
+\title{Computer Science Large Practical Report}
+\date{Tue, 20 Dec 2016}
 \author{Traiko Dinev \textless s1448355\textgreater}
 
 \begin{document}
@@ -84,7 +85,7 @@
 
 		\begin{figure}[H]
 		\centering
-			\includegraphics[width=.8\columnwidth]{resources/caching_performance.jpg}
+			\includegraphics[width=.55\columnwidth]{resources/caching_performance.jpg}
 			\captionof{figure}{Performance with/without caching \\\textit{file: resources/caching\_performance.jpg}}
 			\label{fig:fig3}
 		\end{figure}
@@ -97,34 +98,79 @@
 		
 			\begin{figure}[H]
 			\centering
-				\includegraphics[width=.8\columnwidth]{resources/cache_size.jpg}
+				\includegraphics[width=.55\columnwidth]{resources/cache_size.jpg}
 				\captionof{figure}{Effects of cache size on performance \\\textit{file: resources/cache\_size.jpg}}
 				\label{fig:fig4}
 			\end{figure}
 			
 
 	\section{Simulation Results}
-			
+
+		\subsection{Test inputs}
+			To evaluate the simulation, two distinct input files were used. They model two different realistic scenarious.
+			The first one (\textit{Three Neighborhoods}) \footnote{File: test/inputs/statistics\_collection/three\_neighborhoods.txt} models three separate connected neighborhoods, where the paths
+			within the neighborhoods are shorter than the path between them. (See figure~\ref{fig:fig5a}) 
+			\\
+			\\
+			The second input (\textit{Big Cluster}) \footnote{File: test/inputs/statistics\_collection/big\_cluster.txt} models one big area where all of the bins are interconnected and paths
+			within it are comparable in distance/duration. (See figure~\ref{fig:fig5b})
+			\\
+			\\
+			We expect the priority algorithm, which selects bins based on their distance from the current location, to work
+			better on the \textit{Three neighborhoods} area and for them to work comparably well on the big cluster area.
+
 			\begin{figure}[H]
-			\centering
-				\includegraphics[width=.8\columnwidth]{resources/occupancy_three_neighborhoods.jpg}
-				\captionof{figure}{Effects of cache size on performance \\\textit{file: resources/cache\_size.jpg}}
-				\label{fig:fig4}
+				\centering
+				\begin{subfigure}[b]{.5\textwidth}
+					\includegraphics[width=\textwidth]{resources/three_neighborhoods.png}
+					\caption{Three Neighborhoods \\\textit{file: resources/three\_neighborhoods.png}}
+					\label{fig:fig5a}
+				\end{subfigure}\hfill%
+				\begin{subfigure}[b]{.5\textwidth}
+					\includegraphics[width=\textwidth]{resources/big_cluster.png}
+					\caption{Big Cluster \\\textit{file: resources/three\_neighborhoods.png}}
+					\label{fig:fig5b}
+				\end{subfigure}
+				\label{fig:fig5}
+				\caption{Areas used for evaluation}
 			\end{figure}
 
-	\subsection{Test inputs}
-			\begin{figure}[H]
+		\subsection{Bin Occupancy Evolution}
+		The first metric of interest is the bin volume plotted against time. In figure~\ref{fig:fig6a} and figure~\ref{fig:fig6b} we
+		can see the average volume of the bins for the \textit{Three Neighborhoods} and \textit{Big Cluster} areas. In both
+		$disposalDistrShape\ =\ 3$ (3 bags per hour) and $serviceFreq = 0.04167$ (one service daily), but in ~\ref{fig:fig6a}
+		$disposalDistrRate\ = \ 5.0$, while in ~\ref{fig:fig6b} $disposalDistrRate\ =\ 3$. Both of the simulations stop after
+		a week with a warm-up time of a day and both have a bag volume of $0.05$ with a maximum bin volume of $2$.
+		\\
+		\\
+		Since the mean of the Erlang-K distribution is $\mu\ =\ \frac{k}{\lambda}$, in each case we would expect the average bin content
+		before each service period to follow:
+    	\begin{equation}
+			bin\_content\ =\ \frac{time\_between\_service\_periods}{\mu_{erlang}}\ *\ bin\_volume
+		\end{equation}
+		\\
+		\\
+		Given that all bins are independent\footnote{By the specifications}. This yields $1.8\ m^3$ average volume for \textit{Three Neighborhoods}
+		and $3\ m^3$ for \textit{Big Cluster}, which is what is observed in the graphs. Note, however, that the bins cannot have a maximum volume of
+		$2\ m^3$, therefore on the second graph we see the "cap".
+
+
+		\begin{figure}[H]
 			\centering
-				\includegraphics[width=.8\columnwidth]{resources/three_neighborhoods.png}
-				\captionof{figure}{Effects of cache size on performance \\\textit{file: resources/three\_neighborhoods.png}}
-				\label{fig:fig4}
-			\end{figure}
-			\begin{figure}[H]
-			\centering
-				\includegraphics[width=.8\columnwidth]{resources/big_cluster.png}
-				\captionof{figure}{Effects of cache size on performance \\\textit{file: resources/big\_cluster.png}}
-				\label{fig:fig4}
-			\end{figure}
+			\begin{subfigure}[b]{.5\columnwidth}
+				\includegraphics[width=\textwidth]{resources/occupancy_three_neighborhoods.jpg}
+				\caption{Bin Volume Evolution (Three Neighborhoods) \\\textit{file: resources/occupancy\_three\_neighborhoods.png}}
+				\label{fig:fig6a}
+			\end{subfigure}\hfill%
+			\begin{subfigure}[b]{.5\columnwidth}
+				\includegraphics[width=\textwidth]{resources/occupancy_big_cluster.jpg}
+				\caption{Bin Volume Evolution (Big Cluster) \\\textit{file: resources/occupancy\_big\_cluster.png}}
+				\label{fig:fig6b}
+			\end{subfigure}
+			\label{fig:fig6}
+		\end{figure}
+
+
 
 			
 
