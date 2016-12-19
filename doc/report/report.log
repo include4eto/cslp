@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.17 (TeX Live 2016/Arch Linux) (preloaded format=pdflatex 2016.11.21)  18 DEC 2016 23:12
+This is pdfTeX, Version 3.14159265-2.6-1.40.17 (TeX Live 2016/Arch Linux) (preloaded format=pdflatex 2016.11.21)  19 DEC 2016 13:28
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -23,58 +23,36 @@ File: size10.clo 2014/09/29 v1.4h Standard LaTeX file (size option)
 \belowcaptionskip=\skip42
 \bibindent=\dimen102
 )
-(/usr/share/texmf-dist/tex/latex/tools/multicol.sty
-Package: multicol 2016/04/07 v1.8p multicolumn formatting (FMi)
-\c@tracingmulticols=\count87
-\mult@box=\box26
-\multicol@leftmargin=\dimen103
-\c@unbalance=\count88
-\c@collectmore=\count89
-\doublecol@number=\count90
-\multicoltolerance=\count91
-\multicolpretolerance=\count92
-\full@width=\dimen104
-\page@free=\dimen105
-\premulticols=\dimen106
-\postmulticols=\dimen107
-\multicolsep=\skip43
-\multicolbaselineskip=\skip44
-\partial@page=\box27
-\last@line=\box28
-\maxbalancingoverflow=\dimen108
-\mult@rightbox=\box29
-\mult@grightbox=\box30
-\mult@gfirstbox=\box31
-\mult@firstbox=\box32
-\@tempa=\box33
-\@tempa=\box34
-\@tempa=\box35
-\@tempa=\box36
-\@tempa=\box37
-\@tempa=\box38
-\@tempa=\box39
-\@tempa=\box40
-\@tempa=\box41
-\@tempa=\box42
-\@tempa=\box43
-\@tempa=\box44
-\@tempa=\box45
-\@tempa=\box46
-\@tempa=\box47
-\@tempa=\box48
-\@tempa=\box49
-\c@columnbadness=\count93
-\c@finalcolumnbadness=\count94
-\last@try=\dimen109
-\multicolovershoot=\dimen110
-\multicolundershoot=\dimen111
-\mult@nat@firstbox=\box50
-\colbreak@box=\box51
-\mc@col@check@num=\count95
+(/usr/share/texmf-dist/tex/latex/caption/subcaption.sty
+Package: subcaption 2016/05/22 v1.1-161 Sub-captions (AR)
+
+(/usr/share/texmf-dist/tex/latex/caption/caption.sty
+Package: caption 2016/02/21 v3.3-144 Customizing captions (AR)
+
+(/usr/share/texmf-dist/tex/latex/caption/caption3.sty
+Package: caption3 2016/05/22 v1.7-166 caption3 kernel (AR)
+Package caption3 Info: TeX engine: e-TeX on input line 67.
+
+(/usr/share/texmf-dist/tex/latex/graphics/keyval.sty
+Package: keyval 2014/10/28 v1.15 key=value parser (DPC)
+\KV@toks@=\toks14
+)
+\captionmargin=\dimen103
+\captionmargin@=\dimen104
+\captionwidth=\dimen105
+\caption@tempdima=\dimen106
+\caption@indent=\dimen107
+\caption@parindent=\dimen108
+\caption@hangindent=\dimen109
+)
+\c@ContinuedFloat=\count87
+)
+\c@subfigure=\count88
+\c@subtable=\count89
 )
 (/usr/share/texmf-dist/tex/latex/amsmath/amsmath.sty
 Package: amsmath 2016/06/28 v2.15d AMS math features
-\@mathmargin=\skip45
+\@mathmargin=\skip43
 
 For additional information on amsmath, use the `?' option.
 (/usr/share/texmf-dist/tex/latex/amsmath/amstext.sty
@@ -82,51 +60,51 @@ Package: amstext 2000/06/29 v2.01 AMS text
 
 (/usr/share/texmf-dist/tex/latex/amsmath/amsgen.sty
 File: amsgen.sty 1999/11/30 v2.0 generic functions
-\@emptytoks=\toks14
-\ex@=\dimen112
+\@emptytoks=\toks15
+\ex@=\dimen110
 ))
 (/usr/share/texmf-dist/tex/latex/amsmath/amsbsy.sty
 Package: amsbsy 1999/11/29 v1.2d Bold Symbols
-\pmbraise@=\dimen113
+\pmbraise@=\dimen111
 )
 (/usr/share/texmf-dist/tex/latex/amsmath/amsopn.sty
 Package: amsopn 2016/03/08 v2.02 operator names
 )
-\inf@bad=\count96
+\inf@bad=\count90
 LaTeX Info: Redefining \frac on input line 199.
-\uproot@=\count97
-\leftroot@=\count98
+\uproot@=\count91
+\leftroot@=\count92
 LaTeX Info: Redefining \overline on input line 297.
-\classnum@=\count99
-\DOTSCASE@=\count100
+\classnum@=\count93
+\DOTSCASE@=\count94
 LaTeX Info: Redefining \ldots on input line 394.
 LaTeX Info: Redefining \dots on input line 397.
 LaTeX Info: Redefining \cdots on input line 518.
-\Mathstrutbox@=\box52
-\strutbox@=\box53
-\big@size=\dimen114
+\Mathstrutbox@=\box26
+\strutbox@=\box27
+\big@size=\dimen112
 LaTeX Font Info:    Redeclaring font encoding OML on input line 634.
 LaTeX Font Info:    Redeclaring font encoding OMS on input line 635.
-\macc@depth=\count101
-\c@MaxMatrixCols=\count102
+\macc@depth=\count95
+\c@MaxMatrixCols=\count96
 \dotsspace@=\muskip10
-\c@parentequation=\count103
-\dspbrk@lvl=\count104
-\tag@help=\toks15
-\row@=\count105
-\column@=\count106
-\maxfields@=\count107
-\andhelp@=\toks16
-\eqnshift@=\dimen115
-\alignsep@=\dimen116
-\tagshift@=\dimen117
-\tagwidth@=\dimen118
-\totwidth@=\dimen119
-\lineht@=\dimen120
-\@envbody=\toks17
-\multlinegap=\skip46
-\multlinetaggap=\skip47
-\mathdisplay@stack=\toks18
+\c@parentequation=\count97
+\dspbrk@lvl=\count98
+\tag@help=\toks16
+\row@=\count99
+\column@=\count100
+\maxfields@=\count101
+\andhelp@=\toks17
+\eqnshift@=\dimen113
+\alignsep@=\dimen114
+\tagshift@=\dimen115
+\tagwidth@=\dimen116
+\totwidth@=\dimen117
+\lineht@=\dimen118
+\@envbody=\toks18
+\multlinegap=\skip44
+\multlinetaggap=\skip45
+\mathdisplay@stack=\toks19
 LaTeX Info: Redefining \[ on input line 2739.
 LaTeX Info: Redefining \] on input line 2740.
 )
@@ -147,7 +125,7 @@ Package: infwarerr 2016/05/16 v1.4 Providing info/warning/error messages (HO)
 (/usr/share/texmf-dist/tex/generic/oberdiek/ltxcmds.sty
 Package: ltxcmds 2016/05/16 v1.23 LaTeX kernel commands for general use (HO)
 )
-\Gread@gobject=\count108
+\Gread@gobject=\count102
 ))
 (/usr/share/texmf-dist/tex/latex/xcolor/xcolor.sty
 Package: xcolor 2016/05/11 v2.12 LaTeX color extensions (UK)
@@ -170,10 +148,6 @@ Package xcolor Info: Model `wave' substituted by `hsb' on input line 1371.
 (/usr/share/texmf-dist/tex/latex/graphics/graphicx.sty
 Package: graphicx 2014/10/28 v1.0g Enhanced LaTeX Graphics (DPC,SPQR)
 
-(/usr/share/texmf-dist/tex/latex/graphics/keyval.sty
-Package: keyval 2014/10/28 v1.15 key=value parser (DPC)
-\KV@toks@=\toks19
-)
 (/usr/share/texmf-dist/tex/latex/graphics/graphics.sty
 Package: graphics 2016/07/10 v1.0t Standard LaTeX Graphics (DPC,SPQR)
 
@@ -185,32 +159,16 @@ File: graphics.cfg 2016/06/04 v1.11 sample graphics configuration
 )
 Package graphics Info: Driver file: pdftex.def on input line 99.
 )
-\Gin@req@height=\dimen121
-\Gin@req@width=\dimen122
-)
-(/usr/share/texmf-dist/tex/latex/caption/caption.sty
-Package: caption 2016/02/21 v3.3-144 Customizing captions (AR)
-
-(/usr/share/texmf-dist/tex/latex/caption/caption3.sty
-Package: caption3 2016/05/22 v1.7-166 caption3 kernel (AR)
-Package caption3 Info: TeX engine: e-TeX on input line 67.
-\captionmargin=\dimen123
-\captionmargin@=\dimen124
-\captionwidth=\dimen125
-\caption@tempdima=\dimen126
-\caption@indent=\dimen127
-\caption@parindent=\dimen128
-\caption@hangindent=\dimen129
-)
-\c@ContinuedFloat=\count109
+\Gin@req@height=\dimen119
+\Gin@req@width=\dimen120
 )
 (/usr/share/texmf-dist/tex/latex/float/float.sty
 Package: float 2001/11/08 v1.3d Float enhancements (AL)
-\c@float@type=\count110
+\c@float@type=\count103
 \float@exts=\toks20
-\float@box=\box54
+\float@box=\box28
 \@float@everytoks=\toks21
-\@floatcapt=\box55
+\@floatcapt=\box29
 )
 (/usr/share/texmf-dist/tex/latex/geometry/geometry.sty
 Package: geometry 2010/09/12 v5.6 Page Geometry
@@ -225,19 +183,29 @@ Package ifvtex Info: VTeX not detected.
 (/usr/share/texmf-dist/tex/generic/ifxetex/ifxetex.sty
 Package: ifxetex 2010/09/12 v0.6 Provides ifxetex conditional
 )
-\Gm@cnth=\count111
-\Gm@cntv=\count112
-\c@Gm@tempcnt=\count113
-\Gm@bindingoffset=\dimen130
-\Gm@wd@mp=\dimen131
-\Gm@odd@mp=\dimen132
-\Gm@even@mp=\dimen133
-\Gm@layoutwidth=\dimen134
-\Gm@layoutheight=\dimen135
-\Gm@layouthoffset=\dimen136
-\Gm@layoutvoffset=\dimen137
+\Gm@cnth=\count104
+\Gm@cntv=\count105
+\c@Gm@tempcnt=\count106
+\Gm@bindingoffset=\dimen121
+\Gm@wd@mp=\dimen122
+\Gm@odd@mp=\dimen123
+\Gm@even@mp=\dimen124
+\Gm@layoutwidth=\dimen125
+\Gm@layoutheight=\dimen126
+\Gm@layouthoffset=\dimen127
+\Gm@layoutvoffset=\dimen128
 \Gm@dimlist=\toks22
-) (./report.aux)
+) (./report.aux
+
+LaTeX Warning: Label `fig:fig4' multiply defined.
+
+
+LaTeX Warning: Label `fig:fig4' multiply defined.
+
+
+LaTeX Warning: Label `fig:fig4' multiply defined.
+
+)
 \openout1 = `report.aux'.
 
 LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 18.
@@ -252,19 +220,21 @@ LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 18.
 LaTeX Font Info:    ... okay on input line 18.
 LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 18.
 LaTeX Font Info:    ... okay on input line 18.
-
-(/usr/share/texmf-dist/tex/context/base/mkii/supp-pdf.mkii
+Package caption Info: Begin \AtBeginDocument code.
+Package caption Info: float package is loaded.
+Package caption Info: End \AtBeginDocument code.
+ (/usr/share/texmf-dist/tex/context/base/mkii/supp-pdf.mkii
 [Loading MPS to PDF converter (version 2006.09.02).]
-\scratchcounter=\count114
-\scratchdimen=\dimen138
-\scratchbox=\box56
-\nofMPsegments=\count115
-\nofMParguments=\count116
+\scratchcounter=\count107
+\scratchdimen=\dimen129
+\scratchbox=\box30
+\nofMPsegments=\count108
+\nofMParguments=\count109
 \everyMPshowfont=\toks23
-\MPscratchCnt=\count117
-\MPscratchDim=\dimen139
-\MPnumerator=\count118
-\makeMPintoPDFobject=\count119
+\MPscratchCnt=\count110
+\MPscratchDim=\dimen130
+\MPnumerator=\count111
+\makeMPintoPDFobject=\count112
 \everyMPtoPDFconversion=\toks24
 ) (/usr/share/texmf-dist/tex/generic/oberdiek/pdftexcmds.sty
 Package: pdftexcmds 2016/05/21 v0.22 Utility functions of pdfTeX for LuaTeX (HO
@@ -312,10 +282,6 @@ G,.JBIG2,.JB2,.eps]
 File: epstopdf-sys.cfg 2010/07/13 v1.3 Configuration of (r)epstopdf for TeX Liv
 e
 ))
-Package caption Info: Begin \AtBeginDocument code.
-Package caption Info: float package is loaded.
-Package caption Info: End \AtBeginDocument code.
-
 *geometry* driver: auto-detecting
 *geometry* detected driver: pdftex
 *geometry* verbose mode - [ preamble ] result:
@@ -402,28 +368,56 @@ File: resources/cache_size.jpg Graphic file (type jpg)
 Package pdftex.def Info: resources/cache_size.jpg used on input line 100.
 (pdftex.def)             Requested size: 433.62166pt x 325.2142pt.
  [3 <./resources/caching_performance.jpg>]
-[4 <./resources/cache_size.jpg>] (./report.aux) ) 
+<resources/occupancy_three_neighborhoods.jpg, id=29, 578.16pt x 433.62pt>
+File: resources/occupancy_three_neighborhoods.jpg Graphic file (type jpg)
+
+<use resources/occupancy_three_neighborhoods.jpg>
+Package pdftex.def Info: resources/occupancy_three_neighborhoods.jpg used on in
+put line 110.
+(pdftex.def)             Requested size: 433.62166pt x 325.2142pt.
+ [4 <./resources/cache_size.jpg>] <resources/three_neighborhoods.png, id=33, 48
+1.8pt x 481.8pt>
+File: resources/three_neighborhoods.png Graphic file (type png)
+
+<use resources/three_neighborhoods.png>
+Package pdftex.def Info: resources/three_neighborhoods.png used on input line 1
+18.
+(pdftex.def)             Requested size: 433.62166pt x 433.63069pt.
+
+<resources/big_cluster.png, id=34, 481.8pt x 481.8pt>
+File: resources/big_cluster.png Graphic file (type png)
+
+<use resources/big_cluster.png>
+Package pdftex.def Info: resources/big_cluster.png used on input line 124.
+(pdftex.def)             Requested size: 433.62166pt x 433.63069pt.
+ [5 <./resources/occupancy_three_neighborhoods.jpg>] [6 <./resources/three_neig
+hborhoods.png (PNG copy)>] [7 <./resources/big_cluster.png (PNG copy)>] (./repo
+rt.aux)
+
+LaTeX Warning: There were multiply-defined labels.
+
+ ) 
 Here is how much of TeX's memory you used:
- 4329 strings out of 493013
- 62754 string characters out of 6139316
- 141603 words of memory out of 5000000
- 7818 multiletter control sequences out of 15000+600000
+ 4280 strings out of 493013
+ 62355 string characters out of 6139316
+ 132223 words of memory out of 5000000
+ 7768 multiletter control sequences out of 15000+600000
  9369 words of font info for 34 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
- 40i,6n,39p,232b,309s stack positions out of 5000i,500n,10000p,200000b,80000s
-</usr/share/texmf-dist/fonts/t
-ype1/public/amsfonts/cm/cmbx10.pfb></usr/share/texmf-dist/fonts/type1/public/am
-sfonts/cm/cmbx12.pfb></usr/share/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi
-10.pfb></usr/share/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi12.pfb></usr/s
-hare/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi7.pfb></usr/share/texmf-dist
-/fonts/type1/public/amsfonts/cm/cmr10.pfb></usr/share/texmf-dist/fonts/type1/pu
-blic/amsfonts/cm/cmr12.pfb></usr/share/texmf-dist/fonts/type1/public/amsfonts/c
-m/cmr17.pfb></usr/share/texmf-dist/fonts/type1/public/amsfonts/cm/cmr7.pfb></us
-r/share/texmf-dist/fonts/type1/public/amsfonts/cm/cmti10.pfb>
-Output written on report.pdf (4 pages, 245537 bytes).
+ 42i,6n,40p,270b,311s stack positions out of 5000i,500n,10000p,200000b,80000s
+</usr/share/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx10.pfb></usr/share/
+texmf-dist/fonts/type1/public/amsfonts/cm/cmbx12.pfb></usr/share/texmf-dist/fon
+ts/type1/public/amsfonts/cm/cmmi10.pfb></usr/share/texmf-dist/fonts/type1/publi
+c/amsfonts/cm/cmmi12.pfb></usr/share/texmf-dist/fonts/type1/public/amsfonts/cm/
+cmmi7.pfb></usr/share/texmf-dist/fonts/type1/public/amsfonts/cm/cmr10.pfb></usr
+/share/texmf-dist/fonts/type1/public/amsfonts/cm/cmr12.pfb></usr/share/texmf-di
+st/fonts/type1/public/amsfonts/cm/cmr17.pfb></usr/share/texmf-dist/fonts/type1/
+public/amsfonts/cm/cmr7.pfb></usr/share/texmf-dist/fonts/type1/public/amsfonts/
+cm/cmti10.pfb>
+Output written on report.pdf (7 pages, 373829 bytes).
 PDF statistics:
- 64 PDF objects out of 1000 (max. 8388607)
- 41 compressed objects within 1 object stream
+ 78 PDF objects out of 1000 (max. 8388607)
+ 49 compressed objects within 1 object stream
  0 named destinations out of 1000 (max. 500000)
- 21 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 36 words of extra memory for PDF output out of 10000 (max. 10000000)
 
