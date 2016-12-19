@@ -1,0 +1,23 @@
+\BOOKMARK [1][-]{section.1}{Introduction}{}% 1
+\BOOKMARK [1][-]{section.2}{Simulator Architecture}{}% 2
+\BOOKMARK [2][-]{subsection.2.1}{Simulation Runs and Experiments}{section.2}% 3
+\BOOKMARK [3][-]{subsubsection.2.1.1}{Pipeline}{subsection.2.1}% 4
+\BOOKMARK [2][-]{subsection.2.2}{Route Planning}{section.2}% 5
+\BOOKMARK [2][-]{subsection.2.3}{Optimization}{section.2}% 6
+\BOOKMARK [3][-]{subsubsection.2.3.1}{Caching}{subsection.2.3}% 7
+\BOOKMARK [3][-]{subsubsection.2.3.2}{Cache size}{subsection.2.3}% 8
+\BOOKMARK [1][-]{section.3}{Simulation Results}{}% 9
+\BOOKMARK [2][-]{subsection.3.1}{Test inputs}{section.3}% 10
+\BOOKMARK [2][-]{subsection.3.2}{Bin Occupancy Evolution}{section.3}% 11
+\BOOKMARK [2][-]{subsection.3.3}{Trip Efficiency}{section.3}% 12
+\BOOKMARK [2][-]{subsection.3.4}{Bin Overflow}{section.3}% 13
+\BOOKMARK [2][-]{subsection.3.5}{Algorithm Efficiency}{section.3}% 14
+\BOOKMARK [2][-]{subsection.3.6}{Analysis}{section.3}% 15
+\BOOKMARK [1][-]{section.4}{Testing}{}% 16
+\BOOKMARK [2][-]{subsection.4.1}{Automated Testing}{section.4}% 17
+\BOOKMARK [2][-]{subsection.4.2}{Sample inputs}{section.4}% 18
+\BOOKMARK [3][-]{subsubsection.4.2.1}{Input Parser}{subsection.4.2}% 19
+\BOOKMARK [3][-]{subsubsection.4.2.2}{Performance testing}{subsection.4.2}% 20
+\BOOKMARK [3][-]{subsubsection.4.2.3}{Statistics collection}{subsection.4.2}% 21
+\BOOKMARK [1][-]{section.5}{Conclusion}{}% 22
+\BOOKMARK [1][-]{section.6}{Resources}{}% 23
