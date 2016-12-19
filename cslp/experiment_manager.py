@@ -78,8 +78,7 @@ class ExperimentManager:
 					count, description
 				)
 				if not self.disable_statistics:
-					pass
-					# print(experiment_text)
+					print(experiment_text)
 				
 				count += 1
 				# run the experiment
