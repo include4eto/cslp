@@ -17,6 +17,7 @@ adj = matrix(c(0, 10, 5,-1,-1,30,-1,-1,-1,-1,-1,-1,-1,-1,-1,
 -1,-1,-1,-1,-1,-1,-1,-1,-1,-1,10,-1,-1, 0,-1,
 -1,-1,-1,-1,-1,-1,-1,-1,-1,-1, 5,-1,-1,-1, 0), nrow=15, ncol=15)
 
+adj = t(adj)
 g1 = graph.adjacency(adj)
 E(g1)$weight = 1
 # use the original weights
@@ -24,7 +25,7 @@ g2 = simplify(g1, edge.attr.comb=list(weight="sum"))
 
 # start labels at 0
 png(filename='three_neighborhoods.png')
-plot(g2, vertex.label=V(g2)-1, edge.label=round(E(g2)$weight, 3))
+plot(g2, vertex.label=V(g2)-1, edge.label=round(E(g2)$weight, 3), edge.arrow.size=.5)
 dev.off()
 
 # three neighborhoods
@@ -39,6 +40,7 @@ adj2 = matrix(c(
 -1,-1,-1,-1,-1,-1,6,0,12,-1,
 9,-1,-1,-1,-1,-1,-1,-1,0,10,
 5,1,-1,-1,-1,-1,-1,-1,-1,0), nrow=15, ncol=15)
+adj2 = t(adj2)
 
 dev.new()
 g1_1 = graph.adjacency(adj2)

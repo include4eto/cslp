@@ -1,5 +1,14 @@
 # Computer Science Large Practical 2016-17
 **NOTE: Miscellaneous notes at the end of this document**
+## Command line parameters
+- `-a, --algorithm`: Algorithm to use. One of greedy, priority, synamic
+- `-dc, --disable-cache`: Disable/enable the algorithm cache
+- `-cs, --cache-size`: Set the cache size
+- `-b, --benchmark`: Display the runtime of the app
+- `-d, --disable-output`: Disable all output except for statistics
+- `-o, --benchmark-only`: Run only the benchmark and disable all other output
+- `-dt, --dynamic-threshold`: Dynamic algorithm threshold
+
 ## Code Structure
 ### File Structure
 The file structure follows the one outlined here [https://github.com/kennethreitz/samplemod](https://github.com/kennethreitz/samplemod).
@@ -20,24 +29,29 @@ cslp_root
 		|__ disposal_modeling.py: Contains the logic for disposal delays.
 		|__ event_dispatcher.py: Main events module, sorts
 			and dispatches events
+		|__ route_planning - Route planning algorithm
+			|__ dijkstra_route_planner.py - Dijkstra route planner
 	|__ statistics: Statistics module, hooks up to the event dispatcher.
-
+		|__ statistics_aggregator.py - statistics module
 	|__ output_formatter.py: Generates output to the standard output stream, again
 		uses the event dispatcher.
 	|__ config.py: Contains the application config, such as usage information.
 	|__ input_parser.py: Parses the input configuration.
+	|__ experiment_manager.py - Runtime experiment wrapper
 	|__ app.py: main entry point, glues everything together
 
 |__ test - Test root (see below for more detailed description)
+|__ doc - Documentation and project reports
+|__ statistics_plots - Code for producing statistics plots 
 ```
 
 ## Pipeline
 The input parser is the starting point of the application. Once we get a valid configuration file from the parser,
-we instantiate the `Simulation` class, which is in charge of creating `Area` objects, which contain the actual simulation code.
-In the future, experiments will simply be multiple `Simulation` classes with the appropriate configuration, perhaps wrapped
-in an `Run` class. To glue things together, the `EventDispatcher` is injected in the constructor of the Simulation, which in turn
+we instantiate the `ExperimentManager`  class, which computer a grid of all experiments and creates a 
+`Simulation`, which is in charge of creating `Area` objects, which contain the actual simulation code.
+ To glue things together, the `EventDispatcher` is injected in the constructor of the Simulation, which in turn
 injects it into each area class. Statistics and output are achieved similarly. The `EventDispatcher` class is injected into an `OutputFormatter` and
-later on, into a `Statistics` class. The same holds true for graphics, reports, etc.
+later on, into a `StatisticsAggregator` class. The route planning algorithm is injected in the `Area` class.
 
 The simple pipeline now looks like this:
 ```python
@@ -45,25 +59,11 @@ The simple pipeline now looks like this:
 input_parser = InputParser(<input_file>)
 input_parser.parse()
 
-# check the parser results and exit if errors found
+# create the experiment manager
+experiment_manager = ExperimentManager(config, disable_output=disable_output, disable_statistics=disable_statistics)
 
-# create the event dispatcher
-event_dispatcher = EventDispatcher(<options>)
-
-# hook up an output formatter
-output_formatter = OutputFormatter(<options>, dispatcher)
-
-# create the simulation
-simulation = Simulation(<config>, event_dispatcher)
-
-# check for config validation errors and exit/output warnings if any
-
-while True:
-	current_time = dispatcher.next_event()
-
-	# if current_time is False, the stop time has been reached
-	if current_time == False:
-		<exit application>
+# run the experiments
+experiment_manager.run_all()
 ```
 
 ### Error detection
@@ -133,6 +133,13 @@ Note all tests are white box, i.e. we assume we know how the code works.
 - `test_time_formatting`: Tests that time in seconds is converted correctly to time in DD:HH:MM:SS
 - `test_bin_output_events`: Tests that bin output events (bag disposed, load changed, occupancy exceeded & overflow)
 	are outputted correctly to stdout.
+
+### `DijkstraRoutePlannerTest` (`dijkstra_route_planner_test.py`)
+- `test_basic`: Tests the greedy algorithm
+- `test_priority_planner`: Tests the priority algorithm
+
+### `StatisticsAggregatorTest` (`statistics_aggregator_test.py`)
+- `test_trip_duration` - Tests the statistics aggregator test
 
 ### `SimulationTest`
 **currently unused**
