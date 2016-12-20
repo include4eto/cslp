@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.17 (TeX Live 2016/Arch Linux) (preloaded format=pdflatex 2016.11.21)  19 DEC 2016 19:43
+This is pdfTeX, Version 3.14159265-2.6-1.40.17 (TeX Live 2016/Arch Linux) (preloaded format=pdflatex 2016.11.21)  20 DEC 2016 14:04
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -400,14 +400,14 @@ LaTeX Info: Redefining \nameref on input line 21.
 * layoutoffset:(h,v)=(0.0pt,0.0pt)
 * modes: 
 * h-part:(L,W,R)=(57.81621pt, 498.66258pt, 57.81621pt)
-* v-part:(T,H,B)=(36.135pt, 701.01878pt, 57.81621pt)
+* v-part:(T,H,B)=(50.58878pt, 686.565pt, 57.81621pt)
 * \paperwidth=614.295pt
 * \paperheight=794.96999pt
 * \textwidth=498.66258pt
-* \textheight=701.01878pt
+* \textheight=686.565pt
 * \oddsidemargin=-14.45378pt
 * \evensidemargin=-14.45378pt
-* \topmargin=-73.135pt
+* \topmargin=-58.68121pt
 * \headheight=12.0pt
 * \headsep=25.0pt
 * \topskip=10.0pt
@@ -432,7 +432,7 @@ File: omlcmr.fd 2014/09/29 v2.5h Standard LaTeX font definitions
 LaTeX Font Info:    Font shape `OML/cmr/m/n' in size <12> not available
 (Font)              Font shape `OML/cmm/m/it' tried instead on input line 23.
 
-Underfull \hbox (badness 10000) in paragraph at lines 28--35
+Underfull \hbox (badness 10000) in paragraph at lines 28--37
 
  []
 
@@ -440,10 +440,10 @@ Underfull \hbox (badness 10000) in paragraph at lines 28--35
 File: resources/architecture.png Graphic file (type png)
 
 <use resources/architecture.png>
-Package pdftex.def Info: resources/architecture.png used on input line 38.
+Package pdftex.def Info: resources/architecture.png used on input line 40.
 (pdftex.def)             Requested size: 398.93158pt x 291.02557pt.
 
-Underfull \hbox (badness 10000) in paragraph at lines 44--52
+Underfull \hbox (badness 10000) in paragraph at lines 46--54
 
  []
 
@@ -451,170 +451,184 @@ Underfull \hbox (badness 10000) in paragraph at lines 44--52
 
 {/var/lib/texmf/fonts/map/pdftex/updmap/pdftex.map} <./resources/architecture.p
 ng>]
-Underfull \hbox (badness 10000) in paragraph at lines 55--63
+Underfull \hbox (badness 10000) in paragraph at lines 57--65
 
  []
 
-<resources/start_sequence.png, id=117, 811.03pt x 444.66125pt>
+<resources/start_sequence.png, id=116, 811.03pt x 444.66125pt>
 File: resources/start_sequence.png Graphic file (type png)
 
 <use resources/start_sequence.png>
-Package pdftex.def Info: resources/start_sequence.png used on input line 66.
+Package pdftex.def Info: resources/start_sequence.png used on input line 68.
 (pdftex.def)             Requested size: 498.66258pt x 273.40736pt.
- [2 <./resources/start_sequence.png>]
-<resources/caching_performance.jpg, id=127, 578.16pt x 433.62pt>
+
+Underfull \hbox (badness 10000) in paragraph at lines 74--82
+
+ []
+
+[2 <./resources/start_sequence.png>]
+<resources/caching_performance.jpg, id=128, 578.16pt x 433.62pt>
 File: resources/caching_performance.jpg Graphic file (type jpg)
 
 <use resources/caching_performance.jpg>
 Package pdftex.def Info: resources/caching_performance.jpg used on input line 9
-0.
+9.
 (pdftex.def)             Requested size: 274.26593pt x 205.69374pt.
 
-<resources/cache_size.jpg, id=129, 578.16pt x 433.62pt>
+Underfull \hbox (badness 10000) in paragraph at lines 89--102
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 105--113
+
+ []
+
+<resources/cache_size.jpg, id=130, 578.16pt x 433.62pt>
 File: resources/cache_size.jpg Graphic file (type jpg)
 
 <use resources/cache_size.jpg>
-Package pdftex.def Info: resources/cache_size.jpg used on input line 103.
+Package pdftex.def Info: resources/cache_size.jpg used on input line 116.
 (pdftex.def)             Requested size: 274.26593pt x 205.69374pt.
-
-Underfull \hbox (badness 10000) in paragraph at lines 112--123
-
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 112--123
+ [3 <./resources/caching_performance.jpg>]
+Underfull \hbox (badness 10000) in paragraph at lines 125--136
 
  []
 
-[3 <./resources/caching_performance.jpg> <./resources/cache_size.jpg>]
-<resources/three_neighborhoods.png, id=146, 481.8pt x 481.8pt>
+
+Underfull \hbox (badness 10000) in paragraph at lines 125--136
+
+ []
+
+<resources/three_neighborhoods.png, id=147, 481.8pt x 481.8pt>
 File: resources/three_neighborhoods.png Graphic file (type png)
 
 <use resources/three_neighborhoods.png>
 Package pdftex.def Info: resources/three_neighborhoods.png used on input line 1
-27.
+40.
 (pdftex.def)             Requested size: 249.33128pt x 249.33176pt.
 
-<resources/big_cluster.png, id=147, 481.8pt x 481.8pt>
+<resources/big_cluster.png, id=148, 481.8pt x 481.8pt>
 File: resources/big_cluster.png Graphic file (type png)
 
 <use resources/big_cluster.png>
-Package pdftex.def Info: resources/big_cluster.png used on input line 132.
+Package pdftex.def Info: resources/big_cluster.png used on input line 145.
 (pdftex.def)             Requested size: 249.33128pt x 249.33176pt.
-
-Underfull \hbox (badness 10000) in paragraph at lines 141--150
-
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 152--158
+ [4 <./resources/cache_size.jpg>]
+Underfull \hbox (badness 10000) in paragraph at lines 154--163
 
  []
 
-[4 <./resources/three_neighborhoods.png (PNG copy)> <./resources/big_cluster.pn
-g (PNG copy)>]
-<resources/occupancy_three_neighborhoods.jpg, id=166, 578.16pt x 433.62pt>
+
+Underfull \hbox (badness 10000) in paragraph at lines 165--171
+
+ []
+
+<resources/occupancy_three_neighborhoods.jpg, id=161, 578.16pt x 433.62pt>
 File: resources/occupancy_three_neighborhoods.jpg Graphic file (type jpg)
 
 <use resources/occupancy_three_neighborhoods.jpg>
 Package pdftex.def Info: resources/occupancy_three_neighborhoods.jpg used on in
-put line 163.
+put line 175.
 (pdftex.def)             Requested size: 249.33128pt x 186.99551pt.
 
-<resources/occupancy_big_cluster.jpg, id=167, 578.16pt x 433.62pt>
+<resources/occupancy_big_cluster.jpg, id=162, 578.16pt x 433.62pt>
 File: resources/occupancy_big_cluster.jpg Graphic file (type jpg)
 
 <use resources/occupancy_big_cluster.jpg>
 Package pdftex.def Info: resources/occupancy_big_cluster.jpg used on input line
- 168.
+ 180.
 (pdftex.def)             Requested size: 249.33128pt x 186.99551pt.
-
-<resources/three_neighborhoods_dist_rate_trip_eff.jpg, id=170, 578.16pt x 433.6
+ [5 <./resources/three_neighborhoods.png (PNG copy)> <./resources/big_cluster.p
+ng (PNG copy)>]
+<resources/three_neighborhoods_dist_rate_trip_eff.jpg, id=175, 578.16pt x 433.6
 2pt>
 File: resources/three_neighborhoods_dist_rate_trip_eff.jpg Graphic file (type j
 pg)
  <use resources/three_neighborhoods_dist_rate_trip_eff.jpg>
 Package pdftex.def Info: resources/three_neighborhoods_dist_rate_trip_eff.jpg u
-sed on input line 184.
+sed on input line 197.
 (pdftex.def)             Requested size: 249.33128pt x 186.99551pt.
 
-<resources/big_cluster_dist_rate_trip_eff.jpg, id=171, 578.16pt x 433.62pt>
+<resources/big_cluster_dist_rate_trip_eff.jpg, id=176, 578.16pt x 433.62pt>
 File: resources/big_cluster_dist_rate_trip_eff.jpg Graphic file (type jpg)
 
 <use resources/big_cluster_dist_rate_trip_eff.jpg>
 Package pdftex.def Info: resources/big_cluster_dist_rate_trip_eff.jpg used on i
-nput line 189.
+nput line 202.
 (pdftex.def)             Requested size: 249.33128pt x 186.99551pt.
 
-<resources/three_neighborhoods_dist_rate_overflow.jpg, id=172, 578.16pt x 433.6
+<resources/three_neighborhoods_dist_rate_overflow.jpg, id=179, 578.16pt x 433.6
 2pt>
 File: resources/three_neighborhoods_dist_rate_overflow.jpg Graphic file (type j
 pg)
  <use resources/three_neighborhoods_dist_rate_overflow.jpg>
 Package pdftex.def Info: resources/three_neighborhoods_dist_rate_overflow.jpg u
-sed on input line 202.
+sed on input line 219.
 (pdftex.def)             Requested size: 249.33128pt x 186.99551pt.
 
-<resources/big_cluster_dist_rate_overflow.jpg, id=173, 578.16pt x 433.62pt>
+<resources/big_cluster_dist_rate_overflow.jpg, id=180, 578.16pt x 433.62pt>
 File: resources/big_cluster_dist_rate_overflow.jpg Graphic file (type jpg)
 
 <use resources/big_cluster_dist_rate_overflow.jpg>
 Package pdftex.def Info: resources/big_cluster_dist_rate_overflow.jpg used on i
-nput line 207.
+nput line 224.
 (pdftex.def)             Requested size: 249.33128pt x 186.99551pt.
- [5 <./resources/occupancy_three_neighborhoods.jpg> <./resources/occupancy_big_
+ [6 <./resources/occupancy_three_neighborhoods.jpg> <./resources/occupancy_big_
 cluster.jpg> <./resources/three_neighborhoods_dist_rate_trip_eff.jpg> <./resour
 ces/big_cluster_dist_rate_trip_eff.jpg>]
-<resources/three_neighborhoods_service_freq_trip_eff_algo.jpg, id=180, 578.16pt
+<resources/three_neighborhoods_service_freq_trip_eff_algo.jpg, id=189, 578.16pt
  x 433.62pt>
 File: resources/three_neighborhoods_service_freq_trip_eff_algo.jpg Graphic file
  (type jpg)
 
 <use resources/three_neighborhoods_service_freq_trip_eff_algo.jpg>
 Package pdftex.def Info: resources/three_neighborhoods_service_freq_trip_eff_al
-go.jpg used on input line 225.
+go.jpg used on input line 242.
 (pdftex.def)             Requested size: 249.33128pt x 186.99551pt.
 
-<resources/big_cluster_service_freq_trip_eff_algo.jpg, id=181, 562.2606pt x 421
+<resources/big_cluster_service_freq_trip_eff_algo.jpg, id=190, 562.2606pt x 421
 .575pt>
 File: resources/big_cluster_service_freq_trip_eff_algo.jpg Graphic file (type j
 pg)
  <use resources/big_cluster_service_freq_trip_eff_algo.jpg>
 Package pdftex.def Info: resources/big_cluster_service_freq_trip_eff_algo.jpg u
-sed on input line 230.
+sed on input line 247.
 (pdftex.def)             Requested size: 249.33128pt x 186.94736pt.
- [6 <./resources/three_neighborhoods_dist_rate_overflow.jpg> <./resources/big_c
+ [7 <./resources/three_neighborhoods_dist_rate_overflow.jpg> <./resources/big_c
 luster_dist_rate_overflow.jpg> <./resources/three_neighborhoods_service_freq_tr
 ip_eff_algo.jpg> <./resources/big_cluster_service_freq_trip_eff_algo.jpg>]
-LaTeX Font Info:    Try loading font information for OMS+cmr on input line 279.
+LaTeX Font Info:    Font shape `OML/cmr/m/it' in size <10> not available
+(Font)              Font shape `OML/cmm/m/it' tried instead on input line 293.
+LaTeX Font Info:    Try loading font information for OMS+cmr on input line 296.
 
 
 (/usr/share/texmf-dist/tex/latex/base/omscmr.fd
 File: omscmr.fd 2014/09/29 v2.5h Standard LaTeX font definitions
 )
 LaTeX Font Info:    Font shape `OMS/cmr/m/n' in size <10> not available
-(Font)              Font shape `OMS/cmsy/m/n' tried instead on input line 279.
+(Font)              Font shape `OMS/cmsy/m/n' tried instead on input line 296.
 
-Underfull \hbox (badness 10000) in paragraph at lines 302--308
+Underfull \hbox (badness 10000) in paragraph at lines 319--325
 
  []
 
-[7]
-Package atveryend Info: Empty hook `BeforeClearDocument' on input line 334.
- [8]
-Package atveryend Info: Empty hook `AfterLastShipout' on input line 334.
+[8]
+Package atveryend Info: Empty hook `BeforeClearDocument' on input line 350.
+ [9]
+Package atveryend Info: Empty hook `AfterLastShipout' on input line 350.
  (./report.aux)
-Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 334.
-Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 334.
+Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 350.
+Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 350.
 Package rerunfilecheck Info: File `report.out' has not changed.
 (rerunfilecheck)             Checksum: 870BB2FF8EACB92467379A3D70A7D44D;1448.
-Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 334.
+Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 350.
  ) 
 Here is how much of TeX's memory you used:
- 8281 strings out of 493013
- 124668 string characters out of 6139316
- 222754 words of memory out of 5000000
- 11678 multiletter control sequences out of 15000+600000
+ 8287 strings out of 493013
+ 124718 string characters out of 6139316
+ 222938 words of memory out of 5000000
+ 11683 multiletter control sequences out of 15000+600000
  10181 words of font info for 37 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
  42i,8n,40p,270b,516s stack positions out of 5000i,500n,10000p,200000b,80000s
@@ -644,10 +658,10 @@ share/texmf-dist/fonts/type1/public/amsfonts/cm/cmr9.pfb></usr/share/texmf-dist
 ublic/amsfonts/cm/cmsy7.pfb></usr/share/texmf-dist/fonts/type1/public/amsfonts/
 cm/cmti10.pfb></usr/share/texmf-dist/fonts/type1/public/amsfonts/cm/cmti9.pfb><
 /usr/share/texmf-dist/fonts/type1/public/amsfonts/cm/cmtt10.pfb>
-Output written on report.pdf (8 pages, 821318 bytes).
+Output written on report.pdf (9 pages, 822848 bytes).
 PDF statistics:
- 277 PDF objects out of 1000 (max. 8388607)
- 231 compressed objects within 3 object streams
- 54 named destinations out of 1000 (max. 500000)
+ 288 PDF objects out of 1000 (max. 8388607)
+ 241 compressed objects within 3 object streams
+ 55 named destinations out of 1000 (max. 500000)
  255 words of extra memory for PDF output out of 10000 (max. 10000000)
 

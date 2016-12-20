@@ -10,7 +10,7 @@
 \usepackage[hidelinks]{hyperref}
 \usepackage{enumitem}
 \usepackage[bottom]{footmisc}
-\usepackage[margin=.8in, tmargin=.5in]{geometry}
+\usepackage[margin=.8in, tmargin=.7in]{geometry}
 \setlength\parindent{0pt}
 \captionsetup{justification=centering}
 
@@ -25,13 +25,15 @@
 		This report describes the simulator of a bin collection process in a city, as described here (\url{http://www.inf.ed.ac.uk/teaching/courses/cslp/handout/cslp-2016-17.pdf}).
 	
 	\section{Simulator Architecture}
-		The simulator has a decouple, observer pipeline, where everything is governed by an \textit{EventDispatcher} that schedules
-		\textit{Events} and calls attached \textit{Observers}. The \textit{Areas}, the \textit{StatisticsAggregator} as well as the
-		\textit{OutputFormatter} all have observers that listen to events happening. This way the output functionality and the statistics
-		operate purely on the events happening and have no knowledge of the rest of the system, making them easier to develop and maintain.
+		The simulator has a decoupled, observer architecture, where everything is governed by an \textit{EventDispatcher} that schedules
+		\textit{Events} and calls attached \textit{Observers}. The \textit{Areas} (which contains actual bin and lorry logic), the \textit{StatisticsAggregator}
+		(which collects statistics) as well as the \textit{OutputFormatter} (which displays events to the standard output)
+		 all have observers that listen to events happening. This way the output functionality and the statistics
+		operate purely on simulation events and have no knowledge of the rest of the system, making them easier to develop, test and maintain.
 		\\ \\
 		See Figure~\ref{fig:fig1} for more details. The \textit{ExperimentManager} class creates one \textit{OutputFormatter}, \textit{StatisticsAggregator}
-		and \textit{Simulation} and uses them for all runs necessary.
+		and \textit{Simulation} and uses them for all runs necessary. The \textit{Simulation} class in turn creates as many areas and injects the event
+		dispatcher as a constructor dependency in each.
 
 		\begin{figure}[H]
 		\centering
@@ -42,7 +44,7 @@
 
 	\subsection{Simulation Runs and Experiments}
 		Each \textbf{run} of the program is governed by an \textit{ExperimentManager}, where actual experimentation behaves identically, while
-		disabling detailed output (by not attaching an \textit{OutputFormmater} to the dispatcher.
+		disabling detailed output (by not attaching an \textit{OutputFormmater} to the dispatcher).
 		\\
 		\\
 		As such, each experiment contains a single \textit{Simulation}, which contains as many \textit{Area}s as necessary.
@@ -70,21 +72,28 @@
 
 	\subsection{Route Planning}
 	Route planning is done separately in the \textbf{DijkstraRoutePlanner} class. The route planner uses Dijkstra's algorithm each time
-	a route is needed and two different heuristics for selecting the next bin to be serviced. The \textit{greedy} algorithm always services
-	bins according to their occupancy (or volume). The \textit{priority} algorithm always services the closest bin. Both always use only the bins
+	a route is needed and two different heuristics for selecting the next bin to be serviced. They both start at the depot. From there, the \textit{greedy} algorithm always services
+	bins according to their occupancy (or volume). The \textit{priority} algorithm always services the closest bin to the current location. Both always use only the bins
 	that need servicing (i.e. they do not ever calculate a path that would empty a bin that has not exceeded the occupancy threshold).
+	\\
+	\\
+	The priority algorithm tends to service bins in clusters (closest together first), whereas the greedy creates lenghty routes through the entire
+	map.
 
 	\subsection{Optimization} \label{optimization}
-		The greedy algorithm is generally faster than the priority algorithm and hence the default setting of the algorithm it \textit{dynamic}, which
+		The greedy version of the algorithm is generally faster than the priority algorithm, which is why the default setting of the algorithm it \textit{dynamic}, which
 		selects one of the two versions based on how many bins are to be serviced. The algorithm also uses caching to save already calculated paths
-		so that they are not computed twice. The cache has a limit (TODO) and all of the above settings can be overridden via command-line parameters.
+		so that they are not computed twice. The cache has a limit of $100,000$ (see section ~\ref{cs}). All of the above settings can be overridden via command-line parameters.
 		
 	\subsubsection{Caching}
 		See figure~\ref{fig:fig3} \footnote{check ~\ref{performance} for description of each test}  for effects of caching on the performance of the algorithm. All tests were done on a small area (5x5), a medium sized area (50x50)
 		and a big area (300x300). All areas run for 100 hours and are otherwise a derivation of the \textit{basic\_input}. The simulator was run with the \textit{-d -b} options
 		to produce timing details and disable output. For any test, we take the average of 10 results, since the simulation is stochastic. Outliers were not removed
 		in this scenario.
-
+		\\
+		\\
+		For smaller inputs, caching does not make a difference, but as more paths are calculated or the size of the map increases,
+		caching results in significantly lower run times of the application.
 		\begin{figure}[H]
 		\centering
 			\includegraphics[width=.55\columnwidth]{resources/caching_performance.jpg}
@@ -92,11 +101,15 @@
 			\label{fig:fig3}
 		\end{figure}
 
-		\subsubsection{Cache size}
-			Caching size also makes a significant different, but only up to the number of possible paths. We do not let variable cache sizes,
-			since that is too hard to benchmark. Instead, we cap the cache size at $100,000$. This accomodates for a total number of $\frac{ceil(sqrt(100000))}{2} = 159$ vertices
+		\subsubsection{Cache size} \label{cs}
+			Cache size also makes a significant different, but only up to the number of possible paths. We do not let variable cache sizes,
+			since that is too hard to benchmark. Instead, we cap the cache size at $100,000$. This accommodates for a total number of $\frac{ceil(sqrt(100000))}{2} = 159$ vertices
 			all connected to each other (all possible paths). However, a map of 159x159, which has every vertex connected to every other is \textbf{very} unlikely. Below in Figure ~\ref{fig:fig4}
 			you can see the effect of cache size on a map of 300x300 with several experiments, average of 3 results taken for each cache size.
+			\\
+			\\
+			As long as there is enough space in the cache, the run time stays the same, but when we reduce the cache size to a value lower than what the algorithm needs
+			to store, we see a steep decrease in performance.
 		
 			\begin{figure}[H]
 			\centering
@@ -109,9 +122,9 @@
 	\section{Simulation Results} \label{stats}
 
 		\subsection{Test inputs}
-			To evaluate the simulation, two distinct input files were used. They model two different realistic scenarious.
+			To evaluate the simulation, two distinct input files were used. They model two different realistic scenarios.
 			The first one (\textit{Three Neighborhoods}) \footnote{File: test/inputs/statistics\_collection/three\_neighborhoods.txt} models three separate connected neighborhoods, where the paths
-			within the neighborhoods are shorter than the path between them. (See figure~\ref{fig:fig5a}) 
+			within the neighborhoods are shorter than the paths connecting them. (See figure~\ref{fig:fig5a}) 
 			\\
 			\\
 			The second input (\textit{Big Cluster}) \footnote{File: test/inputs/statistics\_collection/big\_cluster.txt} models one big area where all of the bins are interconnected and paths
@@ -146,16 +159,15 @@
 		\\
 		\\
 		Since the mean of the Erlang-K distribution is $\mu\ =\ \frac{k}{\lambda}$, in each case we would expect the average bin content
-		before each service period to follow:
+		before each service period to be:
     	\begin{equation}
 			bin\_content\ =\ \frac{time\_between\_service\_periods}{\mu_{erlang}}\ *\ bin\_volume
 		\end{equation}
 		\\
 		\\
-		Given that all bins are independent\footnote{By the specifications}. This yields $1.8\ m^3$ average volume for \textit{Three Neighborhoods}
-		and $3\ m^3$ for \textit{Big Cluster}, which is what is observed in the graphs. Note, however, that the bins cannot have a maximum volume of
-		$2\ m^3$, therefore on the second graph we see the "cap".
-
+		Given that all bins are independent\footnote{By the specifications}, this yields $1.8\ m^3$ average volume for \textit{Three Neighborhoods}
+		and $3\ m^3$ for \textit{Big Cluster}, which is what is observed in the graphs. Note, however, that the bins have a maximum volume of
+		$2\ m^3$, therefore on the second graph the maximum content is "capped" at $2\ m^3$
 
 		\begin{figure}[H]
 			\centering
@@ -173,8 +185,9 @@
 		\end{figure}
 
 
-		\subsection{Trip Efficiency}
-		The first metric is trip effiency. For figure ~\ref{fig:fig7a}, ~\ref{fig:fig7b} we hold $distributionShape\ =\ 2$, $serviceFreq = 0.0416$ (once a day) and vary $distributionRate$, recording
+		\subsection{Trip Efficiency} \label{tripef}
+		The second metric is trip efficiency, as plotted against a varying distribution rate. For figure ~\ref{fig:fig7a}, ~\ref{fig:fig7b} we hold
+		 $distributionShape\ =\ 2$, $serviceFreq = 0.0416$ (once a day) and vary $distributionRate$, recording
 		the trip efficiency for both \textit{Three Neighborhoods} and \textit{Big Cluster}.
 		
 
@@ -195,7 +208,11 @@
 		\end{figure}
 
 
-		\subsection{Bin Overflow}
+		\subsection{Bin Overflow} \label{binof}
+		We also want to measure bin overflow as plotted against a varying distribution rate, because as efficiency goes up
+		due to more bags being thrown out, we would expect more bins to overflow as well. For figure ~\ref{fig:fig8a} and ~\ref{fig:fig9a}
+		we use the same parameters above.
+		
 		\begin{figure}[H]
 			\centering
 			\begin{subfigure}[b]{.5\textwidth}
@@ -213,10 +230,10 @@
 		\end{figure}
 
 
-		\subsection{Algorithm Efficiency}
-		The last metric is the efficiency as archieved by the greedy and priority algorithms. We measure efficiency
+		\subsection{Algorithm Efficiency} \label{algocomp}
+		The last metric is the efficiency as achieved by the greedy and priority algorithms. We measure efficiency
 		against service frequency, holding $distributionShape\ =\ 2$ and  $distributionRate = 3.0$. We would expect 
-		trip effiency to go down as the service frequency increases, but also the priority algorithm to perform better
+		trip efficiency to go down as the service frequency increases, but also the priority algorithm to perform better
 		than the greedy one on the \textit{Three neighborhoods} area.
 
 		\begin{figure}[H]
@@ -232,11 +249,11 @@
 				\label{fig:fig9b}
 			\end{subfigure}
 			\label{fig:fig9}
-			\caption{Effiency/Service Frequency}
+			\caption{Efficiency/Service Frequency}
 		\end{figure}
 
 		\subsection{Analysis}
-		Trip efficiency increases as the distribution rate increases. They are positively correlated, though
+		Trip efficiency increases as the distribution rate increases (section ~\ref{tripef}). They are positively correlated, though
 		as the lorry reaches its maximum efficiency, no matter how much more bags are disposed and bins overflow,
 		the efficiency doesn't increase.
 		
@@ -244,28 +261,28 @@
 			\sigma(dist\_rate,\ efficiency)\ = 0.66919
 		\end{equation} 
 
-		Naturally, as we add more garbage to the system, the bins start to overflow more, thus trip efficiency alone
-		is a poor metric of the overall efficiency of the system. We can see that bins overflowing also correlate with
-		the distribution shape (and more strongly so than efficiency):
+		Naturally, as we add more garbage to the system, the bins start to overflow more (section ~\ref{binof}), thus trip efficiency alone
+		is a poor metric of the overall efficiency of the system. We can see that bin overflow also correlates with
+		the distribution shape (and more strongly so than trip efficiency does):
 
 		\begin{equation}
 			\sigma(dist\_rate,\ percentage\_bins\_overflowing) = 0.87768
 		\end{equation}
 
-		We also note that trip efficiency is generally poor on areas such as \textit{Three Neighborhoods}, since
-		the distance between neighborhoods is much bigger that the one within a neighborhood and a lorry servicing
+		We also note that trip efficiency is generally poor on areas such as \textit{Three Neighborhoods}, (section ~\ref{algocomp}) since
+		the distance between two neighborhoods is much bigger that the distances within a single neighborhood and a lorry servicing
 		more than one neighborhood would have to make trips around the long edges in the graph.
 		For this reason, however, \textbf{priority} Dijkstra performs better than its \textbf{greedy} counterpart.
 		Since making a trip to a different neighborhood is expensive, visiting bins close together first is generally
 		a good idea. However, even the smarter algorithm cannot do anything when the bins that need servicing are
 		spread out between areas, which might explain why the difference in efficiency is not that big.
-		An intersting thing to note is that as the service rate goes up to one an hour almost no bins will need
+		An interesting thing to note is that as the service rate goes up to one an hour almost no bins will need
 		servicing, hence at the very extreme both algorithms would achieve the same efficiency (the extreme being only
 		one bin that needs servicing at every schedule).
 
 		\section{Testing}
-		The majority of testing is automated using \textit{pyunit} and separate test cases for each class in the application.
-		Performance testing was done somewhat differently, where output was disabled via a command line flag (\textit(-bod)) and
+		The majority of testing is automated using \textit{pyunit} and separate test cases were created for each class in the application.
+		Performance testing was done somewhat differently, where output was disabled via a command line flag (\textit{-bod}) and
 		multiple runs were performed using specially generated files (as discussed below). In addition, the aforementioned \textit{Three Neighborhoods}
 		and \textit{Big Cluster} areas have 2 input files each, describing just the area or the area with experiments, as used in the 
 		previous section for analysis.
@@ -273,15 +290,15 @@
 		\subsection{Automated Testing}
 		Automated testing is divided into a single test suite (single file) that tests one class and within that test suite many test
 		cases. Here is an outline of the test cases, for more information each suite has appropriate documentation. The location of all
-		unit tests is \textit{test/<name>\_test.py}.
+		unit tests is \textit{test/\textless name\textgreater\_test.py}.
 
 		\begin{itemize}
 			\item \textit{area\_test.py} \- Tests area functionality, including disposal events generation, route planning
-				and proper usage of the \textit{EventDispatcher} class. Includes edge cases for lorry overflow and resheduling.
+				and proper usage of the \textit{EventDispatcher} class. Includes edge cases for lorry overflow and rescheduling.
 			
-			\item \textit{dijkstra\_route\_planner\_test.py} \- Test the route planning algorithm, both the greedy and priority version.
+			\item \textit{dijkstra\_route\_planner\_test.py} \- Test the route planning algorithm, both the greedy and priority versions.
 			
-			\item \textit{event\_dispatcher\_test.py} \- Tests that the \textit{EventDispatcher} class stores and execues events
+			\item \textit{event\_dispatcher\_test.py} \- Tests that the \textit{EventDispatcher} class stores and executes events
 				in the correct order.
 
 			\item \textit{input\_parser\_test.py} \- Contains various tests for the \textit{InputParser}, including valid and invalid
@@ -295,7 +312,7 @@
 
 		\subsection{Sample inputs}
 		\subsubsection{Input Parser}
-		Sample inputs are in \textit{test/inputs/parser\_tests}. Check the corresponding test suite for a morecomprehensive description
+		Sample inputs that test the parser are in \textit{test/inputs/parser\_tests}. Check the corresponding test suite for a more comprehensive description
 		of each test and expected results.
 	
 		\subsubsection{Performance testing} \label{performance}
@@ -311,17 +328,16 @@
 			\item \textit{medium\_area.txt} \- 50x50 area, no experiments
 			\item \textit{medium\_area\_experiments.txt} \- 5x5 area, 4 experiments
 			\item \textit{big\_area.txt} \- 300x300 area, no experiments
-			\item \textit{big\_area\_experiments.txt} \- A 300x300 area, all vertices connected, 4 experiments. Runtimes should be slowest here.
+			\item \textit{big\_area\_experiments.txt} \- A 300x300 area, all vertices connected, 4 experiments. Run times should be slowest here.
 		\end{enumerate}
 
 		\subsubsection{Statistics collection}
-		The tests used in Section ~\ref{stats} are all in \textit{inputs/statistics\_collection}. There are two files for each area,
-		one with experiments and one without. Since more than one experiments were run, both files contain all the experiment data.
-		If you wish to replicate, a good idea might be to comment some of the experiments out.
+		The tests used in Section ~\ref{stats} are all in \textit{inputs/statistics\_collection}. There are two files for each area (\textit{ThreeNeighborhoods} and
+		\textit{BigCluster}), one with experiments and one without. Since more than one experiments were run, both files contain all the experiment data.
 
 		\section{Conclusion}
 		The algorithm used for this simulation performed reasonably well and with caching can scale effectively. In a small to medium scale scenario
-		the simulator has reasonable runtimes and no issues dealing with complicated networks. However, a different approach
+		the simulator has reasonable run times and no issues dealing with complicated networks. However, a different approach
 		using $A^*$ and a custom heuristic, perhaps combining both of the heuristics used here could yield better results. Additionally, it would
 		be beneficial if the simulation was run on areas derived from actual maps of cities and the above statistics recorded. For larger areas,
 		the simulation could benefit from a parallel architecture, where different areas are run on different threads/simultaneously.
