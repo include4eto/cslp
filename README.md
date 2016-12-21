@@ -152,6 +152,7 @@ Note all tests are white box, i.e. we assume we know how the code works.
 	areaIdx 0 ...
 	...
 	```
+- Outputs for some test files are stored in `test/outputs`
 
 ### Used objects structure
 This is useful for visualizing what objects used in the simulation look like (that don't already
