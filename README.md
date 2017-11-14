@@ -1,4 +1,8 @@
 # Computer Science Large Practical 2016-17
+This a bin collection simulator written in Python. The full specifications are available
+under `/doc/cslp-2016-17.pdf`. A corresponding report outlining the work in detail is available
+under `/doc/report.pdf`.
+
 **NOTE: Miscellaneous notes at the end of this document**
 ## Command line parameters
 - `-a, --algorithm`: Algorithm to use. One of greedy, priority, synamic
